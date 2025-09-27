@@ -173,6 +173,7 @@ __pycache__/
 
 # Images / figures
 *.png
+image/png"
 *.jpg
 *.jpeg
 *.svg
