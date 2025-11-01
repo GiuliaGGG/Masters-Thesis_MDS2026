@@ -4,18 +4,23 @@
 library("Synth")
 library(readr)
 library('dplyr')
-df <- read_csv("merged_dataset.csv")
 
-id_cols <- c("boycotted", "ticker", "fy", "fp", "end")
+
+df <- read_csv("data/merged_dataset_2025-11-01_16-55.csv")
+id_cols <- c("boycotted", "ticker", "fp", "end")
+
+
 
 # Step 2: Convert all other columns to numeric
 df_clean <- df %>%
   mutate(across(
     .cols = -all_of(id_cols),          # all columns except identifiers
-    .fns  = ~ as.numeric(.)  # convert to numeric, quietly
-  ))
-df <- df_clean %>%
-  mutate(company_id = as.numeric(as.factor(ticker)))  # creates 1, 2, 3, ...
+    .fns  = ~ as.numeric(.))) %>%      # convert to numeric, quietly 
+  mutate(company_id = as.numeric(as.factor(ticker))) %>%  
+  filter(ticker != "COKE") %>% #make sure there just one target
+  as.data.frame()
+ 
+  
 
 ###################################################
 ### chunk number 2: 
@@ -25,23 +30,19 @@ df_clean[85:89, 1:4]
 ###################################################
 ### chunk number 3: 
 ###################################################
-dataprep.out <- dataprep(
+
+dataprep(
   foo = df_clean,
-  predictors = c("assets", "employees", "gross_margin_pct", "net_margin_pct",
+  predictors = c("assets", "employees",  "net_margin_pct",
                  "r_and_d", "long_term_debt", "operating_expenses"),
-  predictors.op = "mean",
-  time.predictors.prior = 2021:2023,  # pre-boycott quarters
-  special.predictors = list(
-    list("revenue", 2021:2020, "mean"),   # Include mean past revenue
-    list("net_income", 2021:2020, "mean")
-  ),
   dependent = "revenue",
-  unit.variable = "ticker",
-  time.variable = "fy",
-  treatment.identifier = 1,         # Boycotted company
-  controls.identifier = c(2:20),    # Non-boycotted companies
-  time.optimize.ssr = 2021:2020,
-  time.plot = 2021:2025
+  unit.variable = "company_id",          # numeric ID column
+  unit.names.variable = "ticker",        # readable name
+  time.variable = "fy",                  # or numeric time index
+  treatment.identifier = 6,              # treated company ID
+  controls.identifier = c(1,2,4,5,7),         # control company IDs
+  time.optimize.ssr = 2006:2021,         # pre-treatment period
+  time.plot = 2006:2025                  # full period to plot
 )
 
 
