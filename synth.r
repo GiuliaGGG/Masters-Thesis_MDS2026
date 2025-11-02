@@ -11,13 +11,25 @@ id_cols <- c("boycotted", "ticker", "fp", "end")
 
 
 
-# Step 2: Convert all other columns to numeric
+# Step 2: preprocessing
 df_clean <- df %>%
+  filter(ticker != "COKE") %>% #make sure there just one target
+  filter(fy != "2026") %>% 
+  mutate(company_id = as.numeric(as.factor(ticker))) %>%  
   mutate(across(
     .cols = -all_of(id_cols),          # all columns except identifiers
     .fns  = ~ as.numeric(.))) %>%      # convert to numeric, quietly 
-  mutate(company_id = as.numeric(as.factor(ticker))) %>%  
-  filter(ticker != "COKE") %>% #make sure there just one target
+  mutate(
+    # Turn fp (Q1, Q2, Q3, Q4) into numeric quarter fraction
+    quarter_num = case_when(
+      fp == "Q1" ~ 0.25,
+      fp == "Q2" ~ 0.50,
+      fp == "Q3" ~ 0.75,
+      fp == "Q4" ~ 1.00,
+      TRUE ~ NA_real_
+    ),
+    # Combine fiscal year and quarter into one numeric time variable
+    time_numeric = fy + quarter_num) %>% 
   as.data.frame()
  
   
@@ -38,9 +50,9 @@ dataprep(
   dependent = "revenue",
   unit.variable = "company_id",          # numeric ID column
   unit.names.variable = "ticker",        # readable name
-  time.variable = "fy",                  # or numeric time index
-  treatment.identifier = 6,              # treated company ID
-  controls.identifier = c(1,2,4,5,7),         # control company IDs
+  time.variable = "time_numeric",                  # or numeric time index
+  treatment.identifier = 5,              # treated company ID
+  controls.identifier = c(1,2,3,4,6),         # control company IDs
   time.optimize.ssr = 2006:2021,         # pre-treatment period
   time.plot = 2006:2025                  # full period to plot
 )
