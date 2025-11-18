@@ -1,12 +1,3 @@
-###################################################
-### chunk number 1: 
-###################################################
-library("Synth")
-library(readr)
-library(dplyr)
-library(skimr)
-library(tidyr)
-library(ggplot2)
 
 # dataprep 
 dataprep.out <- dataprep(

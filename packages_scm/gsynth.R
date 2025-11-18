@@ -1,10 +1,3 @@
-
-library(gsynth)
-data(gsynth)
-ls()
-head(simdata)
-## devtools::install_github('xuyiqing/panelView')   # if not already installed
-library(panelView)
 panelview(net_income_margin ~ boycotted, data = df_clean,  index = c("company_id","time_numeric"), pre.post = TRUE) 
 panelview(net_income_margin ~ boycotted, data = df_clean,  index = c("company_id","time_numeric"), type = "outcome") 
 system.time(

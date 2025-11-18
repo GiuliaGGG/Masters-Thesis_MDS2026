@@ -1,8 +1,5 @@
-install.packages('tidysynth')
-# install.packages("devtools")
-devtools::install_github("edunford/tidysynth")
-require(tidysynth)
-data("smoking")
+
+#data("smoking")
 df_clean %>% dplyr::glimpse()
 df_out <-
   
@@ -60,3 +57,4 @@ df_out %>% grab_significance()
 df_out
 df_out %>% 
   tidyr::unnest(cols = c(.outcome)) 
+

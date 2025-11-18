@@ -1,3 +1,22 @@
+###################################################
+### chunk number 1: 
+###################################################
+library("Synth")
+library(readr)
+library(dplyr)
+library(skimr)
+library(tidyr)
+library(ggplot2)
+library(tidysynth)
+devtools::install_github("edunford/tidysynth")
+require(tidysynth)
+library(gsynth)
+data(gsynth)
+ls()
+head(simdata)
+## devtools::install_github('xuyiqing/panelView')   # if not already installed
+library(panelView)
+
 
 df <- read_csv("data/merged_dataset_2025-11-18_13-31.csv")
 
