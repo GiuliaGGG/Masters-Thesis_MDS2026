@@ -7,3 +7,5 @@ https://data.gov.il/dataset
 
 Implements the synthetic control group method for comparative case studies as described in Abadie and Gardeazabal (2003) and Abadie, Diamond, and Hainmueller (2010, 2011, 2014)
 https://cran.r-universe.dev/Synth/doc/manual.html
+
+https://cran.r-project.org/web/views/Econometrics.html
