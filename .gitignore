@@ -185,3 +185,32 @@ __pycache__/
 .DS_Store
 Thumbs.db
 .Rproj.user
+
+# LaTeX intermediate files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.nav
+*.snm
+*.vrb
+*.xdv
+*.run.xml
+*.lof
+*.lot
+*.ilg
+*.idx
+*.ind
+
+# Mac-specific
+.DS_Store
+
+# VS Code
+.vscode/
+
