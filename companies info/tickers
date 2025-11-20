@@ -13,12 +13,34 @@ AMZN	Amazon.com, Inc.
 NFLX	Netflix, Inc.
 NVDA	NVIDIA Corporation
 COKE    Coca Cola
+JNJ johnson and johnson
+tickers = [
+    "INTC",     # Intel
+    "MSFT",     # Microsoft
+    "GOOG",     # Alphabet (Class C)
+    "GOOGL",    # Alphabet (Class A)
+    "AMZN",     # Amazon
+    "EXPE",     # Expedia
+    "CSCO",     # Cisco
+    "BKNG",     # Booking Holdings
+    "ABNB",     # Airbnb
+    "PZZA",     # Papa John's
+    "WIX"       # Wix
+]
+tickers = [
+    "MCD",     # McDonald's (NYSE)
+    "DPZ",     # Domino's Pizza (NYSE)
+    "PZZA",    # Papa John's (NASDAQ)
+    "QSR",     # Burger King / Restaurant Brands Intl (NYSE)
+    "YUM",     # Pizza Hut / Yum! Brands (NYSE)
+    "WIX"      # Wix (NASDAQ)
+]
 
 Control Group 
 BROS    Dutch BROS (coffee company)
 LKNCY   Luckin Coffee (coffee company, chinese)
 CMG   Chipotle 
-
+JNJ johnson and johnson
 New York Stock Exchange
 
  McDonald’s MCD
