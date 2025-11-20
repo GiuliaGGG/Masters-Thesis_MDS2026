@@ -1,1 +1,1 @@
-I am currently working on my masters thesis, a project where I expolore wether there is a causal link bewteen economic boycotts calls and drop in sales of the targeted companies
+My masters thesis project assesses the effectiveness of the Boycott, Divest, Sanction (BDS) movement's calls on company performance. Through the usage of Synthetic Control Method (SCM) I am generating a reliable counterfactual of what company's X performance would have looked like were the BDS calls for a boycott never happened.
