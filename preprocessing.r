@@ -69,12 +69,6 @@ df_clean <- df %>%
     )
   } %>% 
   
-  
-  #inpute nas for the dependent variable 
-  # group_by(ticker) %>% 
-  # fill(net_income_margin, .direction = "downup") %>% 
-  # ungroup() %>% 
-  
   group_by(ticker) %>% 
   fill(everything(), .direction = "downup") %>% 
   ungroup() %>% 
