@@ -7,8 +7,8 @@ dataprep.out <- dataprep(
   unit.variable = "company_id",          # numeric ID column
   unit.names.variable = "ticker",        # readable name
   time.variable = "time_numeric",                  # or numeric time index
-  treatment.identifier = 8,              # treated company ID
-  controls.identifier = c(1:7, 9:17), # control company IDs
+  treatment.identifier = 7,              # treated company ID
+  controls.identifier = c(1:6, 8:16), # control company IDs
   time.predictors.prior = 2010.25:2023.75,
   time.optimize.ssr = 2010.25:2023.75,         # pre-treatment period
   time.plot = 2010.25:2025.75                  # full period to plot
