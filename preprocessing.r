@@ -23,10 +23,20 @@ df <- read_csv("data/merged_dataset_2025-11-18_13-31.csv")
 boycotted_firm = "MCD"
 # Preprocessing
 df_clean <- df %>%
+  # Drop Brands Missing ≥ 5 Years
+  group_by(ticker) %>%
+  mutate(
+    total_years = 2025 - 2009 + 1,                          # = 17
+    years_present = n_distinct(fy[fy >= 2009 & fy <= 2025]),
+    years_missing = total_years - years_present
+  ) %>%
+  filter(years_missing < 5) %>%                             # keep brands missing <5 years
+  ungroup() %>%
+  filter(fp != 'Q4') %>% # most brands fon't have it 
   
   # in a df with many boycotted, just pick one
   filter( (boycotted == 1 & ticker == boycotted_firm) | boycotted == 0 )  %>% 
-  filter(fy < "2026") %>% 
+  filter(fy < "2026" & fy > '2009') %>% 
   
   # columns 
   select(where(~ !all(is.na(.)))) %>% 
@@ -51,7 +61,7 @@ df_clean <- df %>%
   group_by(ticker, fy) %>%
   mutate(n_quarters = n_distinct(fp)) %>%
   ungroup() %>%
-  
+
   # --- Now handle both complete and incomplete in one go ---
   { 
     bind_rows(
@@ -72,8 +82,6 @@ df_clean <- df %>%
   group_by(ticker) %>% 
   fill(everything(), .direction = "downup") %>% 
   ungroup() %>% 
-  # if a column has any missingness, drop the whole column 
-  #select(where(~ !any(is.na(.x)))) %>% 
   
   # Turn fp (Q1, Q2, Q3, Q4) into numeric quarter fraction
   mutate( 
