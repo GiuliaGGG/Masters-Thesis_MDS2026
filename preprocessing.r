@@ -49,8 +49,9 @@ df_clean <- df %>%
   #complete(
   complete(
     ticker,
-    fy = full_seq(unique(fy), 1)  # fills all years in the full observed range
-  ) %>%
+    fy = 2010:2025,
+    fp = c("Q1", "Q2", "Q3")
+  ) %>% 
   
   # fill stable company info ---
   group_by(ticker) %>%
@@ -83,13 +84,12 @@ df_clean <- df %>%
   fill(everything(), .direction = "downup") %>% 
   ungroup() %>% 
   
-  # Turn fp (Q1, Q2, Q3, Q4) into numeric quarter fraction
+  # Turn fp (Q1, Q2, Q3) into numeric quarter fraction
   mutate( 
     quarter_num = case_when(
       fp == "Q1" ~ 0.25,
       fp == "Q2" ~ 0.50,
       fp == "Q3" ~ 0.75,
-      fp == "Q4" ~ 1.00,
       TRUE ~ NA_real_
     ),
     # Combine fiscal year and quarter into one numeric time variable
