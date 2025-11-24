@@ -35,16 +35,21 @@ While analyzing stock market price patterns for boycotted companies gives a good
 In late September 1880, close to a hundred farmers and peasants assembled at the estate of the local landlord Charles Cunningham Boycott in County Mayo, Ireland. They were protesting against the rent increases imposed by boycotts, and started to isolate the man and his family from business operations. 
 The practice of organized non-consumption, now named 'boycott', has spread through the years, becoming a common tool for social movements to express their discontent towards companies or countries. 
 The most notable case of boycott in recent history is the South African anti-apartheid movement, which used boycotts as a key strategy to pressure the South African government. Differently, the current boycott is bottom up, meaning that there is not a state ban on certain companies, but the phenomenon is rather grassroot. BDS mainly operates on social media. This makes a causal fit rather interesting, because wether in the south african case one can quite clearly connect th drop in sales to the ban, in this case wether one boycotts is fully subject fully to the consumer. 
+This thesis is placed in the corpus of economic boycott. A paper has done this analysis but using share prices, which measures trust in a company and not if people buy it or not
 
 \section{Methodology}
-\subsection{Data}
-Unaudited trimestral data, SEC edgar. I used Income Statement (Statement of Operations)
+% Add \usepackage{xcolor} to the preamble
+This thesis uses the Synthetic Control Method (SCM) to estimate the impact of the BDS boycott calls on McDonald's \textcolor{red}{net income margin}. The SCM is a data-driven procedure that constructs a synthetic version of the treated unit by weighting a combination of control units (other fast-food companies not targeted by BDS). This synthetic control serves as a counterfactual, representing what would have happened to McDonald's \textcolor{red}{net income margin} in the absence of the boycott. This method is particularly suitable to this analysis because  
+A salient characteristic of the SCM is its ability to account for unobserved confounders that vary over time, making it particularly suitable for this analysis. Since SCM does not use randomization, the assignment process is critical to ensure the validity of the results. In the context of this thesis, the assignment process involves picking a poll of control units that could have been a boycott target, but were not. 
+the targeted companies and rationale (\textcite{bdsStrategic2024}). The main points to select treatment are level of complicity, potential for cross-movement coalition-building, media appeal, and potential for success. This thesis uses the BDFS criteria to select both the taret company and the control group. 
 
-The assignment process is 
-BDS focuses on boycotting a small number of companies to achieve a maximum impact, hence,
+\subsection{Data}
+SEC unaudited trimestral data, SEC edgar. I used Income Statement (Statement of Operations)
+The code to retrieve this finanical filings were provided by a github repo.
 
 \subsection{Causal Fit}
 \section{Preliminary results }
+\section{Discussion}
 
 \printbibliography
 \end{document}
