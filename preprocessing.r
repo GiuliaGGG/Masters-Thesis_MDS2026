@@ -103,9 +103,6 @@ df_clean <- df %>%
       1,
       0
     ))
-  } %>% 
-  # --- Remove any duplicates & tidy up ---
-  distinct(ticker, time_numeric, .keep_all = TRUE) 
-
+  } 
 
 
