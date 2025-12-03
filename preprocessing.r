@@ -18,11 +18,21 @@ head(simdata)
 library(panelView)
 
 
-df <- read_csv("data/merged_dataset_2025-11-18_13-31.csv")
+#df <- read_csv("data/merged_dataset_2025-11-18_13-31.csv")
+df <- read_csv("data/merged_dataset_2025-11-28_15-00.csv")
 
 boycotted_firm = "MCD"
+
+# boycotted_firm = "DPZ" # not great
+# boycotted_firm = "PZZA" # not great
+# boycotted_firm = "QSR" # does not seem to work 
+# boycotted_firm = "YUM"
+# boycotted_firm = "WIX"
+
 # Preprocessing
 df_clean <- df %>%
+  #filter(!is.na(net_margin_pct)) %>% 
+  #filter(!is.na(revenue)) %>% 
   # Drop Brands Missing ≥ 5 Years
   group_by(ticker) %>%
   mutate(
@@ -32,7 +42,20 @@ df_clean <- df %>%
   ) %>%
   filter(years_missing < 5) %>%                             # keep brands missing <5 years
   ungroup() %>%
-  filter(fp != 'Q4') %>% # most brands fon't have it 
+  filter(fp != 'Q4') %>% # most brands don't have it 
+  #filter(ticker %in% c("BROS", "MCD", "GIS", "META", "DPZ", "WMT")) %>%
+  #filter(ticker != "NVDA") %>% 
+  #filter(ticker != "DAL") %>% 
+  #filter(ticker != "JNJ") %>% 
+  #filter(ticker != "TGT") %>% 
+  #filter(ticker != "XOM") %>% 
+  #filter(ticker != "CMG") %>% 
+  #filter(ticker != "WMT") %>% 
+  #filter(ticker != "META") %>% 
+  #filter(ticker != "PFE") %>% 
+  #filter(ticker != "IBM") %>% 
+  #filter(ticker != "MDLZ") %>% 
+  #filter(ticker != "COST") %>% 
   
   # in a df with many boycotted, just pick one
   filter( (boycotted == 1 & ticker == boycotted_firm) | boycotted == 0 )  %>% 
@@ -43,13 +66,12 @@ df_clean <- df %>%
   
   # Create useful columns 
   mutate(company_id = as.numeric(as.factor(ticker))) %>%
-  mutate(net_income_margin = net_income / assets) %>% 
   
   # Balance 
   #complete(
   complete(
     ticker,
-    fy = 2010:2025,
+    fy = 2009:2025,
     fp = c("Q1", "Q2", "Q3")
   ) %>% 
   
@@ -105,4 +127,9 @@ df_clean <- df %>%
     ))
   } 
 
+df_clean_cut <- df_clean %>% filter(time_numeric > 2018.25)  %>% distinct(company_id, time_numeric, .keep_all = TRUE)
+panel_template <- df_clean_cut %>%
+  distinct(company_id, time_numeric)
 
+df_clean_cut <- df_clean_cut %>%
+  right_join(panel_template, by = c("company_id", "time_numeric")) %>% filter(!ticker %in% c("NVDA", "OSIS")) 
