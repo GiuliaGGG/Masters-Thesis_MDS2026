@@ -18,40 +18,76 @@
 
 \section{Introduction}
 
-Boycott, Divestment, and Sanctions (BDS) is a nonviolent Palestinian-led movement promoting boycotts, divestments, and economic sanctions against Israel. 
+In late September 1880, close to a hundred farmers and peasants assembled at the estate of the local landlord Charles Cunningham Boycott in County Mayo, Ireland. They were protesting against the rent increases imposed by boycotts, and started to isolate the man and his family from business operations. 
+The practice of organized non-consumption, now named 'boycott', has spread through the years, becoming a common tool for social movements to express their discontent towards companies or countries. The boycott, or threat of boycott, has been proven to have an effect when firms see a dent in their performance and adjust their behaviors to comply to the consumer's preference, whose purchases depend on. 
+
+The Boycott, Divestment, and Sanctions (BDS) is a nonviolent Palestinian-led movement promoting boycotts, divestments, and economic sanctions against Israel. 
 It does so by promoting various forms of boycotts against companies that are perceived to be complicit in the Israeli occupation of Palestinian territories.
 The movement aims to pressure these companies to change their policies and practices regarding the Israeli occupation of Palestinian territories.
-BDS has been active since 2005, but with the recent genocide in Gaza, the movement has gained significant traction and visibility worldwide. As expression of that has been the surge in economic boycotts, a type of consumer activism where individuals or groups refuse to purchase products or services from specific companies to protest against their practices or policies.
+BDS has been active since 2005, but with the recent genocide in Gaza, the movement has gained significant traction and visibility worldwide. As expression of that has been the surge in calls for economic boycotts \footnote{as proven by gained attention on social media platforms and google trends search term increasing}, a type of consumer activism where individuals or groups refuse to purchase products or services from specific companies to protest against their practices or policies.
 One of the most notable boycotts in recent times has been against McDonald's, which has been accused of supporting the Israeli occupation through its business operations. 
 Several articles and statements claim the effectiveness of boycotts on McDonald's, both by supporters of the movement and by financial analysts.
 While a correlation exists, with several stores from boycotted brands closing and sales from said companies dropping as boycotts intensify, causation is delicate, and the current literature lacks a robust empirical analysis of the impact of boycotts on company performance. The vast open source presence of financial data from SEC quarterly fillings allows for a credible attempt to fill this gap.
-This thesis places itself in the broader research corpus on consumer activism, which has gained momentum in recent years due to the growing awareness of social and environmental issues among consumers.
+This thesis places itself in the broader research corpus on consumer activism, which has gained momentum in recent years due to the growing awareness of social and environmental issues among consumers. The most notable case of boycott in recent history is the South African anti-apartheid movement, which used boycotts as a key strategy to pressure the South African government.
+Differently, the current boycott called by BDS is bottom up, 
+meaning that there is not a state ban on certain companies, 
+but the phenomenon is rather grassroot. BDS mainly operates on social media. 
+This makes a causal fit rather interesting, because wether in the south african
+ case one can quite clearly connect th drop in sales to the ban,
+  in this case wether one boycotts is fully subject fully to the consumer.
 Delving in the potential causal effect of economic boycotts on company performance, operationalized as net income margin, sheds light on the effectiveness of consumer activism, and its ability to influence corporate behavior.
 
-This thesis provides a methodology to achieve such goal, using a Synthetic Control Method to formulate a credible counterfactual for McDonald's performance in the absence of a boycott. The paper answers the question: \textit{To what extend do the BDS boycott calls impact McDonald's net income margin?}. 
+
+Perceived egregiousness, which is the extent to which the firm’s action is considered egregious, is the central trigger of boycott participation (Klein et al., \citeyear{klein2004corporate}). 
+This resesrch interprets the start of the genocide in Gaza in october 2023 as a triggers of boycott participation, as it significantly increased the visibility and urgency of the BDS movement's calls for boycotts. 
+Friedman's
+taxonomy of boycotts distinguishes between primary and
+secondary boycotts (Friedman,  \citeyear{friedman2002consumer}). A primary boycott targets the party directly; a secondary boycott targets a secondary entity
+affiliated with the party (e.g., a supplier or distributor).
+
+Boycott calls are 
+
+Studies show that pushing on social-political issues and communicating their stands in a way that speaks to their values could be rewarding for companies, 
+earn a statistically significant stock return of 2.68\% in the four days immediately after their announcements (\textcite{afego2021does}).
+This suggests that consumers are willing to reward companies that align with their values, and opens a venue for the opposite to happen, where consumers punish companies that do not align with their values.
+
+The boycott calls success on social media might be a sign of virtue signaling, but not of actual impact on sales.
+
+The BDS boycott calls against McDonald's can be classified as a primary boycott, as it directly targets the company directly.
+This thesis provides a methodology to achieve such goal, using a Synthetic Control Method to formulate a credible counterfactual for McDonald's performance in the absence of a boycott. The paper answers the question: \textit{To what extent do the BDS boycott calls impact McDonald's net income margin?}. 
 
 \section{Literature Review}
+ 
+Studies to measure the effectiveness of economic boycott are not only on boycotts on Israel. This literature review examines the existing research on the impact of boycotts on firm outcomes.
 
-In late September 1880, close to a hundred farmers and peasants assembled at the estate of the local landlord Charles Cunningham Boycott in County Mayo, Ireland. They were protesting against the rent increases imposed by boycotts, and started to isolate the man and his family from business operations. 
-The practice of organized non-consumption, now named 'boycott', has spread through the years, becoming a common tool for social movements to express their discontent towards companies or countries. The boycott, or threat of boycott, has been proven to have an effect when firms see a dent in their performance andadjust their behavious to comply to the consumer's preference, whose purchases depend on. 
-The most notable case of boycott in recent history is the South African anti-apartheid movement, which used boycotts as a key strategy to pressure the South African government. Differently, the current boycott is bottom up, meaning that there is not a state ban on certain companies, but the phenomenon is rather grassroot. BDS mainly operates on social media. This makes a causal fit rather interesting, because wether in the south african case one can quite clearly connect th drop in sales to the ban, in this case wether one boycotts is fully subject fully to the consumer. 
-This thesis is placed in the corpus of economic boycott. A paper has done this analysis but using share prices, which measures trust in a company and not if people buy it or not
+\subsection{Boycott Calls and Firm Performance}
+
+The political consumer boycott is the refusal to buy products from certain businesses in order to effect political or social change (\textcite{lee2012democratizing}).
+Lee (2012) describes political consumer boycott as a well-suited tool of agency creation in a political landscape steered not by voting power, but by monetary power.
+Even the McDonald's SEC data filings list boycott as a potential threat to the business.
+The literature reveals that the choice of a dependent variable that measures boycott effectiveness is wide and varied. 
+Some papers uses the change of a policy as a measure of effectiveness, while others focus on changes in sales or market share.
+A paper has done this analysis but using share prices, which measures trust in a company and not if people buy it or not
 The current literature on the impact of boycotts measures company performance using share or stock prices (\cite{pruitt1986determining}; \cite{eva2025impact}).
-While analyzing stock market price patterns for boycotted companies gives a good estimate on the trust the investors place in them, it does not accurately capture consumer response. The Boycott, Divest, Sanction (BDS) movement has been deploying their advocacy effort into companies that are targeted for boycotts.
+While analyzing stock market price patterns for boycotted companies gives a good estimate on the trust the investors place in them, it does not accurately capture consumer response. 
+
+Lasarov et al.(\citeyear{lasarov2023vanishing}) highlights that even when successful, consumer participation in a boycott decreases over time. In the context of the thesis, this means that even if the boycott calls were effective in the short term, their impact on McDonald's performance might show up as a spike in the immediate quarters after the boycott call, but then fade away as consumers return to their previous purchasing habits.
+
+
+The Boycott, Divest, Sanction (BDS) movement has been deploying their advocacy effort into companies that are targeted for boycotts.
 
 the empirical evidence on boycotts and firm Outcomes
 There are several challenges in identifying boycott effects
 key methodological papers
 this thesis contributes by
 
-\section{Data}
-The data for this thesis comes from the SEC unaudited trimestral data. The code to retrieve this finanical filings were provided by a github repository.
+\section{Data and Methodology}
+The data for this thesis comes from the SEC unaudited trimestral data. The code to retrieve this financial filings was provided by a github repository, and was adapted to fit the needs of this analysis.
 
 Outcome variable: \textcolor{red}{might need to provide my own indicator}
 The independent variables are 
 
-
-\section{Methodology}
+\subsection{Synthetic Control Method (SCM)}
 % Add \usepackage{xcolor} to the preamble
 This thesis uses the Synthetic Control Method (SCM) to estimate the impact of the BDS boycott calls on McDonald's \textcolor{red}{net income margin}. The SCM is a data-driven procedure that constructs a synthetic version of the treated unit by weighting a combination of control units (other fast-food companies not targeted by BDS). This synthetic control serves as a counterfactual, representing what would have happened to McDonald's \textcolor{red}{net income margin} in the absence of the boycott. This method is particularly suitable to this analysis because there are not enough Control units that would have justified a simple difference in difference, and because the parallel trends assumption is not believable. 
 The package used is the 
