@@ -21,36 +21,70 @@
 Boycott, Divestment, and Sanctions (BDS) is a nonviolent Palestinian-led movement promoting boycotts, divestments, and economic sanctions against Israel. 
 It does so by promoting various forms of boycotts against companies that are perceived to be complicit in the Israeli occupation of Palestinian territories.
 The movement aims to pressure these companies to change their policies and practices regarding the Israeli occupation of Palestinian territories.
-BDS has been active since 2005, but with the recent genocide in Gaza, the movement has gained significant traction and visibility worldwide. 
-There are several articles and statements published that claim the effectiveness of boycotts on company performance, 
-but while a correlation seems to be apparent in many cases, causation is delicate, and the current literature lacks a robust empirical analysis of the impact of boycotts on company performance. 
-This thesis provides a methodology to achieve such goal, using a Synthetic Control Method to formulate a credible counterfactual for McDonald's performance in the absence of a boycott.
+BDS has been active since 2005, but with the recent genocide in Gaza, the movement has gained significant traction and visibility worldwide. As expression of that has been the surge in economic boycotts, a type of consumer activism where individuals or groups refuse to purchase products or services from specific companies to protest against their practices or policies.
+One of the most notable boycotts in recent times has been against McDonald's, which has been accused of supporting the Israeli occupation through its business operations. 
+Several articles and statements claim the effectiveness of boycotts on McDonald's, both by supporters of the movement and by financial analysts.
+While a correlation exists, with several stores from boycotted brands closing and sales from said companies dropping as boycotts intensify, causation is delicate, and the current literature lacks a robust empirical analysis of the impact of boycotts on company performance. The vast open source presence of financial data from SEC quarterly fillings allows for a credible attempt to fill this gap.
+This thesis places itself in the broader research corpus on consumer activism, which has gained momentum in recent years due to the growing awareness of social and environmental issues among consumers.
+Delving in the potential causal effect of economic boycotts on company performance, operationalized as net income margin, sheds light on the effectiveness of consumer activism, and its ability to influence corporate behavior.
 
-The current literature on the impact of boycotts measures company performance using share or stock prices \cite{pruitt1986determining}, \cite{eva2025impact}.
-While analyzing stock market price patterns for boycotted companies gives a good estimate on the trust the investors place in them, it does not accurately capture consumer response, and the consequent impact on revenue. The Boycott, Divest, Sanction (BDS) movement has been deploying their advocacy effort into companies that are targeted for boycotts.
-
-
+This thesis provides a methodology to achieve such goal, using a Synthetic Control Method to formulate a credible counterfactual for McDonald's performance in the absence of a boycott. The paper answers the question: \textit{To what extend do the BDS boycott calls impact McDonald's net income margin?}. 
 
 \section{Literature Review}
-Before delving into the project, it is necessary to pan out the theory of boycotts this theoriy is rooted in, the methodology used and the gap your study fills
+
 In late September 1880, close to a hundred farmers and peasants assembled at the estate of the local landlord Charles Cunningham Boycott in County Mayo, Ireland. They were protesting against the rent increases imposed by boycotts, and started to isolate the man and his family from business operations. 
 The practice of organized non-consumption, now named 'boycott', has spread through the years, becoming a common tool for social movements to express their discontent towards companies or countries. The boycott, or threat of boycott, has been proven to have an effect when firms see a dent in their performance andadjust their behavious to comply to the consumer's preference, whose purchases depend on. 
 The most notable case of boycott in recent history is the South African anti-apartheid movement, which used boycotts as a key strategy to pressure the South African government. Differently, the current boycott is bottom up, meaning that there is not a state ban on certain companies, but the phenomenon is rather grassroot. BDS mainly operates on social media. This makes a causal fit rather interesting, because wether in the south african case one can quite clearly connect th drop in sales to the ban, in this case wether one boycotts is fully subject fully to the consumer. 
 This thesis is placed in the corpus of economic boycott. A paper has done this analysis but using share prices, which measures trust in a company and not if people buy it or not
+The current literature on the impact of boycotts measures company performance using share or stock prices (\cite{pruitt1986determining}; \cite{eva2025impact}).
+While analyzing stock market price patterns for boycotted companies gives a good estimate on the trust the investors place in them, it does not accurately capture consumer response. The Boycott, Divest, Sanction (BDS) movement has been deploying their advocacy effort into companies that are targeted for boycotts.
+
+the empirical evidence on boycotts and firm Outcomes
+There are several challenges in identifying boycott effects
+key methodological papers
+this thesis contributes by
+
+\section{Data}
+The data for this thesis comes from the SEC unaudited trimestral data. The code to retrieve this finanical filings were provided by a github repository.
+
+Outcome variable: \textcolor{red}{might need to provide my own indicator}
+The independent variables are 
+
 
 \section{Methodology}
 % Add \usepackage{xcolor} to the preamble
-This thesis uses the Synthetic Control Method (SCM) to estimate the impact of the BDS boycott calls on McDonald's \textcolor{red}{net income margin}. The SCM is a data-driven procedure that constructs a synthetic version of the treated unit by weighting a combination of control units (other fast-food companies not targeted by BDS). This synthetic control serves as a counterfactual, representing what would have happened to McDonald's \textcolor{red}{net income margin} in the absence of the boycott. This method is particularly suitable to this analysis because  
+This thesis uses the Synthetic Control Method (SCM) to estimate the impact of the BDS boycott calls on McDonald's \textcolor{red}{net income margin}. The SCM is a data-driven procedure that constructs a synthetic version of the treated unit by weighting a combination of control units (other fast-food companies not targeted by BDS). This synthetic control serves as a counterfactual, representing what would have happened to McDonald's \textcolor{red}{net income margin} in the absence of the boycott. This method is particularly suitable to this analysis because there are not enough Control units that would have justified a simple difference in difference, and because the parallel trends assumption is not believable. 
+The package used is the 
+\subsection{Treatment Unit and Control Units}
+The control units, so the boycotted companies, have been exclusively Israel companies for whose public data his not freely accessible, or 
+tech companies that sell in bulk and whose performance is primarly institutional. The rest of the companies (like Aibnb) did not have many pre treatment units. Hence, the companies that could've been in the treatment group where around five. Another reason why conventional difference in difference would not have been not credible is that the parallel trends assumption cannot be defended realistically, because the pre-treatment trends differ between your boycotted company and the donors
 A salient characteristic of the SCM is its ability to account for unobserved confounders that vary over time, making it particularly suitable for this analysis. Since SCM does not use randomization, the assignment process is critical to ensure the validity of the results. In the context of this thesis, the assignment process involves picking a poll of control units that could have been a boycott target, but were not. 
 the targeted companies and rationale (\textcite{bdsStrategic2024}). The main points to select treatment are level of complicity, potential for cross-movement coalition-building, media appeal, and potential for success. This thesis uses the BDFS criteria to select both the taret company and the control group. 
 
-\subsection{Data}
-SEC unaudited trimestral data, SEC edgar. I used Income Statement (Statement of Operations)
-The code to retrieve this finanical filings were provided by a github repo.
+\begin{table}[h!]
+\centering
+\begin{tabular}{l c r r r}
+\hline
+Company & Complicity & Coalition Building & Media Appeal & Potential \\
+\hline
+Item A & 12 & 3.5 & 4.2 & 5.1\\
+Item B & 7 & 1.2 & 2.3 & 3.4 \\
+Item C & 19 & 8.4 & 7.6 & 6.5 \\
+\hline
+\end{tabular}
+\caption{Control Units Selected for Synthetic Control Method}
+\label{tab:basic}
+\end{table}
+\subsection{Pre-treatment Period and Post-treatment Period}
+The pre-treatment period is defined as the time before the BDS movement called for a boycott against McDonald's, which occurred in January 2023. the wayback machine was manually cheched to ensure that the boycott call was present since then, and not beforem and also that the control group companies were not called for boycott at any point in time.
+Being treated is defined as a period in which the company is absent from the boycott brands. This is based on the fact that people check this page to see if they should boycott a company or not, and that since the selection of boycotted companyes happens after research and a selection, that most calls happen after this call has been dropped.
+The post-treatment period starts from January 2023 and ends when the latest available data point, which is in Q3 2025.
 
-\subsection{Causal Fit}
-\section{Preliminary results }
+\section{Results}
 \section{Discussion}
+
+BDS boycott calls were restricted to israeli brands, and ith tim, they started calling out amerisan brands, which gives to think in terms of how globalization.
+Boycotts are harder to enforce when the target is a massive corporation with a global presence, as consumers may find it challenging to avoid all products associated with the company. This might mean that as companies become more conglomerates and monopolies, consumer actions might be harder to enforce.
 
 \printbibliography
 \end{document}
