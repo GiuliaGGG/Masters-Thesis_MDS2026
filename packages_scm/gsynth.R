@@ -1,15 +1,17 @@
-panelview(net_income_margin ~ boycotted, data = df_clean,  index = c("company_id","time_numeric"), pre.post = TRUE) 
-panelview(net_income_margin ~ boycotted, data = df_clean,  index = c("company_id","time_numeric"), type = "outcome") 
+panelview(net_margin_pct ~ boycotted, data = df_clean_cut,  index = c("company_id","time_numeric"), pre.post = TRUE) 
+
 system.time(
-  out <- gsynth(net_income_margin ~ boycotted +shares_basic+ assets + cash + equity, data = df_clean, 
+out <- gsynth(net_margin_pct ~ boycotted +shares_basic+ assets + equity, data = df_clean_cut, 
                 index = c("company_id","time_numeric"), force = "two-way", 
                 CV = TRUE, r = c(0, 5), se = TRUE, 
                 inference = "parametric", nboots = 1000, 
                 parallel = FALSE)
 )
 
-out2 <- gsynth(Y ~ D + X1 + X2, data = simdata, 
-               index = c("id","time"), force = "two-way", 
+
+
+out2 <- gsynth(net_margin_pct ~ boycotted +shares_basic+ assets  + equity, data = df_clean_cut, 
+               index = c("company_id","time_numeric"), force = "two-way", 
                CV = FALSE, r = c(2, 5), se = TRUE,
                inference = "jackknife", 
                parallel = TRUE, cores = 4)
@@ -27,7 +29,7 @@ plot(out, type = "counterfactual", raw = "none", main="")
 plot(out, type = "ct", raw = "none", main = "", 
      shade.post = FALSE)
 plot(out, type = "counterfactual", raw = "band", 
-     xlab = "Time", ylim = c(-5,35))
+     xlab = "Time", ylim = c(0,1))
 plot(out, type = "counterfactual", raw = "all")
 plot(out, type = "counterfactual", id = 102)
 plot(out, type = "counterfactual", id = 104, 
@@ -46,7 +48,7 @@ The estimation takes more time, but the results are
 very similar to that from the original method – the 
 coefficients will be slightly more precisely estimated.'
 system.time(
-  out <- gsynth(net_income_margin ~ boycotted +shares_basic+ assets, data = df_clean,  
+  out <- gsynth(net_margin_pct ~ boycotted +shares_basic+ assets, data = df_clean_cut,  
                 index = c("company_id","time_numeric"), EM = TRUE, 
                 force = "two-way", inference = "parametric", 
                 se = TRUE, nboots = 500, r = c(0, 5), 
