@@ -82,7 +82,11 @@ key methodological papers
 this thesis contributes by
 
 \section{Data and Methodology}
-The data for this thesis comes from the SEC unaudited trimestral data. The code to retrieve this financial filings was provided by a github repository, and was adapted to fit the needs of this analysis.
+The data used to contruct both the control and the treated units comes from the SEC EDGAR database, the official U.S. Securities and Exchange Commission online platform where all public companies must file financial and regulatory documents.
+Given that the platform is the primary disclosure system for US public companies, even if the quarterly data is unaudited, this thesis considers it reliable. 
+The time frame used is quarterly data from \textcolor{red}{Q1 2009} to Q3 2025.
+Gunning (\citeyear{edgartools}) provides tools for accessing SEC filings through a GitHub repository. The code provided was adapted to fit the needs of this analysis.
+
 
 Outcome variable: \textcolor{red}{might need to provide my own indicator}
 The independent variables are 
@@ -95,7 +99,8 @@ The package used is the
 The control units, so the boycotted companies, have been exclusively Israel companies for whose public data his not freely accessible, or 
 tech companies that sell in bulk and whose performance is primarly institutional. The rest of the companies (like Aibnb) did not have many pre treatment units. Hence, the companies that could've been in the treatment group where around five. Another reason why conventional difference in difference would not have been not credible is that the parallel trends assumption cannot be defended realistically, because the pre-treatment trends differ between your boycotted company and the donors
 A salient characteristic of the SCM is its ability to account for unobserved confounders that vary over time, making it particularly suitable for this analysis. Since SCM does not use randomization, the assignment process is critical to ensure the validity of the results. In the context of this thesis, the assignment process involves picking a poll of control units that could have been a boycott target, but were not. 
-the targeted companies and rationale (\textcite{bdsStrategic2024}). The main points to select treatment are level of complicity, potential for cross-movement coalition-building, media appeal, and potential for success. This thesis uses the BDFS criteria to select both the taret company and the control group. 
+the targeted companies and rationale (\textcite{bdsStrategic2024}). The main points to select treatment are level of complicity, potential for cross-movement coalition-building, media appeal, and potential for success. This thesis uses the BDS criteria to select both the target company and the control group.
+The research identifies companies that fit all the criteria when possible, and opts for a looser fit when data availability is limited.
 
 \begin{table}[h!]
 \centering
@@ -112,8 +117,15 @@ Item C & 19 & 8.4 & 7.6 & 6.5 \\
 \label{tab:basic}
 \end{table}
 \subsection{Pre-treatment Period and Post-treatment Period}
-The pre-treatment period is defined as the time before the BDS movement called for a boycott against McDonald's, which occurred in January 2023. the wayback machine was manually cheched to ensure that the boycott call was present since then, and not beforem and also that the control group companies were not called for boycott at any point in time.
-Being treated is defined as a period in which the company is absent from the boycott brands. This is based on the fact that people check this page to see if they should boycott a company or not, and that since the selection of boycotted companyes happens after research and a selection, that most calls happen after this call has been dropped.
+Since boycott calls are the treatment, and since the movement largely operates on their
+social media and website, this thesis understands treatment as being present 
+on the boycott brands page of the BDS website.
+
+The Guide To BDS page (\citeyear{BDSGuide}), and variations thereof, have been informing users on what to boycott since the movement's inception. 
+The pages shows images of brands that the movement decides to target once they fit their boycott criteria. This thesis assumes that once the brand appears on the website, social media action follows and user engagement on the page too. this is a way that the research centralizes the treatment definition around a concrete and verifiable event.
+Past presence on the page is verified through the Wayback Machine, an internet archiving service that captures and stores snapshots of web pages over time.
+
+The pre-treatment period is defined as the time before the BDS movement called for a boycott against McDonald's, which occurred in January 2023. the wayback machine was manually checked to ensure that the boycott call was present since then, and not before, and also that the control group companies were not called for boycott at any point in time.
 The post-treatment period starts from January 2023 and ends when the latest available data point, which is in Q3 2025.
 
 \section{Results}
