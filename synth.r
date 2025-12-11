@@ -1,17 +1,17 @@
 
 # dataprep 
 dataprep.out <- dataprep(
-  foo = df_clean,
-  predictors = c("assets", 'shares_basic','cash', 'equity'),
-  dependent = "net_income_margin",
+  foo = df_clean_cut,
+  predictors = c("assets", 'shares_basic', 'equity'),
+  dependent = "net_margin_pct",
   unit.variable = "company_id",          # numeric ID column
   unit.names.variable = "ticker",        # readable name
   time.variable = "time_numeric",                  # or numeric time index
-  treatment.identifier = 7,              # treated company ID
-  controls.identifier = c(1:6, 8:16), # control company IDs
-  time.predictors.prior = 2010.25:2023.75,
-  time.optimize.ssr = 2010.25:2023.75,         # pre-treatment period
-  time.plot = 2010.25:2025.75                  # full period to plot
+  treatment.identifier = 9,              # treated company ID
+  controls.identifier = c(1:8, 10:21), # control company IDs
+  time.predictors.prior = 2018.25:2023.75,
+  time.optimize.ssr = 2018.25:2023.75,         # pre-treatment period
+  time.plot = 2018.25:2025.75                  # full period to plot
 )
 
 ###################################################
@@ -68,9 +68,9 @@ synth.tables$tab.w[8:14, ]
 path.plot(
   synth.res = synth.out,
   dataprep.res = dataprep.out,
-  Ylab = "net_income_margin",
+  Ylab = "net_income",
   Xlab = "year",
-  Ylim = c(0, 0.1),
+  Ylim = c(0, 1),
   Legend = c(
     paste0(boycotted_firm),
     paste0("Synthetic ", boycotted_firm)
@@ -80,4 +80,5 @@ path.plot(
 
 
 abline(v = 2023.25, col = "red", lwd = 2, lty = 2)  # vertical red line at 2023.75
-df_clean %>%  ggplot(aes(time_numeric, net_income_margin, colour = ticker)) + geom_point() + geom_line()
+df_clean_cut %>% filter(ticker != 'TRIP') %>%   filter(ticker != 'JNJ') %>%  filter(ticker != 'DAL')   %>% ggplot(aes(time_numeric, net_margin_pct, colour = ticker)) + geom_point() + geom_line()
+df_clean_cut   %>% ggplot(aes(time_numeric, net_margin_pct, colour = ticker)) + geom_point() + geom_line()

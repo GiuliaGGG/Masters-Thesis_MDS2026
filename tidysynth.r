@@ -1,12 +1,13 @@
 
 #data("smoking")
+
 df_clean %>% dplyr::glimpse()
 df_out <-
   
-  df_clean %>%
+  df_clean_cut %>%
   
   # initial the synthetic control object
-  synthetic_control(outcome = net_income_margin, # outcome
+  synthetic_control(outcome = net_margin_pct, # outcome
                     unit = ticker, # unit index in the panel data
                     time = time_numeric, # time index in the panel data
                     i_unit = boycotted_firm, # unit where the intervention occurred
@@ -21,6 +22,7 @@ df_out <-
   generate_predictor(time_window = 2009.25:2025.75,
                      shares_basic = mean(shares_basic, na.rm = T),
                      assets = mean(assets, na.rm = T),
+                     #gross_profit = mean(gross_profit, na.rm = T),
                      equity = mean(equity, na.rm = T),
                      cash = mean(cash, na.rm = T)) %>%
   # 
@@ -53,6 +55,7 @@ df_out %>% grab_balance_table()
 df_out %>% plot_placebos()
 df_out %>% plot_placebos(prune = FALSE)
 df_out %>% plot_mspe_ratio()
+
 df_out %>% grab_significance()
 df_out
 df_out %>% 
