@@ -39,7 +39,7 @@ test$interval_days <- as.numeric(test$interval_days)
 test_temp_col <- test %>%
   mutate(
     brackets = case_when(
-      interval_days >= 70  & interval_days <= 120 ~ "quarterly",
+      interval_days <= 120 ~ "quarterly",
       interval_days >= 121 & interval_days <= 200 ~ "semestral",
       interval_days >= 201 & interval_days <= 280 ~ "three_quarters",
       interval_days > 280                         ~ "annual",
@@ -58,20 +58,27 @@ vars <- c(
 )
 
 test_adjusted <- test_temp_col %>%
-  group_by(ticker, frequency) %>%
+  group_by(ticker, fy) %>%
   mutate(across(all_of(vars), ~ {
     
     # Compute mean of the other rows
     mean_others <- (sum(.x, na.rm = TRUE) - .x) / (n() - 1)
     threshold <- 2 * mean_others
     
-    # ABOVE threshold → branch on bracket
-    above_val <- case_when(
-      brackets == "semestral" ~ .x / 2,
-      brackets == "three_quarters" ~ .x / 3,
-      brackets == "annual" ~ .x / 4,
-      brackets == "quarterly" & fp == "FY" ~ .x / 4,
-      TRUE ~ .x
+    # # ABOVE threshold → branch on bracket
+    # above_val <- case_when(
+    #   brackets == "semestral" ~ .x / 2,
+    #   brackets == "three_quarters" ~ .x / 3,
+    #   brackets == "annual" ~ .x / 4,
+    #   brackets == "quarterly" & fp == "FY" ~ .x / 4,
+    #   TRUE ~ .x
+    # )
+    corrected <- case_when(
+      period_detected == "quarter"     ~ x,
+      period_detected == "semiannual"  ~ x / 2,
+      period_detected == "nine_month"  ~ x / 3,
+      period_detected == "annual"      ~ x / 4,
+      TRUE ~ x
     )
     
     # BELOW threshold → repeat original value
@@ -88,7 +95,7 @@ test_adjusted <- test_temp_col %>%
       fp == "Q1" ~ 0.25,
       fp == "Q2" ~ 0.50,
       fp == "Q3" ~ 0.75,
-      fp == "Q4" ~ 1,
+      fp == "Q4" ~ 0.99,
       TRUE ~ NA_real_
     ),
     # Combine fiscal year and quarter into one numeric time variable
@@ -145,7 +152,7 @@ df_clean <- test_adjusted %>%
   
   # in a df with many boycotted, just pick one
   #filter( (boycotted == 1 & ticker == boycotted_firm) | boycotted == 0 )  %>% 
-  filter(fy < "2026" & fy > '2009') %>% 
+  filter(fy < 2026 & fy >= 2009) %>% 
   
   # columns 
   select(where(~ !all(is.na(.)))) %>% 
