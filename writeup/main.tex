@@ -96,6 +96,10 @@ The independent variables are
 This thesis uses the Synthetic Control Method (SCM) to estimate the impact of the BDS boycott calls on McDonald's \textcolor{red}{net income margin}. The SCM is a data-driven procedure that constructs a synthetic version of the treated unit by weighting a combination of control units (other fast-food companies not targeted by BDS). This synthetic control serves as a counterfactual, representing what would have happened to McDonald's \textcolor{red}{net income margin} in the absence of the boycott. This method is particularly suitable to this analysis because there are not enough Control units that would have justified a simple difference in difference, and because the parallel trends assumption is not believable. 
 The package used is the 
 \subsection{Treatment Unit and Control Units}
+The treated Unit has been trated for x amount of time, this table shows the
+
+
+
 The control units, so the boycotted companies, have been exclusively Israel companies for whose public data his not freely accessible, or 
 tech companies that sell in bulk and whose performance is primarly institutional. The rest of the companies (like Aibnb) did not have many pre treatment units. Hence, the companies that could've been in the treatment group where around five. Another reason why conventional difference in difference would not have been not credible is that the parallel trends assumption cannot be defended realistically, because the pre-treatment trends differ between your boycotted company and the donors
 A salient characteristic of the SCM is its ability to account for unobserved confounders that vary over time, making it particularly suitable for this analysis. Since SCM does not use randomization, the assignment process is critical to ensure the validity of the results. In the context of this thesis, the assignment process involves picking a poll of control units that could have been a boycott target, but were not. 
@@ -135,4 +139,30 @@ BDS boycott calls were restricted to israeli brands, and ith tim, they started c
 Boycotts are harder to enforce when the target is a massive corporation with a global presence, as consumers may find it challenging to avoid all products associated with the company. This might mean that as companies become more conglomerates and monopolies, consumer actions might be harder to enforce.
 
 \printbibliography
+
+\section{Appendix}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{r r r}
+\hline
+\textbf{Firm} & \textbf{T0} & \textbf{T1} \\
+\hline
+1  & 68 & 0 \\
+2  & 68 & 0 \\
+3  & 68 & 0 \\
+4  & 68 & 0 \\
+McDonald's  & 57 & 11 \\
+6  & 68 & 0 \\
+7  & 68 & 0 \\
+8  & 68 & 0 \\
+9  & 68 & 0 \\
+10 & 68 & 0 \\
+11 & 68 & 0 \\
+\hline
+\end{tabular}
+\caption{Treated and Control Units}
+\end{table}
+
+
 \end{document}
