@@ -1,5 +1,5 @@
-from python.functions import get_financials
-from python.imports import *
+from functions import get_financials
+from imports import *
 # Save financial data for a list of tickers to CSV files
 
 if __name__ == "__main__":
