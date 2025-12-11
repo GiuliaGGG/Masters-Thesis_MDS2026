@@ -1,163 +1,6 @@
-import requests
-import json
-
-# ============================================================
-# 1. LOAD THE SEC JSON (McDonald's CIK 0000063908)
-# ============================================================
-# CIK0000063908 mcdonals
-url = "https://data.sec.gov/api/xbrl/companyfacts/CIK0000063908.json"
-url_revenue = "https://data.sec.gov/api/xbrl/companyconcept/CIK0000063908/us-gaap/Revenues.json"
-headers = {"User-Agent": "Giulia Petrilli giuliapetrilli2000@gmail.com"}  # SEC requires this
-
-print("Downloading SEC JSON...")
-data = requests.get(url, headers=headers).json()
-data_revenue = requests.get(url_revenue, headers=headers).json()
-print("Download complete!")
-
-
-# ============================================================
-# 2. SEARCH FOR TAG NAMES CONTAINING A KEYWORD
-#    Example: search_tags("revenue")
-# ============================================================
-
-def search_tags(keyword, data):
-    keyword = keyword.lower()
-    results = []
-    
-    for taxonomy, items in data.items():
-        if not isinstance(items, dict):
-            continue
-
-        for tag in items.keys():
-            if keyword in tag.lower():
-                results.append(f"{taxonomy}.{tag}")
-
-    return results
-
-
-# ============================================================
-# 3. GET FACTS FOR A SPECIFIC TAG
-#    Example: get_facts("us-gaap.Revenues")
-# ============================================================
-
-def get_facts(full_tag, data):
-    try:
-        taxonomy, tag = full_tag.split(".")
-        return data[taxonomy][tag]["units"]
-    except Exception:
-        return None
-
-
-# ============================================================
-# 4. SEARCH FOR A NUMERIC VALUE ANYWHERE IN THE JSON
-#    Example: find_value(27000000)
-# ============================================================
-
-def find_value_contains(query, data):
-    query = str(query).lower()      # normalize search term
-    matches = []
-
-    def search(obj, path="root"):
-        if isinstance(obj, dict):
-            for k, v in obj.items():
-                search(v, f"{path}.{k}")
-
-        elif isinstance(obj, list):
-            for i, v in enumerate(obj):
-                search(v, f"{path}[{i}]")
-
-        else:
-            # Convert all leaf values to string to allow partial matching
-            try:
-                text = str(obj).lower()
-                if query in text:
-                    matches.append((path, obj))
-            except Exception:
-                pass  # skip values that cannot be stringified
-
-    search(data)
-    return matches
-
-
-
-# ============================================================
-# 5. EXAMPLE USAGE (you can comment these out)
-# ============================================================
-
-print("\nEXAMPLE SEARCHES\n")
-
-# Search for tags containing a keyword
-print("Tags containing 'Revenues")
-print(search_tags("Revenues", data))
-print(search_tags("Revenues", data_revenue))
-
-# Fetch facts for a tag
-print("\nFacts for us-gaap.Revenues:")
-revenue_facts = get_facts("us-gaap.Revenues", data)
-revenue_facts
-print(json.dumps(revenue_facts, indent=2))
-
-# Search for a specific numeric value
-print("\nSearching for value :")
-find_value_contains("66151", data)
-find_value_contains('66151', data_revenue)
-
-
-import time
-from typing import Dict, List
-import numpy as np
-import pandas as pd
-import requests
-import matplotlib.pyplot as plt
-from matplotlib.ticker import FuncFormatter
-import os
-
-
-# ---------- CONFIG ----------
-UA = {"User-Agent": "Giulia Petrilli giuliapetrilli2000@gmail.com"}
-BASE = "https://data.sec.gov/api" 
-
-
-
-# --- TAG GROUPS ---
-REVENUE_TAGS = [
-    "RevenueFromContractWithCustomerExcludingAssessedTax",
-    "Revenues",
-    "SalesRevenueNet"
-]
-GROSS_PROFIT_TAGS = ["GrossProfit"]
-COST_TAGS = ["CostOfRevenue", "CostOfGoodsAndServicesSold"]
-NET_INCOME_TAGS = ["NetIncomeLoss"]
-
-OPERATING_EXP_TAGS = ["OperatingExpenses", "SellingGeneralAndAdministrativeExpenses"]
-R_AND_D_TAGS = ["ResearchAndDevelopmentExpense"]
-DEPR_AMORT_TAGS = ["DepreciationAndAmortization", "AmortizationExpense"]
-INTEREST_EXP_TAGS = ["InterestExpense"]
-INTEREST_INC_TAGS = ["InterestIncome"]
-INCOMEBEFORETAX_TAGS = ["IncomeBeforeTax"]
-TAX_TAGS = ["IncomeTaxExpenseBenefit", "ProvisionForIncomeTaxes"]
-
-EPS_BASIC_TAGS = ["EarningsPerShareBasic"]
-EPS_DILUTED_TAGS = ["EarningsPerShareDiluted"]
-SHARES_BASIC_TAGS = ["WeightedAverageNumberOfSharesOutstandingBasic"]
-SHARES_DILUTED_TAGS = ["WeightedAverageNumberOfDilutedSharesOutstanding"]
-
-ASSETS_TAGS = ["Assets"]
-ASSETS_CURR_TAGS = ["AssetsCurrent"]
-LIAB_TAGS = ["Liabilities"]
-LIAB_CURR_TAGS = ["LiabilitiesCurrent"]
-EQUITY_TAGS = ["StockholdersEquity", "Equity"]
-CASH_TAGS = ["CashAndCashEquivalentsAtCarryingValue"]
-RECEIVABLES_TAGS = ["AccountsReceivableNetCurrent"]
-INVENTORY_TAGS = ["InventoriesNet"]
-DEBT_TAGS = ["LongTermDebt"]
-
-CAPEX_TAGS = ["CapitalExpenditures"]
-OPER_CASHFLOW_TAGS = ["NetCashProvidedByOperatingActivities"]
-INV_CASHFLOW_TAGS = ["NetCashUsedForInvestingActivities"]
-FIN_CASHFLOW_TAGS = ["NetCashProvidedByFinancingActivities"]
-
-EMPLOYEE_TAGS = ["NumberOfEmployees", "WeightedAverageNumberOfEmployees"]
+from imports import *
+from config import *
+from tag_groups import *
 
 # ---------- UTIL / FETCH ----------
 # Load SEC ticker to CIK mapping
@@ -180,8 +23,6 @@ def _get_json(url: str):
 def company_concept(cik10: str, taxonomy: str, tag: str):
     url = f"{BASE}/xbrl/companyconcept/CIK{cik10}/{taxonomy}/{tag}.json"
     return _get_json(url)
-
-
 
 # Converts SEC concept JSON to DataFrame
 def concept_to_df(j: dict, prefer_units=("USD", "USD$", "USD (in millions)")) -> pd.DataFrame:
@@ -222,7 +63,6 @@ def _fetch_first_available(cik10: str, tags: List[str], label: str = "") -> pd.D
     print(f"[{label}] No data for tags: {tags}")
     return pd.DataFrame(columns=["fy", "fp", "start", "end", "val"])
 
-# ---------- PARSING SERIES ----------
 # ---------- MAIN FUNCTIONS ----------
 
 # Extract quarterly datapoints from SEC fact dataframe.
@@ -340,3 +180,67 @@ def get_financials(ticker: str, last_n_quarters: int = 16) -> pd.DataFrame:
     # ------ Combine into one long-format DF ------
     df = pd.concat([df_q, df_a], ignore_index=True).sort_values(["fy", "fp", "start", "end", "frequency"])
     return df.reset_index(drop=True)
+
+
+# Merge quarterly CSV files for a list of tickers
+def merge__data(tickers, base_path, boycotted_tickers=None):
+    """
+    Merge quarterly CSV files for a list of tickers.
+    
+    Parameters:
+        tickers (list): List of ticker symbols (e.g. ["COKE", "SBUX", "BROS"])
+        base_path (str): Path to your data folder (up to /data)
+        boycotted_tickers (list): Optional list of tickers that are boycotted. 
+                                  If None, all are treated as control.
+    """
+    all_dfs = []
+    boycotted_tickers = [t.upper() for t in (boycotted_tickers or [])]
+    
+    for ticker in tickers:
+        ticker_lower = ticker.lower()
+        is_boycotted = ticker.upper() in boycotted_tickers
+        folder_type = "boycott_target" if is_boycotted else "control_group"
+        
+        #file_path = os.path.join(base_path, folder_type, ticker_lower, f"{ticker_lower}_quarterly.csv")
+        file_path = os.path.join(base_path, folder_type, ticker_lower, f"{ticker_lower}.csv")
+        
+        
+        if not os.path.exists(file_path):
+            print(f"⚠️ File not found for {ticker}: {file_path}")
+            continue
+        
+        df = pd.read_csv(file_path)
+        
+        # Add metadata columns only if they don't exist
+        if "ticker" not in df.columns:
+            df.insert(0, "ticker", ticker.upper())
+        else:
+            df["ticker"] = ticker.upper()
+
+        if "boycotted" not in df.columns:
+            df.insert(0, "boycotted", 1 if is_boycotted else 0)
+        else:
+            df["boycotted"] = 1 if is_boycotted else 0
+        
+        all_dfs.append(df)
+        print(f"✅ Loaded {ticker}")
+    
+    if not all_dfs:
+        raise ValueError("No valid CSV files found for the given tickers.")
+    
+    merged_df = pd.concat(all_dfs, ignore_index=True)
+    
+    # Sort if fiscal year exists
+    if "fy" in merged_df.columns:
+        merged_df = merged_df.sort_values(by=["ticker", "fy"])
+    
+    # Save with timestamp
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
+    #output_filename = f"merged_dataset_{timestamp}.csv"
+    output_filename = f"merged_dataset_raw_{timestamp}.csv"
+    output_path = os.path.join(base_path, output_filename)
+    merged_df.to_csv(output_path, index=False)
+    
+    print(f"\nMerged dataset saved to: {output_path}")
+    return merged_df
+

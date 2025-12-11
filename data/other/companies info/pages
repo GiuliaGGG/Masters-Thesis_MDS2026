@@ -11,3 +11,7 @@ https://cran.r-universe.dev/Synth/doc/manual.html
 https://cran.r-project.org/web/views/Econometrics.html
 
 "https://bdsmovement.net/Guide-to-BDS-Boycott" # where images are 
+
+
+url_company_facts = "https://data.sec.gov/api/xbrl/companyfacts/CIK0000063908.json"
+url_company_concept_revenue = "https://data.sec.gov/api/xbrl/companyconcept/CIK0000063908/us-gaap/Revenues.json"
