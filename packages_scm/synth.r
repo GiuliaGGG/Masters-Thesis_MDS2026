@@ -106,11 +106,11 @@ df_clean <- df %>%
 # dataprep 
 dataprep.out <- dataprep(
   foo = df_clean,
-  predictors = c("assets", 'liabilities_current', 'shares_basic', 'revenue'),
+  predictors = c("assets",'shares_basic', 'revenue'),
   dependent = "net_income",
   unit.variable = "company_id",          # numeric ID column
   unit.names.variable = "ticker",        # readable name
-  time.variable = "time_numeric",                  # or numeric time index
+  time.variable = "time",                  # or numeric time index
   treatment.identifier = 5,              # treated company ID
   controls.identifier = c(1:4,6:11), # control company IDs
   time.predictors.prior = 2010.25:2023.75,
@@ -173,8 +173,8 @@ path.plot(synth.res = synth.out,
           dataprep.res = dataprep.out,
           Ylab = "net_income_margin",
           Xlab = "year",
-          Ylim = c(0,0.1),
-          Legend = c("Coca Cola","Synthetic Coca Cola"),
+          Ylim = c(0,10000000000),
+          Legend = c("Mc Donald","Synthetic Mc Donald"),
           Legend.position = "topleft"
 )
 

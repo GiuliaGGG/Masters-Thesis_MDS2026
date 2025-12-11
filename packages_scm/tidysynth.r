@@ -4,13 +4,13 @@
 df_clean %>% dplyr::glimpse()
 df_out <-
   
-  df_clean_cut %>%
+  df_clean %>%
   
   # initial the synthetic control object
-  synthetic_control(outcome = net_margin_pct, # outcome
+  synthetic_control(outcome = revenue, # outcome
                     unit = ticker, # unit index in the panel data
-                    time = time_numeric, # time index in the panel data
-                    i_unit = boycotted_firm, # unit where the intervention occurred
+                    time = time, # time index in the panel data
+                    i_unit = 'MCD', # unit where the intervention occurred
                     i_time = 2023.25, # time period when the intervention occurred
                     generate_placebos=T # generate placebo synthetic controls (for inference)
   ) %>%
@@ -21,9 +21,11 @@ df_out <-
   # population between 15 and 24 years of age from 1980 - 1988
   generate_predictor(time_window = 2009.25:2025.75,
                      shares_basic = mean(shares_basic, na.rm = T),
+                     liabilities_current = mean(liabilities_current, na.rm = T),
                      assets = mean(assets, na.rm = T),
                      #gross_profit = mean(gross_profit, na.rm = T),
                      equity = mean(equity, na.rm = T),
+                     net_income = mean(net_income, na.rm = T),
                      cash = mean(cash, na.rm = T)) %>%
   # 
   # # average beer consumption in the donor pool from 1984 - 1988

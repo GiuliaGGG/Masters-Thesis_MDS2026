@@ -1,24 +1,19 @@
-panelview(net_income ~ boycotted, data = df_clean,  index = c("company_id","time_numeric"), pre.post = TRUE) 
+panelview(revenue ~ boycotted, data = df_clean,  index = c("company_id","time"), pre.post = TRUE) 
 
 system.time(
-out <- gsynth(net_margin_pct ~ boycotted +shares_basic+ assets + equity, data = df_clean_cut, 
-                index = c("company_id","time_numeric"), force = "two-way", 
+out <- gsynth(revenue ~ boycotted + shares_basic+ net_income + equity + cash + liabilities_current , data = df_clean, 
+                index = c("company_id","time"), force = "two-way", 
                 CV = TRUE, r = c(0, 5), se = TRUE, 
                 inference = "parametric", nboots = 1000, 
                 parallel = FALSE)
 )
 
-
-
-out2 <- gsynth(net_margin_pct ~ boycotted +shares_basic+ assets  + equity, data = df_clean_cut, 
-               index = c("company_id","time_numeric"), force = "two-way", 
-               CV = FALSE, r = c(2, 5), se = TRUE,
-               inference = "jackknife", 
-               parallel = TRUE, cores = 4)
 cumu1 <- cumuEff(out, cumu = TRUE, id = NULL, period = c(0,5))
 cumu1$est.catt
+
 cumu2 <- cumuEff(out, cumu = FALSE, id = c(101, 102, 103), period = c(0,5))
 cumu2$est.catt
+
 plot(out) # by default
 plot(out, theme.bw = FALSE) 
 plot(out, type = "gap", ylim = c(-3,12), xlab = "Period", 
