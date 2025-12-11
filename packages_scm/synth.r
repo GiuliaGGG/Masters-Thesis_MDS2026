@@ -107,12 +107,12 @@ df_clean <- df %>%
 dataprep.out <- dataprep(
   foo = df_clean,
   predictors = c("assets", 'liabilities_current', 'shares_basic', 'revenue'),
-  dependent = "net_income_margin",
+  dependent = "net_income",
   unit.variable = "company_id",          # numeric ID column
   unit.names.variable = "ticker",        # readable name
   time.variable = "time_numeric",                  # or numeric time index
-  treatment.identifier = 2,              # treated company ID
-  controls.identifier = c(1,3,4,5), # control company IDs
+  treatment.identifier = 5,              # treated company ID
+  controls.identifier = c(1:4,6:11), # control company IDs
   time.predictors.prior = 2010.25:2023.75,
   time.optimize.ssr = 2010.25:2023.75,         # pre-treatment period
   time.plot = 2010.25:2025.75                  # full period to plot
@@ -179,4 +179,4 @@ path.plot(synth.res = synth.out,
 )
 
 abline(v = 2023.75, col = "red", lwd = 2, lty = 2)  # vertical red line at 2023.75
-df_clean %>%  ggplot(aes(time_numeric, net_income_margin, colour = ticker)) + geom_point() + geom_line()
+df_clean %>%  ggplot(aes(time_numeric, net_income, colour = ticker)) + geom_point() + geom_line()

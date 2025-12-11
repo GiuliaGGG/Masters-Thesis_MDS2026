@@ -1,4 +1,4 @@
-panelview(net_margin_pct ~ boycotted, data = df_clean_cut,  index = c("company_id","time_numeric"), pre.post = TRUE) 
+panelview(net_income ~ boycotted, data = df_clean,  index = c("company_id","time_numeric"), pre.post = TRUE) 
 
 system.time(
 out <- gsynth(net_margin_pct ~ boycotted +shares_basic+ assets + equity, data = df_clean_cut, 
