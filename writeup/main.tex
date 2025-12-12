@@ -24,10 +24,13 @@ The practice of organized non-consumption, now named 'boycott', has spread throu
 The Boycott, Divestment, and Sanctions (BDS) is a nonviolent Palestinian-led movement promoting boycotts, divestments, and economic sanctions against Israel. 
 It does so by promoting various forms of boycotts against companies that are perceived to be complicit in the Israeli occupation of Palestinian territories.
 The movement aims to pressure these companies to change their policies and practices regarding the Israeli occupation of Palestinian territories.
-BDS has been active since 2005, but with the recent genocide in Gaza, the movement has gained significant traction and visibility worldwide. As expression of that has been the surge in calls for economic boycotts \footnote{as proven by gained attention on social media platforms and google trends search term increasing}, a type of consumer activism where individuals or groups refuse to purchase products or services from specific companies to protest against their practices or policies.
+BDS has been active since 2005, but with the start of the genocide in Gaza \footnote{as defined by Amnesty International \citeyear{Amnesty2024GenocideGaza}}, the movement has gained significant traction and visibility worldwide. As expression of that has been the surge in calls for economic boycotts \footnote{as proven by gained attention on social media platforms and google trends search term increasing}, a type of consumer activism where individuals or groups refuse to purchase products or services from specific companies to protest against their practices or policies.
 One of the most notable boycotts in recent times has been against McDonald's, which has been accused of supporting the Israeli occupation through its business operations. 
 Several articles and statements claim the effectiveness of boycotts on McDonald's, both by supporters of the movement and by financial analysts.
-While a correlation exists, with several stores from boycotted brands closing and sales from said companies dropping as boycotts intensify, causation is delicate, and the current literature lacks a robust empirical analysis of the impact of boycotts on company performance. The vast open source presence of financial data from SEC quarterly fillings allows for a credible attempt to fill this gap.
+While a correlation exists, with several stores from boycotted brands closing and sales from said companies dropping as boycotts intensify, causation is delicate, and the current literature lacks a robust empirical analysis of the impact of boycotts on company performance. The vast open source presence of financial data from SEC quarterly filings allows for a credible attempt to fill this gap.
+Studies show that pushing on social-political issues and communicating their stands in a way that speaks to their values could be rewarding for companies, 
+earn a statistically significant stock return of 2.68\% in the four days immediately after their announcements (\textcite{afego2021does}).
+This suggests that consumers are willing to reward companies that align with their values, and opens a venue for the opposite to happen, where consumers punish companies that do not align with their values.
 This thesis places itself in the broader research corpus on consumer activism, which has gained momentum in recent years due to the growing awareness of social and environmental issues among consumers. The most notable case of boycott in recent history is the South African anti-apartheid movement, which used boycotts as a key strategy to pressure the South African government.
 Differently, the current boycott called by BDS is bottom up, 
 meaning that there is not a state ban on certain companies, 
@@ -39,7 +42,7 @@ Delving in the potential causal effect of economic boycotts on company performan
 
 
 Perceived egregiousness, which is the extent to which the firm’s action is considered egregious, is the central trigger of boycott participation (Klein et al., \citeyear{klein2004corporate}). 
-This resesrch interprets the start of the genocide in Gaza in october 2023 as a triggers of boycott participation, as it significantly increased the visibility and urgency of the BDS movement's calls for boycotts. 
+This reasearch interprets the start of the genocide in Gaza in october 2023 as a triggers of boycott participation, as it significantly increased the visibility and urgency of the BDS movement's calls for boycotts. 
 Friedman's
 taxonomy of boycotts distinguishes between primary and
 secondary boycotts (Friedman,  \citeyear{friedman2002consumer}). A primary boycott targets the party directly; a secondary boycott targets a secondary entity
@@ -47,14 +50,11 @@ affiliated with the party (e.g., a supplier or distributor).
 
 Boycott calls are 
 
-Studies show that pushing on social-political issues and communicating their stands in a way that speaks to their values could be rewarding for companies, 
-earn a statistically significant stock return of 2.68\% in the four days immediately after their announcements (\textcite{afego2021does}).
-This suggests that consumers are willing to reward companies that align with their values, and opens a venue for the opposite to happen, where consumers punish companies that do not align with their values.
 
 The boycott calls success on social media might be a sign of virtue signaling, but not of actual impact on sales.
 
 The BDS boycott calls against McDonald's can be classified as a primary boycott, as it directly targets the company directly.
-This thesis provides a methodology to achieve such goal, using a Synthetic Control Method to formulate a credible counterfactual for McDonald's performance in the absence of a boycott. The paper answers the question: \textit{To what extent do the BDS boycott calls impact McDonald's net income margin?}. 
+This thesis provides a methodology to achieve such goal, using a Synthetic Control Method to formulate a credible counterfactual for McDonald's performance in the absence of a boycott. The paper's research question is: \textit{To what extent do the BDS boycott calls impact McDonald's VARIABLE?}. 
 
 \section{Literature Review}
  
@@ -92,16 +92,49 @@ Outcome variable: \textcolor{red}{might need to provide my own indicator}
 The independent variables are 
 
 \subsection{Synthetic Control Method (SCM)}
-% Add \usepackage{xcolor} to the preamble
-This thesis uses the Synthetic Control Method (SCM) to estimate the impact of the BDS boycott calls on McDonald's \textcolor{red}{net income margin}. The SCM is a data-driven procedure that constructs a synthetic version of the treated unit by weighting a combination of control units (other fast-food companies not targeted by BDS). This synthetic control serves as a counterfactual, representing what would have happened to McDonald's \textcolor{red}{net income margin} in the absence of the boycott. This method is particularly suitable to this analysis because there are not enough Control units that would have justified a simple difference in difference, and because the parallel trends assumption is not believable. 
-The package used is the 
+The research question \textit{To what extent do the BDS boycott calls impact McDonald's VARIABLE?} implies a treatment,
+an outcome variable, and a before and after periods. This setup may allow a typical Difference in Difference (DiD) analysis,
+which compares the change in outcomes over time in a treated group to the change in outcomes over time in a control group,
+identifying causal effects (\textcite{angrist2009mostly}). However, the setup and data used in this thesis lend themselves better to
+a Synthetic Control Method (SCM), a data-driven procedure that constructs a synthetic version of the treated unit by weighting a 
+combination of control units (other fast-food companies not targeted by BDS). This synthetic control serves as
+ a counterfactual, representing what would have happened to McDonald's \textcolor{red}{net income margin} in the 
+ absence of the boycott. This method is preferred to a simple Difference in Difference due to the violation of the parallel trends assumption present in the data, the amount of pre treatment units that the data offers, and the presence of time-varying unobserved confounders.
+the amount of pre treatment units that the data offers, and the presence of time-varying unobserved confounders.
+
+DiD relies on the parallel trends assumption, 
+which states that in the absence of treatment, the average change in the outcome variable would have been the same 
+for both the treated and control groups. In this case, the parallel trends assumption is not believable,
+as McDonald's pre-treatment trends differ from those of potential control units, due to it being a bigger
+company than most of the potential donors.
+Abadie et al (\citeyear{abadie2010synthetic}) developed the Synthetic Control Method (SCM) as an
+ alternative to DiD when the parallel trends assumption is violated, when 
+a combination of units provides a
+better comparison for the treated unit than
+any single unit alone. 
+
+The data is taken from quarterly SEC fillings from Q1 2009 to Q3 2025, providing a total of 68 pre-treatment periods and 11 post-treatment periods. 
+This extensive pre-treatment period allows for a construction of the synthetic control. 
+SCM does not require a large number of comparison units in the donor pool.
+
+
+Another limitation of the DiD model is that, while it allows for
+the presence of unobserved confounders, it restricts their effect to be constant in time, so they can be eliminated 
+by taking time differences (\cite{abadie2010synthetic}).The SCM extends the traditional linear panel
+dataframework, allowing that the
+effects of unobserved variables on the outcome vary with time. 
+This thesis uses the Synthetic Control Method (SCM) to estimate the impact of the BDS boycott calls on 
+McDonald's \textcolor{red}{net income margin}. 
+ 
 \subsection{Treatment Unit and Control Units}
 The treated Unit has been trated for x amount of time, this table shows the
 
-
-
-The control units, so the boycotted companies, have been exclusively Israel companies for whose public data his not freely accessible, or 
-tech companies that sell in bulk and whose performance is primarly institutional. The rest of the companies (like Aibnb) did not have many pre treatment units. Hence, the companies that could've been in the treatment group where around five. Another reason why conventional difference in difference would not have been not credible is that the parallel trends assumption cannot be defended realistically, because the pre-treatment trends differ between your boycotted company and the donors
+The control units, so the boycotted companies, have been exclusively Israel companies for whose public data his not freely accessible,
+ and the movement has only recently pivoted from calling to boycotts more global brands, like Coca cola, Airbnb, and McDonald's, among others. 
+While speaking of the evolution of the movement objective and corporate structure, 
+this also provides a before and after moment where 
+McDonald's was not boycotted and then it was.
+tech companies that sell in bulk and whose performance is primarly institutional. The rest of the companies (like Aibnb) did not have many pre treatment units. Hence, the companies that could've been in the treatment group where around five. 
 A salient characteristic of the SCM is its ability to account for unobserved confounders that vary over time, making it particularly suitable for this analysis. Since SCM does not use randomization, the assignment process is critical to ensure the validity of the results. In the context of this thesis, the assignment process involves picking a poll of control units that could have been a boycott target, but were not. 
 the targeted companies and rationale (\textcite{bdsStrategic2024}). The main points to select treatment are level of complicity, potential for cross-movement coalition-building, media appeal, and potential for success. This thesis uses the BDS criteria to select both the target company and the control group.
 The research identifies companies that fit all the criteria when possible, and opts for a looser fit when data availability is limited.
