@@ -14,7 +14,8 @@ def load_ticker_map() -> Dict[str, str]:
 # ---------- FETCHING / PARSING ----------
 def _get_json(url: str):
     r = requests.get(url, headers=UA, timeout=30)
-    if r.status_code == 404:
+    j = r.json()
+    if "units" not in j:
         return None
     r.raise_for_status()
     return r.json()
