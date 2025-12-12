@@ -168,10 +168,6 @@ def get_financials(ticker: str, last_n_quarters: int = 16) -> pd.DataFrame:
     df_a = annuals[0]
     for d in annuals[1:]:
         df_a = df_a.merge(d, on=["fy", "fp", "start", "end", "frequency"], how="outer")
-    # ------ Compute margins ------
-    for df in (df_q, df_a):
-        df["gross_margin_pct"] = df["gross_profit"] / df["revenue"]
-        df["net_margin_pct"]   = df["net_income"]  / df["revenue"]
     # Keep only last N quarters for quarterly
     df_q = df_q.sort_values("end")
     if last_n_quarters:
