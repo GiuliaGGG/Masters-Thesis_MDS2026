@@ -1,6 +1,5 @@
 from imports import *
 from config import *
-from tag_groups import *
 
 # ---------- UTIL / FETCH ----------
 # Load SEC ticker to CIK mapping
