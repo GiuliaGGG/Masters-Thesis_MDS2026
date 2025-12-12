@@ -212,11 +212,6 @@ def merge__data(tickers, base_path, boycotted_tickers=None):
             df.insert(0, "ticker", ticker.upper())
         else:
             df["ticker"] = ticker.upper()
-
-        if "boycotted" not in df.columns:
-            df.insert(0, "boycotted", 1 if is_boycotted else 0)
-        else:
-            df["boycotted"] = 1 if is_boycotted else 0
         
         all_dfs.append(df)
         print(f"✅ Loaded {ticker}")
