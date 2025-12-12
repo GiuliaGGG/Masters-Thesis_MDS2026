@@ -2,43 +2,183 @@
 UA = {"User-Agent": "Giulia Petrilli giuliapetrilli2000@gmail.com"}
 BASE = "https://data.sec.gov/api" 
 
-# --- TAG GROUPS ---
-REVENUE_TAGS = [
-    "RevenueFromContractWithCustomerExcludingAssessedTax",
+# ===============================
+# US-GAAP TAG GROUPS 
+# ===============================
+
+# ---- Revenue ----
+revenue_tags = [
     "Revenues",
-    "SalesRevenueNet"
+    "SalesRevenueNet",
+    "RevenueFromContractWithCustomerExcludingAssessedTax",
+    "SalesRevenueGoodsNet",
+    "SalesRevenueServicesNet",
+    "SalesRevenueNetOfReturnsAndAllowances",
+    "OperatingRevenues",
+    "InterestAndDividendIncomeOperating",
 ]
-GROSS_PROFIT_TAGS = ["GrossProfit"]
-COST_TAGS = ["CostOfRevenue", "CostOfGoodsAndServicesSold"]
-NET_INCOME_TAGS = ["NetIncomeLoss"]
 
-OPERATING_EXP_TAGS = ["OperatingExpenses", "SellingGeneralAndAdministrativeExpenses"]
-R_AND_D_TAGS = ["ResearchAndDevelopmentExpense"]
-DEPR_AMORT_TAGS = ["DepreciationAndAmortization", "AmortizationExpense"]
-INTEREST_EXP_TAGS = ["InterestExpense"]
-TAX_TAGS = ["IncomeTaxExpenseBenefit", "ProvisionForIncomeTaxes"]
+# ---- Cost of Revenue / COGS ----
+cost_tags = [
+    "CostOfRevenue",
+    "CostOfGoodsAndServicesSold",
+    "CostOfGoodsSold",
+    "CostOfServices",
+]
 
-EPS_BASIC_TAGS = ["EarningsPerShareBasic"]
-EPS_DILUTED_TAGS = ["EarningsPerShareDiluted"]
-SHARES_BASIC_TAGS = ["WeightedAverageNumberOfSharesOutstandingBasic"]
-SHARES_DILUTED_TAGS = ["WeightedAverageNumberOfDilutedSharesOutstanding"]
+# ---- Gross Profit ----
+gross_profit_tags = [
+    "GrossProfit",
+]
 
-ASSETS_TAGS = ["Assets"]
-ASSETS_CURR_TAGS = ["AssetsCurrent"]
-LIAB_TAGS = ["Liabilities"]
-LIAB_CURR_TAGS = ["LiabilitiesCurrent"]
-EQUITY_TAGS = ["StockholdersEquity", "Equity"]
-CASH_TAGS = ["CashAndCashEquivalentsAtCarryingValue"]
-RECEIVABLES_TAGS = ["AccountsReceivableNetCurrent"]
-DEBT_TAGS = ["LongTermDebt"]
+# ---- Operating Expenses ----
+operating_exp_tags = [
+    "OperatingExpenses",
+    "SellingGeneralAndAdministrativeExpenses",
+    "GeneralAndAdministrativeExpense",
+    "SellingAndMarketingExpense",
+    "AdvertisingExpense",
+]
 
+# ---- Research & Development ----
+r_and_d_tags = [
+    "ResearchAndDevelopmentExpense",
+    "ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost",
+]
 
-# --- UNIT SCALE MAPPING ---
-UNIT_SCALE = {
-    "USD": 1,
-    "USD$": 1,
-    "USD (in dollars)": 1,
-    "USD (in thousands)": 1_000,
-    "USD (in millions)": 1_000_000,
-    "USD (in billions)": 1_000_000_000,
-}
+# ---- Depreciation & Amortization ----
+depr_amort_tags = [
+    "DepreciationAndAmortization",
+    "Depreciation",
+    "AmortizationExpense",
+    "DepreciationAmortizationAndAccretionNet",
+]
+
+# ---- Interest Expense ----
+interest_exp_tags = [
+    "InterestExpense",
+    "InterestExpenseNet",
+    "InterestAndDebtExpense",
+]
+
+# ---- Income Taxes ----
+tax_tags = [
+    "IncomeTaxExpenseBenefit",
+    "ProvisionForIncomeTaxes",
+    "IncomeTaxesPaid",
+]
+
+# ---- Net Income ----
+net_income_tags = [
+    "NetIncomeLoss",
+    "ProfitLoss",
+    "NetIncomeLossAttributableToParent",
+    "IncomeLossFromContinuingOperations",
+    "IncomeLossFromContinuingOperationsAttributableToParent",
+]
+
+# ---- Earnings Per Share ----
+eps_basic_tags = [
+    "EarningsPerShareBasic",
+    "EarningsPerShareBasicContinuingOperations",
+]
+
+eps_diluted_tags = [
+    "EarningsPerShareDiluted",
+    "EarningsPerShareDilutedContinuingOperations",
+]
+
+# ---- Shares Outstanding ----
+shares_basic_tags = [
+    "WeightedAverageNumberOfSharesOutstandingBasic",
+    "WeightedAverageNumberOfSharesOutstanding",
+]
+
+shares_diluted_tags = [
+    "WeightedAverageNumberOfDilutedSharesOutstanding",
+]
+
+# ---- Assets ----
+assets_tags = [
+    "Assets",
+]
+
+assets_curr_tags = [
+    "AssetsCurrent",
+]
+
+# ---- Liabilities ----
+liab_tags = [
+    "Liabilities",
+]
+
+liab_curr_tags = [
+    "LiabilitiesCurrent",
+]
+
+# ---- Equity ----
+equity_tags = [
+    "StockholdersEquity",
+    "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest",
+    "Equity",
+]
+
+# ---- Cash ----
+cash_tags = [
+    "CashAndCashEquivalentsAtCarryingValue",
+    "CashCashEquivalentsAndShortTermInvestments",
+]
+
+# ---- Receivables ----
+receivables_tags = [
+    "AccountsReceivableNetCurrent",
+    "ReceivablesNetCurrent",
+]
+
+# ---- Debt ----
+debt_tags = [
+    "LongTermDebt",
+    "LongTermDebtNoncurrent",
+    "LongTermBorrowings",
+]
+
+TAG_GROUPS = {
+        "revenue": revenue_tags,
+        "cost": cost_tags,
+        "gross_profit": gross_profit_tags,
+        "operating_exp": operating_exp_tags,
+        "r_and_d": r_and_d_tags,
+        "depr_amort": depr_amort_tags,
+        "interest_exp": interest_exp_tags,
+        "tax": tax_tags,
+        "net_income": net_income_tags,
+        "eps_basic": eps_basic_tags,
+        "eps_diluted": eps_diluted_tags,
+        "shares_basic": shares_basic_tags,
+        "shares_diluted": shares_diluted_tags,
+        "assets": assets_tags,
+        "assets_curr": assets_curr_tags,
+        "liab": liab_tags,
+        "liab_curr": liab_curr_tags,
+        "equity": equity_tags,
+        "cash": cash_tags,
+        "receivables": receivables_tags,
+        "debt": debt_tags,
+    }
+
+# ---- For fetching all relevant firms ----
+tickers = [
+    'MCD',     # McDonald's Corporation
+
+    "BROS",    # Dutch Bros Inc.
+    "CMG",     # Chipotle Mexican Grill, Inc.
+    "COST",    # Costco Wholesale Corporation
+    "GIS",     # General Mills, Inc.
+    "JNJ",     # Johnson & Johnson
+    "MDLZ",    # Mondelez International, Inc.
+    "NKE",     # Nike, Inc.
+    "TGT",     # Target Corporation
+    "TRIP",    # Tripadvisor, Inc.
+    "WEN",     # The Wendy’s Company
+    "WMT",     # Walmart Inc.
+]
