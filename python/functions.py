@@ -27,6 +27,7 @@ def company_concept(cik10: str, taxonomy: str, tag: str):
 def concept_to_df(j: dict, prefer_units=("USD", "USD$", "USD (in millions)")) -> pd.DataFrame:
     if j is None:
         return pd.DataFrame(columns=["fy", "fp", "start", "end", "val"])
+    
     units = j.get("units", {})
     unit_key = None
     for u in prefer_units:
@@ -138,8 +139,6 @@ def get_financials(ticker: str, last_n_quarters: int = 16) -> pd.DataFrame:
     add(R_AND_D_TAGS, "r_and_d", "R&D")
     add(DEPR_AMORT_TAGS, "depr_amort", "D&A")
     add(INTEREST_EXP_TAGS, "interest_expense", "Interest Exp")
-    add(INTEREST_INC_TAGS, "interest_income", "Interest Inc")
-    add(INCOMEBEFORETAX_TAGS, "income_before_tax", "Income Before Tax")
     add(TAX_TAGS, "tax_expense", "Tax Expense")
     add(EPS_BASIC_TAGS, "eps_basic", "EPS Basic")
     add(EPS_DILUTED_TAGS, "eps_diluted", "EPS Diluted")
@@ -152,13 +151,8 @@ def get_financials(ticker: str, last_n_quarters: int = 16) -> pd.DataFrame:
     add(EQUITY_TAGS, "equity", "Equity")
     add(CASH_TAGS, "cash", "Cash")
     add(RECEIVABLES_TAGS, "accounts_receivable", "AR")
-    add(INVENTORY_TAGS, "inventory", "Inventory")
     add(DEBT_TAGS, "long_term_debt", "Debt")
-    add(CAPEX_TAGS, "capex", "CapEx")
-    add(OPER_CASHFLOW_TAGS, "operating_cf", "Op Cash Flow")
-    add(INV_CASHFLOW_TAGS, "investing_cf", "Inv Cash Flow")
-    add(FIN_CASHFLOW_TAGS, "financing_cf", "Fin Cash Flow")
-    add(EMPLOYEE_TAGS, "employees", "Employees")
+
     # ------ Merge Quarterly ------
     df_q = quarts[0]
     for d in quarts[1:]:
