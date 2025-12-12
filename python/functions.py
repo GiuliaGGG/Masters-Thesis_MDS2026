@@ -24,16 +24,12 @@ def company_concept(cik10: str, taxonomy: str, tag: str):
     return _get_json(url)
 
 # Converts SEC concept JSON to DataFrame
-def concept_to_df(j: dict, prefer_units=("USD", "USD$", "USD (in millions)")) -> pd.DataFrame:
+def concept_to_df(j: dict) -> pd.DataFrame:
     if j is None:
         return pd.DataFrame(columns=["fy", "fp", "start", "end", "val"])
     
     units = j.get("units", {})
     unit_key = None
-    for u in prefer_units:
-        if u in units:
-            unit_key = u
-            break
     if unit_key is None and units:
         unit_key = next(iter(units))
     rows = units.get(unit_key, [])
