@@ -1,9 +1,10 @@
-from functions import get_financials
+from functions import *
 from imports import *
+from config import *
 
 # check if the df gets generated
 if __name__ == "__main__":
-    TICKER = "WEN"  # replace with any ticker
+    TICKER = "MCD"  # replace with any ticker
     df = get_financials(TICKER, last_n_quarters=200)
 
     print(df)
