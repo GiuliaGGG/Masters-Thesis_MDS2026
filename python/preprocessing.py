@@ -128,15 +128,6 @@ def deduplicate_by_latest_filing(
     return df
 
 
-
-
-df = pd.read_csv("/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/data/raw/financials.csv")
-df_dominant_tag = select_dominant_source_tag(df)
-df_quarterly = filter_quarterly_intervals(df_dominant_tag)
-df_deduplicated_by_filings = deduplicate_by_latest_filing(df_quarterly)
-
-df_deduplicated_by_filings.to_csv("/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/data/financials_deduplicated.csv", index=False)
-
 # -------------
 # Collapse duplicates ignoring frame
 # -------------
