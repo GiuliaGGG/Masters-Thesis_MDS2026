@@ -1,0 +1,56 @@
+from python.imports import *
+from python.config import *
+from python.scraping import *
+from python.tagging import *
+from python.preprocessing import *
+
+def preprocess_financials():
+    # -----------------
+    # Load raw data
+    # -----------------
+    input_path = (
+        "./data/raw/financials.csv"
+    )
+
+    df = pd.read_csv(input_path)
+
+    # -----------------
+    # Dominant source tag
+    # -----------------
+    df = select_dominant_source_tag(df)
+
+    # -----------------
+    # Quarterly filter + interval_days
+    # -----------------
+    df = filter_quarterly_intervals(df)
+
+    # -----------------
+    # Keep max interval when conflicts exist
+    # -----------------
+    df = keep_max_interval_observation(df)
+
+    # -----------------
+    # Collapse frame duplicates
+    # -----------------
+    df = collapse_duplicates_ignoring_frame(df)
+
+    # -----------------
+    # Deduplicate by latest filing
+    # -----------------
+    df = deduplicate_by_latest_filing(df)
+
+    # -----------------
+    # Save output
+    # -----------------
+    output_path = (
+        "./data/processed/financials_preprocessed.csv"
+    )
+
+    df.to_csv(output_path, index=False)
+
+    print(df.head())
+
+
+if __name__ == "__preprocess__":
+    preprocess_financials()
+

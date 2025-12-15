@@ -3,7 +3,7 @@ from python.config import *
 from python.scraping import *
 from python.tagging import *
 
-def main():
+def scrape():
     # -----------------------------------
     # Flatten all tags from all tag groups
     # -----------------------------------
@@ -34,6 +34,6 @@ def main():
 
     print(df.head())
 
-if __name__ == "__main__":
-    main()
+if __name__ == "__scrape__":
+    scrape()
 
