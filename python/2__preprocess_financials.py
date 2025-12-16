@@ -17,7 +17,7 @@ def preprocess_financials():
     # -----------------
     # Dominant source tag
     # -----------------
-    df = select_dominant_source_tag(df)
+    df = select_dominant_source_tag_with_fallback(df)
 
     # -----------------
     # Quarterly filter + interval_days
@@ -38,6 +38,7 @@ def preprocess_financials():
     # Deduplicate by latest filing
     # -----------------
     df = deduplicate_by_latest_filing(df)
+
 
     # -----------------
     # Save output
