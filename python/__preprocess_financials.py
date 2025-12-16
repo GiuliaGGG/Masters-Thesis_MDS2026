@@ -48,7 +48,7 @@ def preprocess_financials():
 
     df.to_csv(output_path, index=False)
 
-    print(df.head())
+    return df
 
 
 if __name__ == "__preprocess__":
