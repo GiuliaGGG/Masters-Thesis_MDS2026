@@ -245,6 +245,112 @@ def define_boycotted(
 
     return df
 
+# -------------
+# Add quarterly SCM-compatible time index
+# -------------
+
+def add_quarterly_time_index(
+    df: pd.DataFrame,
+    end_col: str = "end",
+    time_col: str = "time"
+) -> pd.DataFrame:
+    """
+    Add a quarterly SCM-compatible numeric time index:
+      time = year(end) * 4 + quarter(end)
+
+    Also adds helper columns: 'year' and 'quarter'.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Input dataframe.
+    end_col : str
+        Column containing period end date.
+    time_col : str
+        Name of the SCM time index column.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with year, quarter, and time columns added.
+    """
+
+    df = df.copy()
+
+    # Ensure end is datetime
+    df[end_col] = pd.to_datetime(df[end_col], errors="coerce")
+
+    # Extract year and quarter
+    df["year"] = df[end_col].dt.year
+    df["quarter"] = df[end_col].dt.quarter
+
+    # SCM-compatible numeric time index
+    df[time_col] = df["year"] * 4 + df["quarter"]
+
+    return df
+
+# -------------
+# Resolve collisions preferring 10-K then latest end date
+# -------------
+
+def resolve_collisions_prefer_10k_then_latest_end(
+    df: pd.DataFrame,
+    identity_cols=None,
+    form_col: str = "form",
+    end_col: str = "end"
+) -> pd.DataFrame:
+    """
+    Resolve collisions by:
+      1) preferring rows whose form contains 'K' (10-K, 10-K/A)
+      2) if still tied, preferring the row with the latest end date
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Input dataframe (may contain collisions).
+    identity_cols : list[str], optional
+        Columns defining SCM identity.
+        Defaults to ['ticker', 'label', 'time'].
+    form_col : str
+        Column containing SEC form (e.g. 10-K, 10-Q).
+    end_col : str
+        Column containing period end date.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with collisions resolved.
+    """
+
+    if identity_cols is None:
+        identity_cols = ["ticker", "label", "time"]
+
+    df = df.copy()
+
+    # Ensure correct types
+    df[end_col] = pd.to_datetime(df[end_col], errors="coerce")
+
+    # Indicator: prefer forms containing "K"
+    df["_is_10k"] = df[form_col].astype(str).str.contains("K", case=False, na=False)
+
+    # Sort by:
+    # 1) is 10-K (True first)
+    # 2) latest end date
+    df = df.sort_values(
+        by=identity_cols + ["_is_10k", end_col],
+        ascending=[True] * len(identity_cols) + [False, False]
+    )
+
+    # Drop duplicates, keeping the preferred row
+    df = df.drop_duplicates(subset=identity_cols, keep="first")
+
+    # Cleanup
+    df = df.drop(columns="_is_10k")
+
+    return df
+
+
+
 
 
 

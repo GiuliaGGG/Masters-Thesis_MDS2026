@@ -23,6 +23,12 @@ def scm_prepare():
         boycott_start=BOYCOTT_START
     )
 
+    df = add_quarterly_time_index(df)
+
+    df = resolve_collisions_prefer_10k_then_latest_end(df)
+
+    
+
     # -----------------
     # Save output
     # -----------------
@@ -37,3 +43,5 @@ def scm_prepare():
 
 if __name__ == "__scm_prepare__":
     scm_prepare()
+
+
