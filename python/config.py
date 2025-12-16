@@ -182,3 +182,7 @@ tickers = [
     "WEN",     # The Wendy’s Company
     "WMT",     # Walmart Inc.
 ]
+
+# define boycott parameters
+BOYCOTTED_FIRM = 'MCD'
+BOYCOTT_START = '2023-06-01'

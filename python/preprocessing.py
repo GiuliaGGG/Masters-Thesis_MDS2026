@@ -169,9 +169,6 @@ def collapse_duplicates_ignoring_frame(
 
     return df
 
-
-import pandas as pd
-
 # -------------
 # Keep max interval observation
 # -------------
@@ -216,6 +213,38 @@ def keep_max_interval_observation(
     df = df.drop_duplicates(subset=identity_cols, keep="first")
 
     return df
+
+# -------------
+# Define boycotted indicator
+# -------------
+
+def define_boycotted(
+    df: pd.DataFrame,
+    boycotted_firm: str,
+    boycott_start: str | pd.Timestamp = "2023-06-01",
+    ticker_col: str = "ticker",
+    end_col: str = "end",
+) -> pd.DataFrame:
+    """
+    Add a binary 'boycotted' indicator:
+      = 1 if firm is the boycotted firm and end >= boycott_start
+      = 0 otherwise
+    """
+
+    df = df.copy()
+
+    # Ensure end is datetime
+    df[end_col] = pd.to_datetime(df[end_col], errors="coerce")
+
+    boycott_start = pd.to_datetime(boycott_start)
+
+    df["boycotted"] = (
+        (df[ticker_col] == boycotted_firm) &
+        (df[end_col] >= boycott_start)
+    ).astype(int)
+
+    return df
+
 
 
 
