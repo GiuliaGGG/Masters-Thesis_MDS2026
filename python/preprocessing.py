@@ -433,6 +433,206 @@ def resolve_collisions_prefer_10k_then_latest_end(
     return df
 
 
+# -------------
+# Refine estimation window
+# -------------
+
+def refine_estimation_window(
+    df: pd.DataFrame,
+    time_col: str = "time",
+    start_time: int | None = None,
+    end_time: int | None = None,
+) -> pd.DataFrame:
+    """
+    Keep only rows within [start_time, end_time] on the SCM time index.
+    If start_time or end_time is None, it is left unbounded on that side.
+    """
+    out = df.copy()
+
+    if start_time is not None:
+        out = out[out[time_col] >= start_time]
+    if end_time is not None:
+        out = out[out[time_col] <= end_time]
+
+    return out
+
+# -------------
+# Drop chronically sparse donors
+# -------------
+
+def drop_chronically_sparse_donors(
+    df: pd.DataFrame,
+    unit_col: str = "ticker",
+    time_col: str = "time",
+    label_col: str = "label",
+    outcome_label: str = "revenue",
+    treat_col: str = "boycotted",
+    min_pre_coverage: float = 0.7,
+    pre_period_end: int | None = None,
+) -> pd.DataFrame:
+    """
+    Drop donor units with low pre-treatment coverage for a specific outcome label.
+
+    Coverage is measured as:
+      (# observed pre-treatment time points for unit) / (# total pre-treatment time points in sample)
+
+    Parameters
+    ----------
+    outcome_label : str
+        Which label to use to assess coverage (typically the outcome you're estimating).
+    min_pre_coverage : float
+        Minimum required share of pre-treatment periods observed (0 to 1).
+    pre_period_end : int | None
+        If provided, defines pre-treatment as time <= pre_period_end.
+        If None, pre-treatment is inferred as treat_col == 0 rows.
+
+    Notes
+    -----
+    - The treated unit(s) are never dropped.
+    - This function assumes one row per (unit, time, label) in the long data.
+    """
+    out = df.copy()
+
+    # Identify treated units (never drop)
+    treated_units = set(out.loc[out[treat_col] == 1, unit_col].unique())
+
+    # Work on outcome label only to compute coverage
+    sub = out[out[label_col] == outcome_label].copy()
+
+    # Define pre-treatment mask
+    if pre_period_end is not None:
+        pre_mask = sub[time_col] <= pre_period_end
+    else:
+        pre_mask = sub[treat_col] == 0
+
+    sub_pre = sub[pre_mask].copy()
+
+    # Total pre-treatment time points available in the sample
+    pre_times = sub_pre[time_col].dropna().unique()
+    total_pre_T = len(pre_times)
+    if total_pre_T == 0:
+        # Nothing to evaluate; return unchanged
+        return out
+
+    # Observed pre-treatment time points per unit
+    obs_pre = (
+        sub_pre
+        .dropna(subset=[time_col])
+        .groupby(unit_col)[time_col]
+        .nunique()
+        .rename("observed_pre_T")
+        .reset_index()
+    )
+    obs_pre["pre_coverage"] = obs_pre["observed_pre_T"] / total_pre_T
+
+    # Units to keep: treated always, donors only if coverage >= threshold
+    keep_units = set(
+        obs_pre.loc[obs_pre["pre_coverage"] >= min_pre_coverage, unit_col].unique()
+    ) | treated_units
+
+    out = out[out[unit_col].isin(keep_units)].copy()
+    return out
+
+# -------------
+# Pivot wide for gsynth
+# -------------
+
+def pivot_wide(
+    df: pd.DataFrame,
+    unit_col: str = "ticker",
+    time_col: str = "time",
+    label_col: str = "label",
+    value_col: str = "val",
+    keep_cols: list[str] | None = None,
+) -> pd.DataFrame:
+    """
+    Pivot long data (label/value) into a wide panel (one row per unit-time).
+    Keeps specified non-label columns (e.g. boycotted) by taking the first value
+    within each unit-time group.
+
+    Parameters
+    ----------
+    keep_cols : list[str] | None
+        Columns to keep as-is (not pivoted). Typical: ['boycotted'] (and maybe 'end').
+    """
+    if keep_cols is None:
+        keep_cols = ["boycotted"]
+
+    # Ensure uniqueness before pivot (otherwise pivot will error or aggregate unexpectedly)
+    if df.duplicated(subset=[unit_col, time_col, label_col]).any():
+        raise ValueError("Cannot pivot: duplicate (unit, time, label) rows exist.")
+
+    # Non-pivot columns: collapse to one value per (unit, time)
+    meta = (
+        df[[unit_col, time_col] + [c for c in keep_cols if c in df.columns]]
+        .drop_duplicates(subset=[unit_col, time_col])
+    )
+
+    wide = (
+        df.pivot(index=[unit_col, time_col], columns=label_col, values=value_col)
+          .reset_index()
+    )
+
+    out = wide.merge(meta, on=[unit_col, time_col], how="left")
+
+    # Optional: flatten column names if label column becomes a MultiIndex (rare)
+    out.columns = [str(c) for c in out.columns]
+
+    return out
+
+
+# -------------
+# Restrict to observed outcome
+# -------------
+
+def restrict_to_observed_outcome(
+    df: pd.DataFrame,
+    outcome_col: str,
+    base_path: str = "/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/r/data"
+) -> pd.DataFrame:
+    """
+    Restrict the dataset to rows where the outcome variable is observed (non-missing),
+    and save the resulting dataframe to an outcome-specific path.
+
+    - net_income  -> data_net_inc.csv
+    - revenue     -> data_revenue.csv
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Input wide dataframe.
+    outcome_col : str
+        Outcome variable name ('net_income', 'revenue', etc.).
+    base_path : str
+        Base directory where files are saved.
+
+    Returns
+    -------
+    pd.DataFrame
+        Filtered dataframe.
+    """
+
+    out = df[df[outcome_col].notna()].copy()
+
+    # Decide filename based on outcome
+    if outcome_col == "net_income":
+        filename = "data_net_inc.csv"
+    elif outcome_col == "revenue":
+        filename = "data_revenue.csv"
+    else:
+        filename = f"data_{outcome_col}.csv"
+
+    save_path = Path(base_path) / filename
+    save_path.parent.mkdir(parents=True, exist_ok=True)
+
+    out.to_csv(save_path, index=False)
+
+    print(f"Saved {outcome_col} dataset to: {save_path}")
+
+    return out
+
+
+
 
 
 

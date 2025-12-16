@@ -25,6 +25,9 @@ def scm_prepare():
 
     df = add_quarterly_time_index(df)
     df = resolve_collisions_prefer_10k_then_latest_end(df)
+    df = refine_estimation_window(df)
+    df = drop_chronically_sparse_donors(df)
+    df = pivot_wide(df)
 
 
     # -----------------
@@ -41,5 +44,6 @@ def scm_prepare():
 
 if __name__ == "__scm_prepare__":
     scm_prepare()
+
 
 
