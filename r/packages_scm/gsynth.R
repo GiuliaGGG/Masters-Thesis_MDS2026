@@ -1,12 +1,35 @@
-panelview(revenue ~ boycotted, data = df_clean,  index = c("company_id","time"), pre.post = TRUE) 
+data <-read_csv('/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/data/processed/data.csv')
 
-system.time(
-out <- gsynth(revenue ~ boycotted + shares_basic+ net_income + equity + cash + liabilities_current , data = df_clean, 
-                index = c("company_id","time"), force = "two-way", 
-                CV = TRUE, r = c(0, 5), se = TRUE, 
-                inference = "parametric", nboots = 1000, 
-                parallel = FALSE)
+data_net_inc <-read_csv('/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/r/data/data_net_inc.csv')
+data_revenue <-read_csv('/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/r/data/data_revenue.csv')
+
+
+panelview(net_income ~ boycotted, data = data_net_inc,  index = c("ticker","time"), pre.post = TRUE) 
+
+out0 <- gsynth(
+  revenue ~ boycotted,
+  data = data_revenue,
+  index = c("ticker","time"),
+  force = "two-way",
+  CV = TRUE,
+  r = c(0, 5),
+  se = TRUE
 )
+
+
+gsynth(
+  net_income ~ boycotted + interest_exp,
+  data = data_net_inc,
+  index = c("ticker","time"),
+  force = "two-way",
+  CV = TRUE,
+  r = c(0, 5),
+  se = TRUE,
+  inference = "parametric",
+  nboots = 1000,
+  parallel = FALSE
+)
+
 
 cumu1 <- cumuEff(out, cumu = TRUE, id = NULL, period = c(0,5))
 cumu1$est.catt

@@ -1,7 +1,7 @@
 library(dplyr)
 library(purrr)
 library(stringr)
-df <- read_csv("data/with_start_date/merged_dataset_with_start_date_2025-12-10_20-39.csv")
+df <- read_csv("~/Documents/GitHub/masters_thesis/data/raw/merged_dataset_with_start_date_2025-12-10_20-39.csv")
 
 test <- df %>%
   #filter(!frequency == 'A') %>%  
