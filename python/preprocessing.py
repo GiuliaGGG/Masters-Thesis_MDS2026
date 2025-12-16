@@ -5,46 +5,129 @@ from python.config import *
 # Dominant source tag filter
 # -------------
 
-def select_dominant_source_tag(
+def select_dominant_source_tag_with_fallback(
     df: pd.DataFrame,
     ticker_col: str = "ticker",
     label_col: str = "label",
     source_tag_col: str = "source_tag",
+    end_col: str = "end",
+    min_gap: int = 2,
 ) -> pd.DataFrame:
     """
-    For each (ticker, label) pair, keep only the rows corresponding
-    to the most frequently used source_tag.
+    Select the dominant source_tag per (ticker, label), but if the dominant
+    tag is absent for several consecutive periods, substitute observations
+    from the second-most dominant tag for those periods.
 
-    Ties are broken deterministically by alphabetical order of source_tag.
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Input dataframe.
+    min_gap : int
+        Minimum number of consecutive periods (years) the dominant tag must
+        be absent before fallback is used.
     """
 
-    # Count occurrences of each source_tag within (ticker, label)
+    df = df.copy()
+    df[end_col] = pd.to_datetime(df[end_col], errors="coerce")
+    df["year"] = df[end_col].dt.year
+
+    # ----------------------------
+    # 1. Rank source tags by usage
+    # ----------------------------
     tag_counts = (
         df
         .groupby([ticker_col, label_col, source_tag_col])
         .size()
         .reset_index(name="n")
-    )
-
-    # Identify dominant source_tag per (ticker, label)
-    dominant_tags = (
-        tag_counts
         .sort_values(
             by=[ticker_col, label_col, "n", source_tag_col],
             ascending=[True, True, False, True]
         )
-        .drop_duplicates(subset=[ticker_col, label_col])
-        .drop(columns="n")
     )
 
-    # Keep only rows matching dominant source_tag
-    df_filtered = df.merge(
-        dominant_tags,
+    # Keep top 2 tags per (ticker, label)
+    top2 = (
+        tag_counts
+        .groupby([ticker_col, label_col])
+        .head(2)
+        .assign(rank=lambda x: x.groupby([ticker_col, label_col]).cumcount())
+    )
+
+    dominant = top2[top2["rank"] == 0]
+    fallback = top2[top2["rank"] == 1]
+
+    # ----------------------------
+    # 2. Build dominant-only panel
+    # ----------------------------
+    df_dom = df.merge(
+        dominant[[ticker_col, label_col, source_tag_col]],
         on=[ticker_col, label_col, source_tag_col],
         how="inner"
     )
 
-    return df_filtered
+    # ----------------------------
+    # 3. Identify gaps in dominance
+    # ----------------------------
+    all_years = (
+        df
+        .groupby([ticker_col, label_col])["year"]
+        .apply(lambda x: pd.Series(range(x.min(), x.max() + 1)))
+        .reset_index()
+        .rename(columns={0: "year"})
+    )
+
+    dom_years = (
+        df_dom
+        .groupby([ticker_col, label_col, "year"])
+        .size()
+        .reset_index(name="n")
+    )
+
+    year_grid = all_years.merge(
+        dom_years,
+        on=[ticker_col, label_col, "year"],
+        how="left"
+    ).assign(has_dom=lambda x: x["n"].notna())
+
+    # Count consecutive gaps
+    year_grid["gap_run"] = (
+        year_grid
+        .groupby([ticker_col, label_col])["has_dom"]
+        .apply(lambda s: (~s).astype(int).groupby(s.cumsum()).cumsum())
+        .reset_index(level=[0,1], drop=True)
+    )
+
+    gap_years = year_grid[
+        (~year_grid["has_dom"]) & (year_grid["gap_run"] >= min_gap)
+    ][[ticker_col, label_col, "year"]]
+
+    # ----------------------------
+    # 4. Pull fallback observations
+    # ----------------------------
+    if not fallback.empty:
+        df_fb = df.merge(
+            fallback[[ticker_col, label_col, source_tag_col]],
+            on=[ticker_col, label_col, source_tag_col],
+            how="inner"
+        )
+        df_fb = df_fb.merge(
+            gap_years,
+            on=[ticker_col, label_col, "year"],
+            how="inner"
+        )
+    else:
+        df_fb = df.iloc[0:0]
+
+    # ----------------------------
+    # 5. Combine dominant + fallback
+    # ----------------------------
+    out = (
+        pd.concat([df_dom, df_fb], ignore_index=True)
+        .sort_values([ticker_col, label_col, end_col])
+    )
+
+    return out
+
 
 # -------------
 # Quarterly filter
