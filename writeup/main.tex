@@ -27,7 +27,7 @@ The movement aims to pressure these companies to change their policies and pract
 BDS has been active since 2005, but with the start of the genocide in Gaza \footnote{as defined by Amnesty International \citeyear{Amnesty2024GenocideGaza}}, the movement has gained significant traction and visibility worldwide. As expression of that has been the surge in calls for economic boycotts \footnote{as proven by gained attention on social media platforms and google trends search term increasing}, a type of consumer activism where individuals or groups refuse to purchase products or services from specific companies to protest against their practices or policies.
 One of the most notable boycotts in recent times has been against McDonald's, which has been accused of supporting the Israeli occupation through its business operations. More specifically, the initial trigger for the boycott was McDonald's Israel providing free meals to Israeli soldiers stationed in the occupied Palestinian territories (\cite{McDonaldsIL2023Meals}). Since then, the BDS movement has called for a global boycott of McDonald's, urging consumers to avoid purchasing its products until the company ceases its support for the Israeli occupation. Financial analysts and corporate disclosures indicate that boycott campaigns were associated with weaker-than-expected sales in certain regions, particularly in the Middle East (\cite{BHRRC_McDonalds_Boycott_2024} ; \cite{IrishTimes_McDonalds_Boycott_2025}).
 Even if a correlation seems to be present, causation is delicate, and the current literature lacks a robust empirical analysis of the impact of boycotts on company performance. The vast open source presence of financial data from SEC quarterly filings allows for a credible attempt to fill this gap. Even if there seems to be a correlation between the BDS's movement decision to ad McDonalds' on theyr boycott list and a decrease in company performance, attributing this decline as an effect of boycott calls risks to be an oversimplification, as other factors such as market competition, economic conditions, and changes in consumer behavior unrelated to boycotts could also play roles.
-
+Since the BDS movement largely operates through online platforms, this thesis will explore the interplay between digital activism and consumer behavior, examining whether online boycott campaigns influence purchasing decisions.
 This thesis presents as application of the Synthetic Control Method (SCM) to formulate a credible counterfactual for McDonald's performance in the absence of a boycott. The paper's research question is: \textit{To what extent has the recognition of McDonald's as a boycott target by the BDS movement impacted the firm's revenue?}. 
 
 \section{Literature Review}
@@ -38,34 +38,16 @@ This thesis provides an account of the available literature on boycott calls, th
 \subsection{Boycott Calls}
 
 The political consumer boycott is the refusal to buy products from certain businesses in order to effect political or social change (\textcite{lee2012democratizing}).
-Lee (2012) describes political consumer boycott as a well-suited tool of agency creation in a political landscape steered not by voting power, but by monetary power.
-Even the McDonald's SEC data filings list boycott as a potential threat to the business.
-The literature reveals that the choice of a dependent variable that measures boycott effectiveness is wide and varied. 
-Some papers uses the change of a policy as a measure of effectiveness, while others focus on changes in sales or market share.
-A paper has done this analysis but using share prices, which measures trust in a company and not if people buy it or not
-The current literature on the impact of boycotts measures company performance using share or stock prices (\cite{pruitt1986determining}; \cite{eva2025impact}).
-While analyzing stock market price patterns for boycotted companies gives a good estimate on the trust the investors place in them, it does not accurately capture consumer response. 
-
-Lasarov et al.(\citeyear{lasarov2023vanishing}) highlights that even when successful, consumer participation in a boycott decreases over time. In the context of the thesis, this means that even if the boycott calls were effective in the short term, their impact on McDonald's performance might show up as a spike in the immediate quarters after the boycott call, but then fade away as consumers return to their previous purchasing habits.
-
-Economic boycott campaigns can significantly influence firm behavior, with social media reach and organizational backing playing crucial roles in driving corporate responses.
-
-Key findings include:
-
-Social media amplifies boycott impact: J. Andrus et al., 2021 found that social media information directly influences stock market reactions
-Organizational characteristics matter: Brayden G. King et al., 2011 showed that social movement organization (SMO) formality, public demonstrations, and celebrity endorsements enable mediated disruption
-Measurable economic effects: Kasaundra M. Tomlin et al., 2019 demonstrated that boycotts have a statistically significant negative effect on shareholder wealth, with larger impacts for firms in competitive industries
+Lee (2012) describes political consumer boycott as a well-suited tool of agency creation in a political landscape steered not by voting power, but by monetary power. Boycotts are long recognized as a threat to business by firm themselves, with McDonald's SEC annual data filings nameing boycotts as a potential threats even from before the start of the current boycott calls from the BDS movement (\citeyear{McDonalds10K2007}). Measurable economic effects: Kasaundra M. Tomlin et al., 2019 demonstrated that boycotts can have a statistically significant negative effect on shareholder wealth, with larger impacts for firms in competitive industries
 However, the evidence suggests the relationship is complex, with firm size, reputation, and market position also playing critical roles in determining the ultimate impact of boycott campaigns Shu Wang et al., 2025 e 1 others.
 
-The Boycott, Divest, Sanction (BDS) movement has been deploying their advocacy effort into companies that are targeted for boycotts.
+The boycott call is the act of mobilizing consumers to participate in a boycott, often through social media campaigns, public demonstrations, and other forms of activism. Lasarov et al.(\citeyear{lasarov2023vanishing}) highlights that even when successful, consumer participation in a boycott decreases over time. In the context of the thesis, this might mean that even if the boycott calls were effective in the short term, their impact on McDonald's performance might show up as a spike in the immediate quarters after the boycott call, but then fade away as consumers return to their previous purchasing habits.
 
-the empirical evidence on boycotts and firm Outcomes
-There are several challenges in identifying boycott effects
-key methodological papers
-this thesis contributes by
+Findings show that social media can amplify boycott impact, with Andrus and colleagues (\citeyear{Andrus2021_socialMediaBoycotts}) finding out that social media information directly influences stock market reactions. Further research shows that social movement organization formality, public demonstrations, and celebrity endorsements enable mediated disruption.(\textcite{King2011_tacticalDisruptiveness}).
 
 \subsection{The Boycott, Divest, Sanction Movement}
-
+The Boycott, Divest, Sanction (BDS) movement has been deploying their advocacy effort into companies that are targeted for boycotts.
+†
 The campaign has generated significant attention but achieved minimal tangible impact. D. Newman et al., 2016 notes that academic boycotts have been “almost insignificant” in disrupting scientific collaboration. I. Sheskin et al., 2016 suggests the global campaign has “had little success”, with Palestinian support declining from 59\% to 49\% between 2015 measurements.
 
 However, the movement is not without strategic value. Omar Barghouti et al., 2021 argues that Israel views BDS as a “strategic threat”, indicating potential political pressure. P. Di Stefano et al., 2014 draws parallels to successful South African anti-apartheid campaigns, suggesting nonviolent resistance can be effective.
@@ -79,10 +61,13 @@ Data from the Crowd Counting Consortium reveals that "From 7 October 2023 to 7 J
 protests in the United States" (Deeb e Winegar, 2024). This represents an unprecedented level of grassroots mobilization in support of Palestinian causes. Beyond protests, community organizing and mutual aid networks strengthened, particularly in Gaza, to cope with the humanitarian crisis. In the diaspora, mobilization efforts focused on advocating for policy changes in host countries, organizing boycotts, divestment, and sanctions (BDS) campaigns, and engaging in cultural and educational initiatives to raise awareness about the Palestinian cause (BDS Movement, 2023). The mobilization dynamics were significantly shaped by the immediate impact of the conflict, the allegations of genocide, and the global surge of solidarity movements.
 
 \subsection{Firm performance}
+The literature reveals that the choice of a dependent variable that measures boycott effectiveness is wide and varied. 
+Some papers uses the change of a policy as a measure of effectiveness, while others focus on changes in sales or market share.
+A paper has done this analysis but using share prices, which measures trust in a company and not if people buy it or not
+The current literature on the impact of boycotts measures company performance using share or stock prices (\cite{pruitt1986determining}; \cite{eva2025impact}).
+While analyzing stock market price patterns for boycotted companies gives a good estimate on the trust the investors place in them, it does not accurately capture consumer response. 
 
 \section{Data and Methodology}
-
-
 
 The data used to contruct both the control and the treated units comes from the SEC EDGAR database, the official U.S. Securities and Exchange Commission online platform where all public companies must file financial and regulatory documents.
 Given that the platform is the primary disclosure system for US public companies, even if the quarterly data is unaudited, this thesis considers it reliable. 
