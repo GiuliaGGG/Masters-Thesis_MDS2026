@@ -19,48 +19,23 @@
 \section{Introduction}
 
 In late September 1880, close to a hundred farmers and peasants assembled at the estate of the local landlord Charles Cunningham Boycott in County Mayo, Ireland. They were protesting against the rent increases imposed by boycotts, and started to isolate the man and his family from business operations. 
-The practice of organized non-consumption, now named 'boycott', has spread through the years, becoming a common tool for social movements to express their discontent towards companies or countries. The boycott, or threat of boycott, has been proven to have an effect when firms see a dent in their performance and adjust their behaviors to comply to the consumer's preference, whose purchases depend on. 
+The practice of organized non-consumption, now named 'boycott', has spread through the years, becoming a common tool for social movements to express their discontent towards companies or countries. The boycott, or threat of boycott, has been proven to have an effect when firms see a dent in their performance and adjust their behaviors to comply to the consumer's preference (\cite{Tomlin2019AssessingTE}; \cite{King2008APM}; \cite{McDonnell2013KeepingUA}). 
 
 The Boycott, Divestment, and Sanctions (BDS) is a nonviolent Palestinian-led movement promoting boycotts, divestments, and economic sanctions against Israel. 
 It does so by promoting various forms of boycotts against companies that are perceived to be complicit in the Israeli occupation of Palestinian territories.
 The movement aims to pressure these companies to change their policies and practices regarding the Israeli occupation of Palestinian territories.
 BDS has been active since 2005, but with the start of the genocide in Gaza \footnote{as defined by Amnesty International \citeyear{Amnesty2024GenocideGaza}}, the movement has gained significant traction and visibility worldwide. As expression of that has been the surge in calls for economic boycotts \footnote{as proven by gained attention on social media platforms and google trends search term increasing}, a type of consumer activism where individuals or groups refuse to purchase products or services from specific companies to protest against their practices or policies.
-One of the most notable boycotts in recent times has been against McDonald's, which has been accused of supporting the Israeli occupation through its business operations. 
-Several articles and statements claim the effectiveness of boycotts on McDonald's, both by supporters of the movement and by financial analysts.
-While a correlation exists, with several stores from boycotted brands closing and sales from said companies dropping as boycotts intensify, causation is delicate, and the current literature lacks a robust empirical analysis of the impact of boycotts on company performance. The vast open source presence of financial data from SEC quarterly filings allows for a credible attempt to fill this gap.
-Studies show that pushing on social-political issues and communicating their stands in a way that speaks to their values could be rewarding for companies, 
-earn a statistically significant stock return of 2.68\% in the four days immediately after their announcements (\textcite{afego2021does}).
-This suggests that consumers are willing to reward companies that align with their values, and opens a venue for the opposite to happen, where consumers punish companies that do not align with their values.
-This thesis places itself in the broader research corpus on consumer activism, which has gained momentum in recent years due to the growing awareness of social and environmental issues among consumers. The most notable case of boycott in recent history is the South African anti-apartheid movement, which used boycotts as a key strategy to pressure the South African government.
-Differently, the current boycott called by BDS is bottom up, 
-meaning that there is not a state ban on certain companies, 
-but the phenomenon is rather grassroot. BDS mainly operates on social media. 
-This makes a causal fit rather interesting, because wether in the south african
- case one can quite clearly connect th drop in sales to the ban,
-  in this case wether one boycotts is fully subject fully to the consumer.
-Delving in the potential causal effect of economic boycotts on company performance, operationalized as net income margin, sheds light on the effectiveness of consumer activism, and its ability to influence corporate behavior.
+One of the most notable boycotts in recent times has been against McDonald's, which has been accused of supporting the Israeli occupation through its business operations. More specifically, the initial trigger for the boycott was McDonald's Israel providing free meals to Israeli soldiers stationed in the occupied Palestinian territories (\cite{McDonaldsIL2023Meals}). Since then, the BDS movement has called for a global boycott of McDonald's, urging consumers to avoid purchasing its products until the company ceases its support for the Israeli occupation. Financial analysts and corporate disclosures indicate that boycott campaigns were associated with weaker-than-expected sales in certain regions, particularly in the Middle East (\cite{BHRRC_McDonalds_Boycott_2024} ; \cite{IrishTimes_McDonalds_Boycott_2025}).
+Even if a correlation seems to be present, causation is delicate, and the current literature lacks a robust empirical analysis of the impact of boycotts on company performance. The vast open source presence of financial data from SEC quarterly filings allows for a credible attempt to fill this gap. Even if there seems to be a correlation between the BDS's movement decision to ad McDonalds' on theyr boycott list and a decrease in company performance, attributing this decline as an effect of boycott calls risks to be an oversimplification, as other factors such as market competition, economic conditions, and changes in consumer behavior unrelated to boycotts could also play roles.
 
-
-Perceived egregiousness, which is the extent to which the firm’s action is considered egregious, is the central trigger of boycott participation (Klein et al., \citeyear{klein2004corporate}). 
-This reasearch interprets the start of the genocide in Gaza in october 2023 as a triggers of boycott participation, as it significantly increased the visibility and urgency of the BDS movement's calls for boycotts. 
-Friedman's
-taxonomy of boycotts distinguishes between primary and
-secondary boycotts (Friedman,  \citeyear{friedman2002consumer}). A primary boycott targets the party directly; a secondary boycott targets a secondary entity
-affiliated with the party (e.g., a supplier or distributor).
-
-Boycott calls are 
-
-
-The boycott calls success on social media might be a sign of virtue signaling, but not of actual impact on sales.
-
-The BDS boycott calls against McDonald's can be classified as a primary boycott, as it directly targets the company directly.
-This thesis provides a methodology to achieve such goal, using a Synthetic Control Method to formulate a credible counterfactual for McDonald's performance in the absence of a boycott. The paper's research question is: \textit{To what extent do the BDS boycott calls impact McDonald's VARIABLE?}. 
+This thesis presents as application of the Synthetic Control Method (SCM) to formulate a credible counterfactual for McDonald's performance in the absence of a boycott. The paper's research question is: \textit{To what extent has the recognition of McDonald's as a boycott target by the BDS movement impacted the firm's revenue?}. 
 
 \section{Literature Review}
- 
-Studies to measure the effectiveness of economic boycott are not only on boycotts on Israel. This literature review examines the existing research on the impact of boycotts on firm outcomes.
 
-\subsection{Boycott Calls and Firm Performance}
+To examine the existing research on the impact of economic boycotts calls on company performance is to delve into various disciplines. 
+This thesis provides an account of the available literature on boycott calls, the BDS movement, and firm performance. 
+
+\subsection{Boycott Calls}
 
 The political consumer boycott is the refusal to buy products from certain businesses in order to effect political or social change (\textcite{lee2012democratizing}).
 Lee (2012) describes political consumer boycott as a well-suited tool of agency creation in a political landscape steered not by voting power, but by monetary power.
@@ -73,6 +48,14 @@ While analyzing stock market price patterns for boycotted companies gives a good
 
 Lasarov et al.(\citeyear{lasarov2023vanishing}) highlights that even when successful, consumer participation in a boycott decreases over time. In the context of the thesis, this means that even if the boycott calls were effective in the short term, their impact on McDonald's performance might show up as a spike in the immediate quarters after the boycott call, but then fade away as consumers return to their previous purchasing habits.
 
+Economic boycott campaigns can significantly influence firm behavior, with social media reach and organizational backing playing crucial roles in driving corporate responses.
+
+Key findings include:
+
+Social media amplifies boycott impact: J. Andrus et al., 2021 found that social media information directly influences stock market reactions
+Organizational characteristics matter: Brayden G. King et al., 2011 showed that social movement organization (SMO) formality, public demonstrations, and celebrity endorsements enable mediated disruption
+Measurable economic effects: Kasaundra M. Tomlin et al., 2019 demonstrated that boycotts have a statistically significant negative effect on shareholder wealth, with larger impacts for firms in competitive industries
+However, the evidence suggests the relationship is complex, with firm size, reputation, and market position also playing critical roles in determining the ultimate impact of boycott campaigns Shu Wang et al., 2025 e 1 others.
 
 The Boycott, Divest, Sanction (BDS) movement has been deploying their advocacy effort into companies that are targeted for boycotts.
 
@@ -81,7 +64,26 @@ There are several challenges in identifying boycott effects
 key methodological papers
 this thesis contributes by
 
+\subsection{The Boycott, Divest, Sanction Movement}
+
+The campaign has generated significant attention but achieved minimal tangible impact. D. Newman et al., 2016 notes that academic boycotts have been “almost insignificant” in disrupting scientific collaboration. I. Sheskin et al., 2016 suggests the global campaign has “had little success”, with Palestinian support declining from 59\% to 49\% between 2015 measurements.
+
+However, the movement is not without strategic value. Omar Barghouti et al., 2021 argues that Israel views BDS as a “strategic threat”, indicating potential political pressure. P. Di Stefano et al., 2014 draws parallels to successful South African anti-apartheid campaigns, suggesting nonviolent resistance can be effective.
+
+The movement’s effectiveness appears more symbolic than substantive, challenging narratives Joseph Yi et al., 2015 while struggling to create meaningful economic or political change.
+I. Sheskin et al., 2016 specifically mentions boycott campaigns against companies like Caterpillar and SodaStream as examples of commercial boycott efforts within the broader BDS movement.
+A more recent article Sopiyah et al., 2025 found that Instagram-based boycott campaigns succeeded in generating “economic impact on several brands included in the boycott list,” with high social media interaction encouraging public participation in boycotting Israel-affiliated products. This   study   uses   a   descriptive   qualitative approach by analyzing the content of Instagram posts and public responses through engagement metrics, such as the number of likes, comments, and shares.   the high social media interaction and economic impact on several brands included in the boycott list
+
+THIS IS COPY PASTE 
+Data from the Crowd Counting Consortium reveals that "From 7 October 2023 to 7 June 2024, the Crowd Counting Consortium recorded nearly 12,400 pro-Palestine protests and over 2,000 pro- Israel
+protests in the United States" (Deeb e Winegar, 2024). This represents an unprecedented level of grassroots mobilization in support of Palestinian causes. Beyond protests, community organizing and mutual aid networks strengthened, particularly in Gaza, to cope with the humanitarian crisis. In the diaspora, mobilization efforts focused on advocating for policy changes in host countries, organizing boycotts, divestment, and sanctions (BDS) campaigns, and engaging in cultural and educational initiatives to raise awareness about the Palestinian cause (BDS Movement, 2023). The mobilization dynamics were significantly shaped by the immediate impact of the conflict, the allegations of genocide, and the global surge of solidarity movements.
+
+\subsection{Firm performance}
+
 \section{Data and Methodology}
+
+
+
 The data used to contruct both the control and the treated units comes from the SEC EDGAR database, the official U.S. Securities and Exchange Commission online platform where all public companies must file financial and regulatory documents.
 Given that the platform is the primary disclosure system for US public companies, even if the quarterly data is unaudited, this thesis considers it reliable. 
 The time frame used is quarterly data from \textcolor{red}{Q1 2009} to Q3 2025.
@@ -90,8 +92,18 @@ Gunning (\citeyear{edgartools}) provides tools for accessing SEC filings through
 
 Outcome variable: \textcolor{red}{might need to provide my own indicator}
 The independent variables are 
+\subsection{Data Collection and Preprocessing}
+Firm-level financial data were collected from the U.S. Securities and Exchange Commission (SEC) XBRL Company Facts and Company Concept APIs. For each firm in the sample, all available quarterly and annual accounting disclosures were retrieved for a broad set of income statement, balance sheet, and share-related variables. Because firms often report economically equivalent concepts under different US-GAAP tags over time, raw XBRL tags were first mapped to a common set of semantic labels (e.g., revenue, net income, operating expenses). When multiple tags were available for the same firm and label, a dominant tag was selected based on reporting frequency, ensuring internal consistency of each firm’s time series.
 
-\subsection{Synthetic Control Method (SCM)}
+The raw data were transformed into a long panel indexed by firm and time. Reporting dates were converted into a unified quarterly time index to ensure a unique and ordered temporal dimension across firms. Observations with duplicated firm–time–label combinations arising from amended filings or alternative reporting frames were collapsed by retaining the most recent filing. The resulting panel was unbalanced, reflecting firm entry, exit, and reporting heterogeneity, which is typical in SEC data.
+
+Treatment exposure was defined at the firm level using a binary indicator that switches on from the quarter in which the boycott event occurred. No outcome values were imputed in the baseline analysis. Instead, for each outcome variable, the estimation sample was restricted to firm–quarter observations where the outcome was reported, in line with the requirements of synthetic control estimators.
+
+Prior to estimation, the analysis window was refined to a period with sufficient pre-treatment overlap across firms, and donor firms with no usable pre-treatment outcome data were excluded. For robustness analyses only, an alternative balanced panel was constructed by imputing missing firm–quarter outcomes using within-firm interpolation, with imputed observations explicitly flagged.
+
+The output is a X times X dataset. 
+
+\subsection{Chooche of Estimator}
 The research question \textit{To what extent do the BDS boycott calls impact McDonald's VARIABLE?} implies a treatment,
 an outcome variable, and a before and after periods. This setup may allow a typical Difference in Difference (DiD) analysis,
 which compares the change in outcomes over time in a treated group to the change in outcomes over time in a control group,
@@ -127,7 +139,28 @@ This thesis uses the Synthetic Control Method (SCM) to estimate the impact of th
 McDonald's \textcolor{red}{net income margin}. 
  
 \subsection{Treatment Unit and Control Units}
-The treated Unit has been trated for x amount of time, this table shows the
+The treated the firm, McDonald's, was chosen for several reasons. Firstly, the company has been a boycott target for around two consecutive years, offering enoguh treated quarters. Secondly, McDonald's is among the boycotted companies with the most complete data availability on the SEC platform. 
+\begin{figure}[h]
+\centering
+
+\begin{minipage}{\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/January_2023.png}
+    \\{\footnotesize (a) Guide to BDS Boycott - January 2023}
+\end{minipage}
+
+\vspace{0.6cm}
+
+\begin{minipage}{\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/September_2025.png}
+    \\{\footnotesize (b) Guide to BDS Boycott – September 2025}
+\end{minipage}
+
+\caption{Comparison of the Guide to BDS Boycott across time.}
+\label{fig:comparison}
+\end{figure}
+
 
 The control units, so the boycotted companies, have been exclusively Israel companies for whose public data his not freely accessible,
  and the movement has only recently pivoted from calling to boycotts more global brands, like Coca cola, Airbnb, and McDonald's, among others. 
@@ -165,7 +198,8 @@ Past presence on the page is verified through the Wayback Machine, an internet a
 The pre-treatment period is defined as the time before the BDS movement called for a boycott against McDonald's, which occurred in January 2023. the wayback machine was manually checked to ensure that the boycott call was present since then, and not before, and also that the control group companies were not called for boycott at any point in time.
 The post-treatment period starts from January 2023 and ends when the latest available data point, which is in Q3 2025.
 
-\section{Results}
+\section{Preliminary Results}
+
 \section{Discussion}
 
 BDS boycott calls were restricted to israeli brands, and ith tim, they started calling out amerisan brands, which gives to think in terms of how globalization.
