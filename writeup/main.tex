@@ -5,30 +5,26 @@
 
 \addbibresource{references.bib}
 
-\title{Master Thesis First Draft}
+\title{Master Thesis}
 \author{Giulia Maria Petrilli}
 \date{2025}
 
 \begin{document}
 \maketitle
-\begin{abstract}
-
-\end{abstract}
-
 
 \section{Introduction}
 
 In late September 1880, close to a hundred farmers and peasants assembled at the estate of the local landlord Charles Cunningham Boycott in County Mayo, Ireland. They were protesting against the rent increases imposed by boycotts, and started to isolate the man and his family from business operations. 
 The practice of organized non-consumption, now named 'boycott', has spread through the years, becoming a common tool for social movements to express their discontent towards companies or countries. The boycott, or threat of boycott, has been proven to have an effect when firms see a dent in their performance and adjust their behaviors to comply to the consumer's preference (\cite{Tomlin2019AssessingTE}; \cite{King2008APM}; \cite{McDonnell2013KeepingUA}). 
 
-The Boycott, Divestment, and Sanctions (BDS) is a nonviolent Palestinian-led movement promoting boycotts, divestments, and economic sanctions against Israel. 
-It does so by promoting various forms of boycotts against companies that are perceived to be complicit in the Israeli occupation of Palestinian territories.
+The Boycott, Divestment, and Sanctions (BDS) is a nonviolent Palestinian-led movement promoting boycotts, divestments, and economic sanctions against companies that are perceived to be complicit in the Israeli occupation of Palestinian territories.
 The movement aims to pressure these companies to change their policies and practices regarding the Israeli occupation of Palestinian territories.
 BDS has been active since 2005, but with the start of the genocide in Gaza \footnote{as defined by Amnesty International \citeyear{Amnesty2024GenocideGaza}}, the movement has gained significant traction and visibility worldwide. As expression of that has been the surge in calls for economic boycotts \footnote{as proven by gained attention on social media platforms and google trends search term increasing}, a type of consumer activism where individuals or groups refuse to purchase products or services from specific companies to protest against their practices or policies.
 One of the most notable boycotts in recent times has been against McDonald's, which has been accused of supporting the Israeli occupation through its business operations. More specifically, the initial trigger for the boycott was McDonald's Israel providing free meals to Israeli soldiers stationed in the occupied Palestinian territories (\cite{McDonaldsIL2023Meals}). Since then, the BDS movement has called for a global boycott of McDonald's, urging consumers to avoid purchasing its products until the company ceases its support for the Israeli occupation. Financial analysts and corporate disclosures indicate that boycott campaigns were associated with weaker-than-expected sales in certain regions, particularly in the Middle East (\cite{BHRRC_McDonalds_Boycott_2024} ; \cite{IrishTimes_McDonalds_Boycott_2025}).
 Even if a correlation seems to be present, causation is delicate, and the current literature lacks a robust empirical analysis of the impact of boycotts on company performance. The vast open source presence of financial data from SEC quarterly filings allows for a credible attempt to fill this gap. Even if there seems to be a correlation between the BDS's movement decision to ad McDonalds' on theyr boycott list and a decrease in company performance, attributing this decline as an effect of boycott calls risks to be an oversimplification, as other factors such as market competition, economic conditions, and changes in consumer behavior unrelated to boycotts could also play roles.
 Since the BDS movement largely operates through online platforms, this thesis will explore the interplay between digital activism and consumer behavior, examining whether online boycott campaigns influence purchasing decisions.
 This thesis presents as application of the Synthetic Control Method (SCM) to formulate a credible counterfactual for McDonald's performance in the absence of a boycott. The paper's research question is: \textit{To what extent has the recognition of McDonald's as a boycott target by the BDS movement impacted the firm's revenue?}. 
+The hypothesis is that boycotts have a small effect of revenue, possibly right after the boycott is called. 
 
 \section{Literature Review}
 
@@ -50,38 +46,26 @@ Findings show that social media can amplify boycott impact, with Andrus and coll
 
 \subsection{The Boycott, Divest, Sanction Movement}
 The Boycott, Divest, Sanction (BDS) movement has been deploying their advocacy effort into companies that are targeted for boycotts.
-†
-The campaign has generated significant attention but achieved minimal tangible impact. D. Newman et al., 2016 notes that academic boycotts have been “almost insignificant” in disrupting scientific collaboration. I. Sheskin et al., 2016 suggests the global campaign has “had little success”, with Palestinian support declining from 59\% to 49\% between 2015 measurements.
 
-However, the movement is not without strategic value. Omar Barghouti et al., 2021 argues that Israel views BDS as a “strategic threat”, indicating potential political pressure. P. Di Stefano et al., 2014 draws parallels to successful South African anti-apartheid campaigns, suggesting nonviolent resistance can be effective.
-
-The movement’s effectiveness appears more symbolic than substantive, challenging narratives Joseph Yi et al., 2015 while struggling to create meaningful economic or political change.
-I. Sheskin et al., 2016 specifically mentions boycott campaigns against companies like Caterpillar and SodaStream as examples of commercial boycott efforts within the broader BDS movement.
-A more recent article Sopiyah et al., 2025 found that Instagram-based boycott campaigns succeeded in generating “economic impact on several brands included in the boycott list,” with high social media interaction encouraging public participation in boycotting Israel-affiliated products. This   study   uses   a   descriptive   qualitative approach by analyzing the content of Instagram posts and public responses through engagement metrics, such as the number of likes, comments, and shares.   the high social media interaction and economic impact on several brands included in the boycott list
-
-THIS IS COPY PASTE 
-Data from the Crowd Counting Consortium reveals that "From 7 October 2023 to 7 June 2024, the Crowd Counting Consortium recorded nearly 12,400 pro-Palestine protests and over 2,000 pro- Israel
-protests in the United States" (Deeb e Winegar, 2024). This represents an unprecedented level of grassroots mobilization in support of Palestinian causes. Beyond protests, community organizing and mutual aid networks strengthened, particularly in Gaza, to cope with the humanitarian crisis. In the diaspora, mobilization efforts focused on advocating for policy changes in host countries, organizing boycotts, divestment, and sanctions (BDS) campaigns, and engaging in cultural and educational initiatives to raise awareness about the Palestinian cause (BDS Movement, 2023). The mobilization dynamics were significantly shaped by the immediate impact of the conflict, the allegations of genocide, and the global surge of solidarity movements.
+The campaign has generated significant attention but achieved minimal tangible impact. D. Newman et al., 2016 notes that academic boycotts have been “almost insignificant” in disrupting scientific collaboration. I. Sheskin et al., 2016 suggests the global campaign has “had little success”, with Palestinian support declining from 59\% to 49\% between 2015 measurements.However, the movement is not without strategic value. Omar Barghouti et al., 2021 argues that Israel views BDS as a “strategic threat”, indicating potential political pressure. P. Di Stefano et al., 2014 draws parallels to successful South African anti-apartheid campaigns, suggesting nonviolent resistance can be effective.
+Recent escalation of the genocide might have triggered boycott participation, in which case, it is worthwhile to explore the most recent developments of the movement in terms of effectiveness. The Crowd Counting Consortium reveals that from October 2023 to June 2024, nearly 12,400 pro-Palestine protests occurred in the United States, an unprecedented level of grassroots mobilization in support of Palestinian causes. (Deeb e Winegar, 2024). In the diaspora, mobilization efforts focused on advocating for policy changes in host countries, organizing BDS campaigns, and engaging in cultural and educational initiatives to raise awareness about the Palestinian cause (BDS Movement, 2023)
+A more recent article Sopiyah et al., 2025 found that Instagram-based boycott campaigns succeeded in generating “economic impact on several brands included in the boycott list,” with high social media interaction encouraging public participation in boycotting Israel-affiliated products. 
 
 \subsection{Firm performance}
 The literature reveals that the choice of a dependent variable that measures boycott effectiveness is wide and varied. 
-Some papers uses the change of a policy as a measure of effectiveness, while others focus on changes in sales or market share.
-A paper has done this analysis but using share prices, which measures trust in a company and not if people buy it or not
-The current literature on the impact of boycotts measures company performance using share or stock prices (\cite{pruitt1986determining}; \cite{eva2025impact}).
-While analyzing stock market price patterns for boycotted companies gives a good estimate on the trust the investors place in them, it does not accurately capture consumer response. 
+The first main choice is whether boycott impact is measured quantitatively or qualitatively. That is, some papers focus on measuring the actual economic impact of boycotts on firms, while others look at changes in corporate policies or practices as a result of boycott pressure.
+Some other take negatives sentiments towards the company as a measure of effectiveness.
+Within the realm on quantitatiev analysis, that this thesis places itself in, there is further heterogeneity in the choice of dependent variable. Share or stock prices are sometimes chosen to orperationalize company performance (\cite{pruitt1986determining}; \cite{eva2025impact}). While analyzing stock market price patterns for boycotted companies gives a good estimate on investor expectations about future firm value, it does not accurately capture consumer response. 
+Kasaundra M. Tomlin et al., 2019 analyzed 125 U.S. boycotts from 1978 to 2017 and found CAR provided statistically significant evidence of boycott impact, with negative returns robustly confirmed through synthetic control methods. 
+Revenue is also used as a measure of firm performance. Revenue captures the actual sales impact of boycotts, reflecting changes in consumer purchasing behavior. However, revenue can be influenced by various factors beyond boycotts, such as market trends and competition.
 
 \section{Data and Methodology}
-
+The attempt to identify any sort of causation forces one to think counterfactually. In this sense, the question  \textit{To what extent has the recognition of McDonald's as a boycott target by the BDS movement impacted the firm's revenue?} asks what the revenue of McDonald's would have been in the absence of the boycott calls. A credible answer to these questions requires defendable choices in terms of estimator, variable and treatment assignment.
 The data used to contruct both the control and the treated units comes from the SEC EDGAR database, the official U.S. Securities and Exchange Commission online platform where all public companies must file financial and regulatory documents.
-Given that the platform is the primary disclosure system for US public companies, even if the quarterly data is unaudited, this thesis considers it reliable. 
-The time frame used is quarterly data from \textcolor{red}{Q1 2009} to Q3 2025.
-Gunning (\citeyear{edgartools}) provides tools for accessing SEC filings through a GitHub repository. The code provided was adapted to fit the needs of this analysis.
-
-
-Outcome variable: \textcolor{red}{might need to provide my own indicator}
-The independent variables are 
+Given that the platform is the primary disclosure system for US public companies, even if the quarterly data is unaudited, this thesis considers it reliable. The time frame used is quarterly data from Q1 2008 to Q3 2025. The data was scraped and preprocessed using Python, while the analysis was conducted using R, as the Synthetic Control Method has a well established packages in R. 
+ 
 \subsection{Data Collection and Preprocessing}
-Firm-level financial data were collected from the U.S. Securities and Exchange Commission (SEC) XBRL Company Facts and Company Concept APIs. For each firm in the sample, all available quarterly and annual accounting disclosures were retrieved for a broad set of income statement, balance sheet, and share-related variables. Because firms often report economically equivalent concepts under different US-GAAP tags over time, raw XBRL tags were first mapped to a common set of semantic labels (e.g., revenue, net income, operating expenses). When multiple tags were available for the same firm and label, a dominant tag was selected based on reporting frequency, ensuring internal consistency of each firm’s time series.
+Firm-level financial data were collected from the U.S. Securities and Exchange Commission (SEC) XBRL Company Concept APIs. For each firm in the sample, all available quarterly and annual accounting disclosures were retrieved for a broad set of income statement, balance sheet, and share-related variables. Firms often report economically equivalent concepts under different US-GAAP tags over time. This means, for example, that the variable that expresses revenue might be under different tags for some quarters or years, and this varies within and between firms alike. For this reason, raw XBRL tags were first mapped to a common set of semantic labels (e.g., revenue, net income, operating expenses). When multiple tags were available for the same firm and label, a dominant tag was selected based on reporting frequency, ensuring internal consistency of each firm’s time series.
 
 The raw data were transformed into a long panel indexed by firm and time. Reporting dates were converted into a unified quarterly time index to ensure a unique and ordered temporal dimension across firms. Observations with duplicated firm–time–label combinations arising from amended filings or alternative reporting frames were collapsed by retaining the most recent filing. The resulting panel was unbalanced, reflecting firm entry, exit, and reporting heterogeneity, which is typical in SEC data.
 
@@ -89,45 +73,23 @@ Treatment exposure was defined at the firm level using a binary indicator that s
 
 Prior to estimation, the analysis window was refined to a period with sufficient pre-treatment overlap across firms, and donor firms with no usable pre-treatment outcome data were excluded. For robustness analyses only, an alternative balanced panel was constructed by imputing missing firm–quarter outcomes using within-firm interpolation, with imputed observations explicitly flagged.
 
-The output is a X times X dataset. 
+\subsection{Choiche of Estimator}
 
-\subsection{Chooche of Estimator}
-The research question \textit{To what extent do the BDS boycott calls impact McDonald's VARIABLE?} implies a treatment,
-an outcome variable, and a before and after periods. This setup may allow a typical Difference in Difference (DiD) analysis,
-which compares the change in outcomes over time in a treated group to the change in outcomes over time in a control group,
+The research question implies a time bound treatment andan outcome variable. This setup may allow a typical Difference in Difference (DiD) analysis, which compares the change in outcomes over time in a treated group to the change in outcomes over time in a control group,
 identifying causal effects (\textcite{angrist2009mostly}). However, the setup and data used in this thesis lend themselves better to
-a Synthetic Control Method (SCM), a data-driven procedure that constructs a synthetic version of the treated unit by weighting a 
-combination of control units (other fast-food companies not targeted by BDS). This synthetic control serves as
- a counterfactual, representing what would have happened to McDonald's \textcolor{red}{net income margin} in the 
- absence of the boycott. This method is preferred to a simple Difference in Difference due to the violation of the parallel trends assumption present in the data, the amount of pre treatment units that the data offers, and the presence of time-varying unobserved confounders.
+a Synthetic Control Method (SCM), due to the violation of the parallel trends assumption present in the data, the amount of pre treatment units that the data offers, and the presence of time-varying unobserved confounders. SCM a data-driven procedure that constructs a synthetic version of the treated unit by weighting a combination of control units (other fast-food companies not targeted by BDS). This synthetic control serves as a counterfactual, representing what would have happened to McDonald's revenue in the absence of the boycott. 
 the amount of pre treatment units that the data offers, and the presence of time-varying unobserved confounders.
 
-DiD relies on the parallel trends assumption, 
-which states that in the absence of treatment, the average change in the outcome variable would have been the same 
-for both the treated and control groups. In this case, the parallel trends assumption is not believable,
-as McDonald's pre-treatment trends differ from those of potential control units, due to it being a bigger
-company than most of the potential donors.
-Abadie et al (\citeyear{abadie2010synthetic}) developed the Synthetic Control Method (SCM) as an
- alternative to DiD when the parallel trends assumption is violated, when 
-a combination of units provides a
-better comparison for the treated unit than
-any single unit alone. 
+DiD relies on the parallel trends assumption, which states that in the absence of treatment, the average change in the outcome variable would have been the same  for both the treated and control groups. In this case, the parallel trends assumption is not believable, as McDonald's pre-treatment trends differ from those of potential control units, due to it being a bigger company than most of the potential donors.
+Abadie et al (\citeyear{abadie2010synthetic}) developed the Synthetic Control Method (SCM) as an alternative to DiD when the parallel trends assumption is violated, when  a combination of units provides a better comparison for the treated unit than any single unit alone. 
 
-The data is taken from quarterly SEC fillings from Q1 2009 to Q3 2025, providing a total of 68 pre-treatment periods and 11 post-treatment periods. 
-This extensive pre-treatment period allows for a construction of the synthetic control. 
-SCM does not require a large number of comparison units in the donor pool.
+The data is taken from quarterly SEC fillings from Q1 2009 to Q3 2025, providing a total of 68 pre-treatment periods and 11 post-treatment periods. This extensive pre-treatment period allows for a construction of the synthetic control. SCM does not require a large number of comparison units in the donor pool.
 
+A limitation of the DiD model is that, while it allows for the presence of unobserved confounders, it restricts their effect to be constant in time, so they can be eliminated by taking time differences (\cite{abadie2010synthetic}).The SCM extends the traditional linear panel data framework, allowing that the effects of unobserved variables on the outcome vary with time. This thesis uses the Synthetic Control Method (SCM) to estimate the impact of the BDS boycott calls on McDonald's revenue.
 
-Another limitation of the DiD model is that, while it allows for
-the presence of unobserved confounders, it restricts their effect to be constant in time, so they can be eliminated 
-by taking time differences (\cite{abadie2010synthetic}).The SCM extends the traditional linear panel
-dataframework, allowing that the
-effects of unobserved variables on the outcome vary with time. 
-This thesis uses the Synthetic Control Method (SCM) to estimate the impact of the BDS boycott calls on 
-McDonald's \textcolor{red}{net income margin}. 
- 
 \subsection{Treatment Unit and Control Units}
-The treated the firm, McDonald's, was chosen for several reasons. Firstly, the company has been a boycott target for around two consecutive years, offering enoguh treated quarters. Secondly, McDonald's is among the boycotted companies with the most complete data availability on the SEC platform. 
+The treated the firm, McDonald's, was chosen for several reasons. Firstly, the company has been a boycott target for around two consecutive years, offering enoguh treated quarters. Secondly, McDonald's is among the boycotted companies with the most complete data availability on the SEC platform. Thirdly, several of the companies that are on the BDS boycott list have a primarly institutional performance, like tech companies that sell their units in bulk, for example. This makes it hard to capture consumer behavior through revenue changes. McDonald's, being a consumer-facing fast-food company, provides a clearer link between consumer activism and revenue impact
+
 \begin{figure}[h]
 \centering
 
@@ -149,31 +111,30 @@ The treated the firm, McDonald's, was chosen for several reasons. Firstly, the c
 \label{fig:comparison}
 \end{figure}
 
-
-The control units, so the boycotted companies, have been exclusively Israel companies for whose public data his not freely accessible,
- and the movement has only recently pivoted from calling to boycotts more global brands, like Coca cola, Airbnb, and McDonald's, among others. 
-While speaking of the evolution of the movement objective and corporate structure, 
-this also provides a before and after moment where 
-McDonald's was not boycotted and then it was.
-tech companies that sell in bulk and whose performance is primarly institutional. The rest of the companies (like Aibnb) did not have many pre treatment units. Hence, the companies that could've been in the treatment group where around five. 
-A salient characteristic of the SCM is its ability to account for unobserved confounders that vary over time, making it particularly suitable for this analysis. Since SCM does not use randomization, the assignment process is critical to ensure the validity of the results. In the context of this thesis, the assignment process involves picking a poll of control units that could have been a boycott target, but were not. 
-the targeted companies and rationale (\textcite{bdsStrategic2024}). The main points to select treatment are level of complicity, potential for cross-movement coalition-building, media appeal, and potential for success. This thesis uses the BDS criteria to select both the target company and the control group.
+Since SCM does not use randomization, the treatment assignment, and the choice of the control group, is critical to ensure the validity of the results. In the context of this thesis, the assignment process involves picking a poll of control units that could have been a boycott target, but were not. 
+The criteria to select treatment are based on the BDS page rationale for which companies become a boycott target, and are level of complicity, potential for cross-movement coalition-building, media appeal, and potential for success (\textcite{bdsStrategic2024}).
 The research identifies companies that fit all the criteria when possible, and opts for a looser fit when data availability is limited.
 
 \begin{table}[h!]
 \centering
-\begin{tabular}{l c r r r}
+\begin{tabular}{l c c c c}
 \hline
 Company & Complicity & Coalition Building & Media Appeal & Potential \\
 \hline
-Item A & 12 & 3.5 & 4.2 & 5.1\\
-Item B & 7 & 1.2 & 2.3 & 3.4 \\
-Item C & 19 & 8.4 & 7.6 & 6.5 \\
+Walmart\\
+Wendy's \\
+Target \\
+Johnson \& Johnson \\
+Mondelez International\\ 
+General Mills \\
+Costco Wholesale \\
 \hline
 \end{tabular}
 \caption{Control Units Selected for Synthetic Control Method}
 \label{tab:basic}
 \end{table}
+
+
 \subsection{Pre-treatment Period and Post-treatment Period}
 Since boycott calls are the treatment, and since the movement largely operates on their
 social media and website, this thesis understands treatment as being present 
@@ -183,15 +144,29 @@ The Guide To BDS page (\citeyear{BDSGuide}), and variations thereof, have been i
 The pages shows images of brands that the movement decides to target once they fit their boycott criteria. This thesis assumes that once the brand appears on the website, social media action follows and user engagement on the page too. this is a way that the research centralizes the treatment definition around a concrete and verifiable event.
 Past presence on the page is verified through the Wayback Machine, an internet archiving service that captures and stores snapshots of web pages over time.
 
-The pre-treatment period is defined as the time before the BDS movement called for a boycott against McDonald's, which occurred in January 2023. the wayback machine was manually checked to ensure that the boycott call was present since then, and not before, and also that the control group companies were not called for boycott at any point in time.
-The post-treatment period starts from January 2023 and ends when the latest available data point, which is in Q3 2025.
+The pre-treatment period is defined as the time before the BDS movement called for a boycott against McDonald's, which occurred in January 2023. the wayback machine was manually checked to ensure that the boycott call was present since then, and not before, and also that the control group companies were not called for boycott at any point in time. The post-treatment period starts from January 2023 and ends when the latest available data point, which is in Q3 2025.
 
 \section{Preliminary Results}
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/c83be82a-d34f-48dd-b5b6-0169ea44a1d4.png}
+    \caption{Treatment Status}
+    \label{fig:mcd_revenue}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/plot.png}
+    \caption{Treated vs Estimated Synthetic Control Revenue Over Time}
+    \label{fig:mcd_revenue}
+\end{figure}
+
+
 \section{Discussion}
 
-BDS boycott calls were restricted to israeli brands, and ith tim, they started calling out amerisan brands, which gives to think in terms of how globalization.
-Boycotts are harder to enforce when the target is a massive corporation with a global presence, as consumers may find it challenging to avoid all products associated with the company. This might mean that as companies become more conglomerates and monopolies, consumer actions might be harder to enforce.
+The analysis is at a stall because the fit between the treated unit and the controls is poor, hence i am not yet in the position to make a claim on wether the hypothesis has been rejected or not. There were some issues with the data and the preprocessing took time away from the analisys. Exploring a different set of control units or outcome variables might do this thesis well.   
+
 
 \printbibliography
 
