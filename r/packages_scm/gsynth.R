@@ -1,25 +1,11 @@
 data <-read_csv('/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/data/processed/data.csv')
+data <- data %>% filter(!is.na(revenue))
+panelview(revenue ~ boycotted, data = data,  index = c("ticker","time"), pre.post = TRUE) 
 
-data_net_inc <-read_csv('/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/r/data/data_net_inc.csv')
-data_revenue <-read_csv('/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/r/data/data_revenue.csv')
-
-
-panelview(net_income ~ boycotted, data = data_net_inc,  index = c("ticker","time"), pre.post = TRUE) 
-
-out0 <- gsynth(
+system.time(
+  out <- gsynth(
   revenue ~ boycotted,
-  data = data_revenue,
-  index = c("ticker","time"),
-  force = "two-way",
-  CV = TRUE,
-  r = c(0, 5),
-  se = TRUE
-)
-
-
-gsynth(
-  net_income ~ boycotted + interest_exp,
-  data = data_net_inc,
+  data = data,
   index = c("ticker","time"),
   force = "two-way",
   CV = TRUE,
@@ -27,35 +13,31 @@ gsynth(
   se = TRUE,
   inference = "parametric",
   nboots = 1000,
-  parallel = FALSE
+  parallel = TRUE
+)
 )
 
-
 cumu1 <- cumuEff(out, cumu = TRUE, id = NULL, period = c(0,5))
+cumu1 <- cumuEff(out)
 cumu1$est.catt
-
-cumu2 <- cumuEff(out, cumu = FALSE, id = c(101, 102, 103), period = c(0,5))
-cumu2$est.catt
 
 plot(out) # by default
 plot(out, theme.bw = FALSE) 
-plot(out, type = "gap", ylim = c(-3,12), xlab = "Period", 
+plot(out, type = "gap", ylim = c(-12000000000,12000000000), xlab = "Period", 
      main = "My GSynth Plot")
 plot(out, type = "raw")
-plot(out,type = "raw", legendOff = TRUE, ylim=c(-10,40), main="")
+plot(out,type = "raw", legendOff = TRUE, ylim=c(-120000000,120000000000), main="")
 plot(out, type = "counterfactual", raw = "none", main="")
 plot(out, type = "ct", raw = "none", main = "", 
      shade.post = FALSE)
 plot(out, type = "counterfactual", raw = "band", 
-     xlab = "Time", ylim = c(0,1))
+     xlab = "Time", ylim = c(-1000000000,30000000000))
 plot(out, type = "counterfactual", raw = "all")
-plot(out, type = "counterfactual", id = 102)
-plot(out, type = "counterfactual", id = 104, 
-     raw = "band", ylim = c(-10, 30))
-plot(out, type = "counterfactual", id = 105, 
+plot(out, type = "counterfactual", id = 'MCD')
+plot(out, type = "counterfactual", id = 'MCD', 
+     raw = "band", ylim = c(-10000000000, 30000000000))
+plot(out, type = "counterfactual", id = 'MCD', 
      raw = "all", legendOff = TRUE)
-plot(out, type = "loadings")
-
 
 
 # EM method 
@@ -66,10 +48,32 @@ The estimation takes more time, but the results are
 very similar to that from the original method – the 
 coefficients will be slightly more precisely estimated.'
 system.time(
-  out <- gsynth(net_margin_pct ~ boycotted +shares_basic+ assets, data = df_clean_cut,  
-                index = c("company_id","time_numeric"), EM = TRUE, 
-                force = "two-way", inference = "parametric", 
+  out <- gsynth(revenue ~ boycotted,
+                #+shares_basic+ assets,
+                data = data,  
+                index = c("ticker","time"),
+                EM = TRUE, 
+                force = "two-way",
+                inference = "parametric", 
                 se = TRUE, nboots = 500, r = c(0, 5), 
                 CV = TRUE, parallel = TRUE, cores = 4)
 )
 plot(out, main = "Estimated ATT (EM)")
+plot(out, theme.bw = FALSE) 
+plot(out, type = "gap", ylim = c(-1200000000,1200000000), xlab = "Period", 
+     main = "My GSynth Plot")
+plot(out, type = "raw")
+plot(out,type = "raw", legendOff = TRUE, ylim=c(-10,40), main="")
+plot(out, type = "counterfactual", raw = "none", main="")
+plot(out, type = "ct", raw = "none", main = "", 
+     shade.post = FALSE)
+plot(out, type = "counterfactual", raw = "band", 
+     xlab = "Time", ylim = c(0,30000000000))
+plot(out, type = "counterfactual", raw = "all")
+plot(out, type = "counterfactual", id = 'MCD')
+plot(out, type = "counterfactual", id = 'MCD', 
+     raw = "band", ylim = c(-10000000000, 30000000000))
+plot(out, type = "counterfactual", id = 'MCD', 
+     raw = "all", legendOff = TRUE)
+plot(out, type = "loadings")
+
