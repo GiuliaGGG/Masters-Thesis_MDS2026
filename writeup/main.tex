@@ -21,7 +21,7 @@ The Boycott, Divestment, and Sanctions (BDS) is a nonviolent Palestinian-led mov
 The movement aims to pressure these companies to change their policies and practices regarding the Israeli occupation of Palestinian territories.
 BDS has been active since 2005, but with the start of the genocide in Gaza \footnote{as defined by Amnesty International \citeyear{Amnesty2024GenocideGaza}}, the movement has gained significant traction and visibility worldwide. As expression of that has been the surge in calls for economic boycotts \footnote{as proven by gained attention on social media platforms and google trends search term increasing}, a type of consumer activism where individuals or groups refuse to purchase products or services from specific companies to protest against their practices or policies.
 One of the most notable boycotts in recent times has been against McDonald's, which has been accused of supporting the Israeli occupation through its business operations. More specifically, the initial trigger for the boycott was McDonald's Israel providing free meals to Israeli soldiers stationed in the occupied Palestinian territories (\cite{McDonaldsIL2023Meals}). Since then, the BDS movement has called for a global boycott of McDonald's, urging consumers to avoid purchasing its products until the company ceases its support for the Israeli occupation. Financial analysts and corporate disclosures indicate that boycott campaigns were associated with weaker-than-expected sales in certain regions, particularly in the Middle East (\cite{BHRRC_McDonalds_Boycott_2024} ; \cite{IrishTimes_McDonalds_Boycott_2025}).
-Even if a correlation seems to be present, causation is delicate, and the current literature lacks a robust empirical analysis of the impact of boycotts on company performance. The vast open source presence of financial data from SEC quarterly filings allows for a credible attempt to fill this gap. Even if there seems to be a correlation between the BDS's movement decision to ad McDonalds' on theyr boycott list and a decrease in company performance, attributing this decline as an effect of boycott calls risks to be an oversimplification, as other factors such as market competition, economic conditions, and changes in consumer behavior unrelated to boycotts could also play roles.
+Even if a correlation seems to be present, inference about causation is delicate, and the current literature lacks a robust empirical analysis of the impact of boycotts on company performance. The vast open source presence of financial data from SEC quarterly filings allows for a credible attempt to fill this gap. Attributing a decrease in company performanceas an effect of boycott calls risks to be an oversimplification, as other factors such as market competition, economic conditions, and changes in consumer behavior unrelated to boycotts could also play roles.
 Since the BDS movement largely operates through online platforms, this thesis will explore the interplay between digital activism and consumer behavior, examining whether online boycott campaigns influence purchasing decisions.
 This thesis presents as application of the Synthetic Control Method (SCM) to formulate a credible counterfactual for McDonald's performance in the absence of a boycott. The paper's research question is: \textit{To what extent has the recognition of McDonald's as a boycott target by the BDS movement impacted the firm's revenue?}. 
 The hypothesis is that boycotts have a small effect of revenue, possibly right after the boycott is called. 
@@ -62,16 +62,42 @@ Revenue is also used as a measure of firm performance. Revenue captures the actu
 \section{Data and Methodology}
 The attempt to identify any sort of causation forces one to think counterfactually. In this sense, the question  \textit{To what extent has the recognition of McDonald's as a boycott target by the BDS movement impacted the firm's revenue?} asks what the revenue of McDonald's would have been in the absence of the boycott calls. A credible answer to these questions requires defendable choices in terms of estimator, variable and treatment assignment.
 The data used to contruct both the control and the treated units comes from the SEC EDGAR database, the official U.S. Securities and Exchange Commission online platform where all public companies must file financial and regulatory documents.
-Given that the platform is the primary disclosure system for US public companies, even if the quarterly data is unaudited, this thesis considers it reliable. The time frame used is quarterly data from Q1 2008 to Q3 2025. The data was scraped and preprocessed using Python, while the analysis was conducted using R, as the Synthetic Control Method has a well established packages in R. 
+Given that the platform is the primary disclosure system for US public companies, even if the quarterly data is unaudited, this thesis considers it reliable. The time frame used is quarterly data from Q1 2008 to Q3 2025. The data was scraped and preprocessed using Python, while the analysis was conducted using R, as the Synthetic Control Method has a well established R packages. 
  
 \subsection{Data Collection and Preprocessing}
-Firm-level financial data were collected from the U.S. Securities and Exchange Commission (SEC) XBRL Company Concept APIs. For each firm in the sample, all available quarterly and annual accounting disclosures were retrieved for a broad set of income statement, balance sheet, and share-related variables. Firms often report economically equivalent concepts under different US-GAAP tags over time. This means, for example, that the variable that expresses revenue might be under different tags for some quarters or years, and this varies within and between firms alike. For this reason, raw XBRL tags were first mapped to a common set of semantic labels (e.g., revenue, net income, operating expenses). When multiple tags were available for the same firm and label, a dominant tag was selected based on reporting frequency, ensuring internal consistency of each firm’s time series.
 
-The raw data were transformed into a long panel indexed by firm and time. Reporting dates were converted into a unified quarterly time index to ensure a unique and ordered temporal dimension across firms. Observations with duplicated firm–time–label combinations arising from amended filings or alternative reporting frames were collapsed by retaining the most recent filing. The resulting panel was unbalanced, reflecting firm entry, exit, and reporting heterogeneity, which is typical in SEC data.
+Firm-level financial data were collected from the U.S. Securities and Exchange Commission (SEC) eXtensible Business Markup Language (XBRL) Company Concept APIs. XBRL is an XML-based format for reporting financial statements. The Company Concept APIs objects contain all disclosures related to the specified concept (i.e. Revenue), organized by units of measure. Reported values correspond to XBRL facts associated with duration periods, defined by start and end dates, following the XBRL 2.1 specification (\cite{SEC_CompanyFacts_API}). Every reported value for that concept is organized in objects in the array, an example of which follows in figure 1. 
 
-Treatment exposure was defined at the firm level using a binary indicator that switches on from the quarter in which the boycott event occurred. No outcome values were imputed in the baseline analysis. Instead, for each outcome variable, the estimation sample was restricted to firm–quarter observations where the outcome was reported, in line with the requirements of synthetic control estimators.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/json_company_facts.jpeg}
+    \caption{}
+    \label{fig:}
+\end{figure}
 
-Prior to estimation, the analysis window was refined to a period with sufficient pre-treatment overlap across firms, and donor firms with no usable pre-treatment outcome data were excluded. For robustness analyses only, an alternative balanced panel was constructed by imputing missing firm–quarter outcomes using within-firm interpolation, with imputed observations explicitly flagged.
+The way that the data is organized presents potential challenges for data users. 
+
+The first one is that the definition of what SEC considers a quarter to be is machine-readable but not researcher-readable by default. The year and the quarter for each object, respectively fy and fp in figure 1, are reporting labels, not guarantees of temporal coverage. Hence, when wanting to scrape quarters, the most reliable measures of temporal coverage are start and end date, which do not always correspond cleanly to fiscal quarters. Figure 1 is an example of how an object might report values for 9 months and still be tagged as Q3. Additionally, a context includes a period, which is defined as either a duration period, which has a start date and an end date, or instant period, which only has an end date, hence for the same value fp and end date there might be several value repetitions. The research had to take its own decision of how to reliably define a quarter, at the cost of being too conservative and cutting away relevant information. The SEC documentation specifies that quarterly data as a duration of 91 days, with a standard deviation of +/- 30 days (\cite{SEC_EDGAR_API}). This thesis consider a quarters an object that spans between 60 and 122 days. 
+
+The second challenge when working with this data is that the start and the end date are not aligned across quarters and across firms. Because company financial calendars can start and end on any month or day, and even change in length from quarter to quarter to according to the day of the week, the data is assembled by the dates that best align with a calendar quarter or year (\cite{SEC_EDGAR_API}). Hence, start and end dates are not aligned, which creates issue when trying to align data across firms and create a balanced dataset for analysis. In this case, too, the research had to make its own decision on how to align data across firms, at the cost of losing some information. The solution was to create a unified quarterly time index that maps each firm's reporting dates to standard calendar quarters.
+
+The third issue is that firms often report economically equivalent concepts under different US-GAAP tags over time. This means, for example, that the variable that expresses revenue might be under different tags for some quarters or years, and this varies within and between firms alike. For this reason, raw XBRL tags were first mapped to a common set of semantic labels (e.g., revenue, net income, operating expenses). When multiple tags were available for the same firm and label, a dominant tag was selected based on reporting frequency, ensuring internal consistency of each firm’s time series. In some cases, the dominant tag existed for a defined time period, and was replaced by another one for another period (see figure below). In these less common cases, the research took the two main tags to ensure a smooth time trend for the variable. 
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/nike_revenue_by_source_tag.png}
+    \caption{}
+    \label{fig: Example from a company }
+\end{figure}
+
+This analysis' scraping file extracts the raw company concepts with all the tags available for the firms of interest. The preprocessing part loads the raw financial observations then resolves the multiple reporting sources by selecting a dominant source tag. The data are then restricted to valid quarterly observations, 
+
+after which conflicts across reporting intervals are resolved by retaining the observation with the longest reporting window. THIS IS WEIRD ACTUALLY  
+
+The script then collapses duplicate records that differ only by reporting frame and deduplicates remaining observations by keeping the most recently filed version. The resulting standardized and cleaned dataset is saved to disk and returned for downstream empirical analysis 
+ Reporting dates were converted into a unified quarterly time index to ensure a unique and ordered temporal dimension across firms. Observations with duplicated firm–time–label combinations arising from amended filings or alternative reporting frames were collapsed by retaining the most recent filing. The resulting panel was unbalanced, reflecting firm entry, exit, and reporting heterogeneity. 
+
+Treatment exposure was defined at the firm level using a binary indicator that switches on from the quarter in which the boycott event occurred. No outcome values were imputed in the baseline analysis. 
 
 \subsection{Choiche of Estimator}
 
@@ -85,7 +111,7 @@ Abadie et al (\citeyear{abadie2010synthetic}) developed the Synthetic Control Me
 
 The data is taken from quarterly SEC fillings from Q1 2009 to Q3 2025, providing a total of 68 pre-treatment periods and 11 post-treatment periods. This extensive pre-treatment period allows for a construction of the synthetic control. SCM does not require a large number of comparison units in the donor pool.
 
-A limitation of the DiD model is that, while it allows for the presence of unobserved confounders, it restricts their effect to be constant in time, so they can be eliminated by taking time differences (\cite{abadie2010synthetic}).The SCM extends the traditional linear panel data framework, allowing that the effects of unobserved variables on the outcome vary with time. This thesis uses the Synthetic Control Method (SCM) to estimate the impact of the BDS boycott calls on McDonald's revenue.
+A limitation of the DiD model is that, while it allows for the presence of unobserved confounders, it restricts their effect to be constant in time, so they can be eliminated by taking time differences (\cite{abadie2010synthetic}).The SCM extends the traditional linear panel data framework, allowing that the effects of unobserved variables on the outcome vary with time. This thesis uses the Synthetic Control Method (SCM) to estimate the impact of the BDS boycott calls on McDonald's revenue. Amount of revenue recognized from goods sold, services rendered, insurance premiums, or other activities that constitute an earning process. Includes, but is not limited to, investment and interest income before deduction of interest expense when recognized as a component of revenue, and sales and trading gain (loss)."
 
 \subsection{Treatment Unit and Control Units}
 The treated the firm, McDonald's, was chosen for several reasons. Firstly, the company has been a boycott target for around two consecutive years, offering enoguh treated quarters. Secondly, McDonald's is among the boycotted companies with the most complete data availability on the SEC platform. Thirdly, several of the companies that are on the BDS boycott list have a primarly institutional performance, like tech companies that sell their units in bulk, for example. This makes it hard to capture consumer behavior through revenue changes. McDonald's, being a consumer-facing fast-food company, provides a clearer link between consumer activism and revenue impact
@@ -171,6 +197,25 @@ The analysis is at a stall because the fit between the treated unit and the cont
 \printbibliography
 
 \section{Appendix}
+\begin{table}[h!]
+\centering
+\begin{tabular}{p{3cm} p{11cm}}
+\hline
+\textbf{Field} & \textbf{Meaning} \\
+\hline
+\texttt{start} & Start date of the reporting period \\
+\texttt{end}   & End date of the reporting period \\
+\texttt{val}   & Reported numeric value for the concept \\
+\texttt{accn}  & Accession number of the SEC filing where this value comes from \\
+\texttt{fy}    & Fiscal year of the company \\
+\texttt{fp}    & Fiscal period (\texttt{Q1}, \texttt{Q2}, \texttt{Q3}, \texttt{Q4}, or \texttt{FY}) \\
+\texttt{form}  & SEC filing type (\texttt{10-Q}, \texttt{10-K}, etc.) \\
+\texttt{filed} & Date the filing was submitted to the SEC \\
+\hline
+\end{tabular}
+\caption{Description of fields in SEC financial reporting data}
+\label{tab:sec_fields}
+\end{table}
 
 \begin{table}[h!]
 \centering
