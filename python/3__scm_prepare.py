@@ -23,7 +23,7 @@ def scm_prepare():
         boycott_start=BOYCOTT_START
     )
 
-    df = add_quarterly_time_index(df)
+    df = add_scm_time_index(df)
     df = resolve_collisions_prefer_10k_then_latest_end(df)
     df = refine_estimation_window(df)
     df = drop_chronically_sparse_donors(df)
