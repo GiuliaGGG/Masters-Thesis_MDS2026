@@ -167,6 +167,24 @@ TAG_GROUPS = {
     }
 
 # ---- For fetching all relevant firms ----
+
+#batch_1
+tickers = [
+    'MCD',     # McDonald's Corporation
+
+    "BROS",    # Dutch Bros Inc.
+    "CMG",     # Chipotle Mexican Grill, Inc.
+    "COST",    # Costco Wholesale Corporation
+    "GIS",     # General Mills, Inc.
+    "JNJ",     # Johnson & Johnson
+    "MDLZ",    # Mondelez International, Inc.
+    "NKE",     # Nike, Inc.
+    "TGT",     # Target Corporation
+    "TRIP",    # Tripadvisor, Inc.
+    "WEN",     # The Wendy’s Company
+    "WMT",     # Walmart Inc.
+]
+
 tickers = [
     'MCD',     # McDonald's Corporation
 
