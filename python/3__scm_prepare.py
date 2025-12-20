@@ -24,7 +24,7 @@ def scm_prepare():
     )
 
     df = add_scm_time_index(df)
-    df = resolve_collisions_prefer_10k_then_latest_end(df)
+    df = resolve_collisions_prefer_10q_then_latest_end(df)
     df = refine_estimation_window(df)
     df = drop_chronically_sparse_donors(df)
     df = pivot_wide(df)
@@ -34,7 +34,7 @@ def scm_prepare():
     # Save output
     # -----------------
     output_path = (
-        "./data/processed/data.csv"
+        "./data/processed/data_check_cant_pivot.csv"
     )
 
     df.to_csv(output_path, index=False)

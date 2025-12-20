@@ -402,7 +402,7 @@ def add_scm_time_index(
 # Resolve collisions preferring 10-K then latest end date
 # -------------
 
-def resolve_collisions_prefer_10k_then_latest_end(
+def resolve_collisions_prefer_10q_then_latest_end(
     df: pd.DataFrame,
     identity_cols=None,
     form_col: str = "form",
@@ -410,7 +410,7 @@ def resolve_collisions_prefer_10k_then_latest_end(
 ) -> pd.DataFrame:
     """
     Resolve collisions by:
-      1) preferring rows whose form contains 'K' (10-K, 10-K/A)
+      1) preferring rows whose form contains 'Q' (10-Q, 10-Q/A)
       2) if still tied, preferring the row with the latest end date
 
     Parameters
@@ -440,13 +440,13 @@ def resolve_collisions_prefer_10k_then_latest_end(
     df[end_col] = pd.to_datetime(df[end_col], errors="coerce")
 
     # Indicator: prefer forms containing "K"
-    df["_is_10k"] = df[form_col].astype(str).str.contains("K", case=False, na=False)
+    df["_is_10q"] = df[form_col].astype(str).str.contains("Q", case=False, na=False)
 
     # Sort by:
-    # 1) is 10-K (True first)
+    # 1) is 10-Q (True first)
     # 2) latest end date
     df = df.sort_values(
-        by=identity_cols + ["_is_10k", end_col],
+        by=identity_cols + ["_is_10q", end_col],
         ascending=[True] * len(identity_cols) + [False, False]
     )
 
@@ -454,7 +454,7 @@ def resolve_collisions_prefer_10k_then_latest_end(
     df = df.drop_duplicates(subset=identity_cols, keep="first")
 
     # Cleanup
-    df = df.drop(columns="_is_10k")
+    df = df.drop(columns="_is_10q")
 
     return df
 
