@@ -14,20 +14,14 @@ def preprocess_financials():
 
     df = pd.read_csv(input_path)
 
+     # -----------------
+    # Add year and quarter
     # -----------------
-    # Dominant source tag
-    # -----------------
-    df = select_dominant_source_tag_with_fallback(df)
-
+    df = add_year_quarter(df)
     # -----------------
     # Quarterly filter + interval_days
     # -----------------
     df = filter_quarterly_intervals(df)
-
-    # -----------------
-    # Keep max interval when conflicts exist
-    # -----------------
-    df = keep_max_interval_observation(df)
 
     # -----------------
     # Collapse frame duplicates
@@ -39,6 +33,15 @@ def preprocess_financials():
     # -----------------
     df = deduplicate_by_latest_filing(df)
 
+    # -----------------
+    # Dominant source tag
+    # -----------------
+    df = select_dominant_source_tag_with_fallback(df)
+
+    # -----------------
+    # Keep max interval when conflicts exist
+    # -----------------
+    df = keep_max_interval_observation(df)
 
     # -----------------
     # Save output
@@ -48,7 +51,6 @@ def preprocess_financials():
     )
 
     df.to_csv(output_path, index=False)
-
     return df
 
 
