@@ -142,7 +142,7 @@ def filter_quarterly_intervals(
     Replicates the R pipeline:
       - converts start/end to dates
       - computes interval_days = end - start
-      - keeps observations with 80 < interval_days < 120
+      - keeps observations with 60 < interval_days < 122
     """
 
     df = df.copy()
@@ -156,8 +156,8 @@ def filter_quarterly_intervals(
 
     # Filter quarterly-length intervals
     df = df[
-        (df["interval_days"] > 80) &
-        (df["interval_days"] < 120)
+        (df["interval_days"] > 60) &
+        (df["interval_days"] < 122)
     ]
 
     return df
