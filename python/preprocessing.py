@@ -332,16 +332,13 @@ def define_boycotted(
 # Add quarterly SCM-compatible time index
 # -------------
 
-def add_quarterly_time_index(
+def add_year_quarter(
     df: pd.DataFrame,
     end_col: str = "end",
     time_col: str = "time"
 ) -> pd.DataFrame:
     """
-    Add a quarterly SCM-compatible numeric time index:
-      time = year(end) * 4 + quarter(end)
-
-    Also adds helper columns: 'year' and 'quarter'.
+    Adds helper columns: 'year' and 'quarter'.
 
     Parameters
     ----------
@@ -355,7 +352,7 @@ def add_quarterly_time_index(
     Returns
     -------
     pd.DataFrame
-        DataFrame with year, quarter, and time columns added.
+        DataFrame with year, quarter columns added
     """
 
     df = df.copy()
@@ -367,10 +364,39 @@ def add_quarterly_time_index(
     df["year"] = df[end_col].dt.year
     df["quarter"] = df[end_col].dt.quarter
 
+    return df
+
+def add_scm_time_index(
+    df: pd.DataFrame,
+    time_col: str = "time"
+) -> pd.DataFrame:
+    """
+    Adds a SCM-compatible numeric time index.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Input dataframe.
+    time_col : str
+        Name of the SCM time index column.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with SCM time index added.
+    """
+
+    df = df.copy()
+
+    # Ensure year and quarter are present
+    if "year" not in df.columns or "quarter" not in df.columns:
+        raise ValueError("DataFrame must contain 'year' and 'quarter' columns.")
+
     # SCM-compatible numeric time index
     df[time_col] = df["year"] * 4 + df["quarter"]
 
     return df
+
 
 # -------------
 # Resolve collisions preferring 10-K then latest end date
