@@ -19,17 +19,13 @@ system.time(
   index = c("ticker","time"),
   force = "two-way",
   CV = TRUE,
-  r = c(0, 5),
+  r = c(0, 5), # unobserved confounders
   se = TRUE,
   inference = "parametric",
   nboots = 1000,
   parallel = TRUE
 )
 )
-
-cumu1 <- cumuEff(out, cumu = TRUE, id = NULL, period = c(0,5))
-cumu1 <- cumuEff(out)
-cumu1$est.catt
 
 plot(out) # by default
 plot(out, theme.bw = FALSE) 
