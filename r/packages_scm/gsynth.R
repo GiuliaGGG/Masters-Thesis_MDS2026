@@ -1,41 +1,40 @@
-data <-read_csv('/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/data/processed/data.csv')
-data <- data %>% filter(!is.na(revenue))
-panelview(revenue ~ boycotted, data = data,  index = c("ticker","time"), pre.post = TRUE) 
+library(readr)
+library(gsynth)
+library(dplyr)
+library(panelView)
 
-system.time(
+
+data_standardized <-read_csv('/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/data/processed/data_standardized.csv')
+panelview(revenue_std ~ boycotted, data = data_standardized,  index = c("ticker","time"), pre.post = TRUE) 
+
+system.time(                     # Measure total runtime of the gsynth estimation
   out <- gsynth(
-  revenue ~ boycotted,
-  + cost 
-  + depr_amort
-  + eps_basic 
-  + eps_diluted 
-  + interest_exp 
-  + operating_exp 
-  + r_and_d 
-  + shares_basic
-  + shares_diluted
-  + tax,
-  data = data,
-  index = c("ticker","time"),
-  force = "two-way",
-  CV = TRUE,
-  r = c(0, 5), # unobserved confounders
-  se = TRUE,
-  inference = "parametric",
-  nboots = 1000,
-  parallel = TRUE
+    revenue_std ~ boycotted,     # Outcome is standardized revenue; treatment is boycott exposure
+    data = data_standardized,    # Panel dataset with standardized variables
+    index = c("ticker","time"),  # Panel identifiers: firm (ticker) and time
+    force = "two-way",           # Include both unit and time fixed effects
+    CV = TRUE,                   # Use cross-validation to select the number of latent factors
+    r = c(0, 5),                 # Allow between 0 and 5 unobserved common factors
+    se = TRUE,                   # Compute standard errors
+    inference = "parametric",    # Use parametric bootstrap inference
+    nboots = 100,                 # Number of bootstrap replications
+    parallel = TRUE              # Enable parallel computation for speed
+  )
 )
-)
+
+
+plot(out, type = "ct", raw = "none", main = "", 
+     shade.post = FALSE)
 
 plot(out) # by default
 plot(out, theme.bw = FALSE) 
-plot(out, type = "gap", ylim = c(-12000000000,12000000000), xlab = "Period", 
+plot(out, type = "gap", ylim = c(-1,1), xlab = "Period", 
      main = "My GSynth Plot")
 plot(out, type = "raw")
 plot(out,type = "raw", legendOff = TRUE, ylim=c(-120000000,120000000000), main="")
 plot(out, type = "counterfactual", raw = "none", main="")
-plot(out, type = "ct", raw = "none", main = "", 
-     shade.post = FALSE)
+
+
 plot(out, type = "counterfactual", raw = "band", 
      xlab = "Time", ylim = c(-1000000000,30000000000))
 plot(out, type = "counterfactual", raw = "all")

@@ -169,36 +169,47 @@ TAG_GROUPS = {
 # ---- For fetching all relevant firms ----
 
 #batch_1
+#tickers = [
+#    'MCD',     # McDonald's Corporation
+#
+#    "BROS",    # Dutch Bros Inc.
+#    "CMG",     # Chipotle Mexican Grill, Inc.
+#    "COST",    # Costco Wholesale Corporation
+#    "GIS",     # General Mills, Inc.
+ #   "JNJ",     # Johnson & Johnson
+#    "MDLZ",    # Mondelez International, Inc.
+#    "NKE",     # Nike, Inc.
+#    "TGT",     # Target Corporation
+#    "TRIP",    # Tripadvisor, Inc.
+#    "WEN",     # The Wendy’s Company
+#    "WMT",     # Walmart Inc.
+#]
+
 tickers = [
     'MCD',     # McDonald's Corporation
-
     "BROS",    # Dutch Bros Inc.
     "CMG",     # Chipotle Mexican Grill, Inc.
     "COST",    # Costco Wholesale Corporation
     "GIS",     # General Mills, Inc.
-    "JNJ",     # Johnson & Johnson
     "MDLZ",    # Mondelez International, Inc.
-    "NKE",     # Nike, Inc.
     "TGT",     # Target Corporation
-    "TRIP",    # Tripadvisor, Inc.
     "WEN",     # The Wendy’s Company
-    "WMT",     # Walmart Inc.
-]
-
-tickers = [
-    'MCD',     # McDonald's Corporation
-
-    "BROS",    # Dutch Bros Inc.
-    "CMG",     # Chipotle Mexican Grill, Inc.
-    "COST",    # Costco Wholesale Corporation
-    "GIS",     # General Mills, Inc.
-    "JNJ",     # Johnson & Johnson
-    "MDLZ",    # Mondelez International, Inc.
-    "NKE",     # Nike, Inc.
-    "TGT",     # Target Corporation
-    "TRIP",    # Tripadvisor, Inc.
-    "WEN",     # The Wendy’s Company
-    "WMT",     # Walmart Inc.
+    "SBUX",    # Starbucks Corporation
+    "JACK",    # Jack in the Box Inc.
+    "WING",    # Wingstop Inc.
+    "LOCO",    # El Pollo Loco Holdings, Inc.
+    "SHAK",    # Shake Shack Inc.
+    "CAKE",    # The Cheesecake Factory Incorporated
+    "TXRH",   # Texas Roadhouse, Inc.
+    "DRI",    # Darden Restaurants, Inc.
+    "BLMN",    # Bloomin' Brands, Inc.
+    "SG",    # The Scotts Miracle-Gro Company
+    "CAVA",    # CAVA Group, Inc.
+    "NDLS",    # Noodles & Company
+    "FWRG",   # Fiesta Restaurant Group, Inc.
+    "DNUT",   # Dunkin' Brands Group, Inc.
+    "CASY",   # Casey's General Stores, Inc.
+    "ARKO",
 ]
 
 # define boycott parameters

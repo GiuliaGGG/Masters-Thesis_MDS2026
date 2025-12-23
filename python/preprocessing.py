@@ -607,3 +607,175 @@ def pivot_wide(
     return out
 
 
+def complete_scm_time_grid(
+    df: pd.DataFrame,
+    unit_col: str,
+    time_col: str,
+) -> pd.DataFrame:
+    """
+    Complete SCM-style integer time grid within each unit.
+
+    Example time_col: 8034, 8035, 8036, ...
+
+    Creates missing (unit, time) rows between each unit's
+    observed min and max time.
+    """
+
+    df = df.copy()
+
+    # Enforce integer time index
+    if not np.issubdtype(df[time_col].dtype, np.integer):
+        raise TypeError(f"{time_col} must be integer for SCM-style time")
+
+    df = df.sort_values([unit_col, time_col])
+
+    completed = []
+
+    for unit, g in df.groupby(unit_col):
+        t_min = int(g[time_col].min())
+        t_max = int(g[time_col].max())
+
+        full_time = pd.DataFrame({
+            unit_col: unit,
+            time_col: np.arange(t_min, t_max + 1)
+        })
+
+        g_full = full_time.merge(
+            g,
+            on=[unit_col, time_col],
+            how="left"
+        )
+
+        completed.append(g_full)
+
+    return pd.concat(completed, ignore_index=True)
+
+# -------------
+# Impute all numeric columns within unit
+# -------------
+
+def impute_all_numeric_within_unit(
+    df: pd.DataFrame,
+    unit_col: str,
+    time_col: str,
+    exclude_cols: list = None,
+    method: str = "both"
+) -> pd.DataFrame:
+    """
+    Impute ALL numeric columns within each unit using forward/backward fill.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Panel dataframe.
+    unit_col : str
+        Unit identifier (e.g. 'ticker').
+    time_col : str
+        Time variable (sortable).
+    exclude_cols : list, optional
+        Columns to exclude from imputation (IDs, treatment, etc.).
+    method : {'forward', 'backward', 'both'}
+        Direction of imputation.
+
+    Returns
+    -------
+    pd.DataFrame
+        Imputed dataframe.
+    """
+
+    df = df.copy()
+    exclude_cols = exclude_cols or []
+
+    # Identify numeric columns only
+    numeric_cols = (
+        df.select_dtypes(include=[np.number])
+          .columns
+          .difference([unit_col, time_col] + exclude_cols)
+          .tolist()
+    )
+
+    df = df.sort_values([unit_col, time_col])
+
+    def _impute(group):
+        if method in ("forward", "both"):
+            group[numeric_cols] = group[numeric_cols].ffill()
+        if method in ("backward", "both"):
+            group[numeric_cols] = group[numeric_cols].bfill()
+        return group
+
+    return df.groupby(unit_col, group_keys=False).apply(_impute)
+
+
+def standardize_by_period0(
+
+    df: pd.DataFrame,
+    unit_col: str,
+    time_col: str,
+    cols: list,
+    method: str = "ratio",   # "ratio" or "diff"
+    suffix: str = "_std"
+) -> pd.DataFrame:
+    """
+    Standardize variables by unit-specific period 0.
+
+    For each unit i:
+        ratio: X_it / X_i0
+        diff:  X_it - X_i0
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Panel data.
+    unit_col : str
+        Unit identifier (e.g. 'ticker').
+    time_col : str
+        Time variable (sortable).
+    cols : list
+        Columns to standardize.
+    method : {"ratio", "diff"}
+        Standardization method.
+    suffix : str
+        Suffix for standardized variables.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with standardized columns added.
+    """
+
+    df = df.copy()
+    df = df.sort_values([unit_col, time_col])
+
+    # Get period-0 values per unit
+    baseline = (
+        df.groupby(unit_col, as_index=False)
+          .first()[[unit_col] + cols]
+          .rename(columns={c: f"{c}_p0" for c in cols})
+    )
+
+    df = df.merge(baseline, on=unit_col, how="left")
+
+    for c in cols:
+        p0 = f"{c}_p0"
+        out = f"{c}{suffix}"
+
+        if method == "ratio":
+            df[out] = np.where(
+                df[p0].notna() & (df[p0] != 0),
+                df[c] / df[p0],
+                np.nan
+            )
+        elif method == "diff":
+            df[out] = np.where(
+                df[p0].notna(),
+                df[c] - df[p0],
+                np.nan
+            )
+        else:
+            raise ValueError("method must be 'ratio' or 'diff'")
+
+    # Optional: drop baseline helper columns
+    df.drop(columns=[f"{c}_p0" for c in cols], inplace=True)
+
+    return df
+
