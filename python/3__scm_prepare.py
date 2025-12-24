@@ -63,7 +63,7 @@ def scm_prepare():
         unit_col="ticker",
         time_col="time",
         cols=vars_to_standardize,
-        method="ratio"   # recommended for revenue
+        method="ratio"   
     )
 
 
