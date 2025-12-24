@@ -214,4 +214,4 @@ tickers = [
 
 # define boycott parameters
 BOYCOTTED_FIRM = 'MCD'
-BOYCOTT_START = '2023-06-01'
+BOYCOTT_START = '2025-11-05'
