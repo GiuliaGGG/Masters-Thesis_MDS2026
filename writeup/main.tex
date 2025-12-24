@@ -142,13 +142,19 @@ A limitation of the DiD model is that, while it allows for the presence of unobs
 \subsection{Treatment Unit and Control Units}
 The treated the firm, McDonald's, was chosen for several reasons. Firstly, the company has been a boycott target for around two consecutive years, offering enoguh treated quarters. Secondly, McDonald's is among the boycotted companies with the most complete data availability on the SEC platform. Thirdly, several of the companies that are on the BDS boycott list have a primarly institutional performance, like tech companies that sell their units in bulk, for example. This makes it hard to capture consumer behavior through revenue changes. McDonald's, being a consumer-facing fast-food company, provides a clearer link between consumer activism and revenue impact
 
+From the BDS page, the mcdonalds ompany is listed under grassroots organic boycott targets. The organic boycott targets are campaigns that the BDS movement did not initiat is in support of them due to these brands openly supporting Israel’s genocide against Palestinians (\cite{DS2025CompaniesGenocide}). The companies McDonald’s (US), Burger King (US), Papa John’s (US), Pizza Hut (US), WIX (Israel) have been targeted as of november the 5th by the bds, after being targeted in some countries by grassroots organic boycott campaigns, not initiated by the BDS movement, because these companies, or their branches or franchises in Israel, have openly supported Israel and/or provided generous in-kind donations to the Israeli military. Quoting : " If these grassroots campaigns are not already organically active in your area, we suggest focusing your energies on our strategic campaigns above." 
+
+
+This research acklowledges that BDS did not start the boycott, and that since the adding the boycott on the website came very close to the start of the boycott, it might well be that the fact that BDS added the target on their page had no impact on the boycott themselves. However, taking the BDS call as a treatment is a way of centralizing this otherwise scattered treatment of a boycott call, and based on the available literature it is fair to assume that boycott movements need some sort of centralization to be effective. 
+
+
 \begin{figure}[h]
 \centering
 
 \begin{minipage}{\textwidth}
     \centering
     \includegraphics[width=0.9\linewidth]{images/January_2023.png}
-    \\{\footnotesize (a) Guide to BDS Boycott - January 2023}
+    \\{\footnotesize (a) Guide to BDS Boycott - November 2023}
 \end{minipage}
 
 \vspace{0.6cm}
@@ -202,8 +208,7 @@ The pre-treatment period is defined as the time before the BDS movement called f
 
 The analysis is conducted using the gsynth package, which implements the Generalized Synthetic Control Method (GSCM) developed by Xu (\citeyear{xu2017generalized}). The package imputes counterfactuals for each
 treated unit using control group information based on a linear interactive fixed effects model that
-incorporates unit-specific intercepts interacted with time-varying coefficients. The package generalizes the
-synthetic control method to the case of multiple treated units and variable treatment periods, which is not relevant for this analysys, as there is just one treatment period and one treated unit. The reason why this package was used over the classic one used in Abadie because it is more effcicient and interpretable. It allows the treatment to be correlated with unobserved unit and time heterogeneities (under reasonable modeling assumptions), while synth relies on matching pre-treatment outcomes and covariate. With a built-in cross-validation procedure, it avoids specification searches that would be required in synth where researchers choose predictors and weights manually, and thus is easier to implement. 
+incorporates unit-specific intercepts interacted with time-varying coefficient (\textcite{Xu2025gsynthManual}). The package generalizes the synthetic control method to the case of multiple treated units and variable treatment periods, which is not relevant for this analysys, as there is just one treatment period and one treated unit. The reason why this package was used over the classic one used in Abadie because it is more effcicient and interpretable. It allows the treatment to be correlated with unobserved unit and time heterogeneities (under reasonable modeling assumptions), while synth relies on matching pre-treatment outcomes and covariate. With a built-in cross-validation procedure, it avoids specification searches that would be required in synth where researchers choose predictors and weights manually, and thus is easier to implement. 
 
 The analysis includes both unit and time fixed effects, which control for time-invariant firm characteristics and common time shocks, while allowing gsynth to capture additional latent factors. The fact that different companies have different scales is assumed to be invarint over time, and partly controlled for prior to this step by taking the ratios to a baseline value in the preprocessing, but in this part of the analysys a further control is imposed as the model first removes all differences that are constant for each unit, and all shocks that are common to all units at a given time, like inflation or recessions. A cross validation procedure selects the optimal number of unobserved confounders, instead of fixing them arbitrarily. 
 
