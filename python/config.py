@@ -1,6 +1,8 @@
+# %%
 # ---------- CONFIG ----------
 UA = {"User-Agent": "Giulia Petrilli giuliapetrilli2000@gmail.com"}
 BASE = "https://data.sec.gov/api" 
+
 
 # ===============================
 # US-GAAP TAG GROUPS 
@@ -214,4 +216,7 @@ tickers = [
 
 # define boycott parameters
 BOYCOTTED_FIRM = 'MCD'
-BOYCOTT_START = '2025-11-05'
+BOYCOTT_START =  '2024-03-31' # first available instance where you can see the effect of the boycott calls in 2025-11-05
+
+
+
