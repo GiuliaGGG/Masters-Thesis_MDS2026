@@ -790,4 +790,37 @@ def drop_missing_revenue_rows(
     return df[df[revenue_col].notna()].copy()
 
 
+
+def enforce_common_revenue_time_support(
+    df: pd.DataFrame,
+    unit_col: str,
+    time_col: str,
+    revenue_col: str
+) -> pd.DataFrame:
+    """
+    Keep only (unit, time) observations where the time period
+    has non-missing revenue for *every* unit.
+
+    Result: all units start and end at the same time for revenue.
+    """
+
+    # Number of units in the sample
+    n_units = df[unit_col].nunique()
+
+    # Count how many units have observed revenue at each time
+    valid_counts = (
+        df[df[revenue_col].notna()]
+        .groupby(time_col)[unit_col]
+        .nunique()
+    )
+
+    # Times where *all* units have revenue
+    common_times = valid_counts[valid_counts == n_units].index
+
+    # Restrict dataset
+    df_out = df[df[time_col].isin(common_times)].copy()
+
+    return df_out
+
+
 # %%
