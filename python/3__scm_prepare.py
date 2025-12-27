@@ -66,6 +66,14 @@ def scm_prepare():
         method="ratio"   
     )
 
+    #df.loc[df["boycotted"] == 1, ["ticker", "time", "revenue", "revenue_std", "boycotted"]]
+
+    df = enforce_common_revenue_time_support(
+        df=df,
+        unit_col="ticker",
+        time_col="time",
+        revenue_col="revenue"
+    )
 
 
     # -----------------
