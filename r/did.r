@@ -1,14 +1,17 @@
 library(ggplot2)
 library(dplyr)
+library(did)
+
 
 did <- lm(
   revenue_std ~ boycotted + factor(ticker) + factor(time),
-  data = data_standardized
+  data = data
 )
 summary(did)
 
+plot(did)
 
-data_plot <- data_standardized %>%
+data_plot <- data %>%
   mutate(
     is_mcd = ifelse(ticker == "MCD", 1, 0)
   )
@@ -41,3 +44,31 @@ ggplot(plot_data, aes(x = time, y = mean_revenue, color = factor(is_mcd))) +
     color = "Firm"
   ) +
   theme_minimal(base_size = 13)
+
+
+# did package from callway and Callaway, Brantly and Pedro H.C. Sant’Anna. “Difference-in-Differences with Multiple Time Periods.” Journal of Econometrics, Vol. 225, No. 2, pp. 200-230, 2021.
+
+treated_unit <- "7"
+t0 <- 8097  # first treated period in your time index
+
+df_did <- data_c %>%
+  mutate(
+    first_treat = ifelse(company_id == treated_unit, t0, 0)  # 0 = never treated
+  )
+
+out <- att_gt(
+  yname  = "revenue_std",
+  gname  = "first_treat",
+  idname = "company_id",
+  tname  = "time",
+  xformla = ~ 1,
+  data   = df_did,
+  est_method = "reg",
+  control_group = "nevertreated"  # important with single treated unit
+)
+
+es <- aggte(out, type = "dynamic")
+ggdid(es)
+
+
+
