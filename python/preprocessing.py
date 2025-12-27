@@ -779,3 +779,15 @@ def standardize_by_period0(
 
     return df
 
+
+def drop_missing_revenue_rows(
+    df: pd.DataFrame,
+    revenue_col: str
+) -> pd.DataFrame:
+    """
+    Drop rows with missing revenue values.
+    """
+    return df[df[revenue_col].notna()].copy()
+
+
+# %%
