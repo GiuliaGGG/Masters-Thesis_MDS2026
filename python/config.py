@@ -196,12 +196,12 @@ tickers = [
     "MDLZ",    # Mondelez International, Inc.
     "TGT",     # Target Corporation
     "WEN",     # The Wendy’s Company
-    "SBUX",    # Starbucks Corporation
+    #"SBUX",    # Starbucks Corporation
     "JACK",    # Jack in the Box Inc.
     "WING",    # Wingstop Inc.
     "LOCO",    # El Pollo Loco Holdings, Inc.
     "SHAK",    # Shake Shack Inc.
-    "CAKE",    # The Cheesecake Factory Incorporated
+    #"CAKE",    # The Cheesecake Factory Incorporated
     "TXRH",   # Texas Roadhouse, Inc.
     "DRI",    # Darden Restaurants, Inc.
     "BLMN",    # Bloomin' Brands, Inc.
@@ -212,6 +212,18 @@ tickers = [
     "DNUT",   # Dunkin' Brands Group, Inc.
     "CASY",   # Casey's General Stores, Inc.
     "ARKO",
+
+
+    "MAR",     # Marriott International, Inc.
+    "HLT",     # Hilton Worldwide Holdings Inc.
+    "BBWI",    # Bath & Body Works, Inc.
+    "GPS",     # The Gap, Inc.
+    "HD",      # The Home Depot, Inc.
+    "LOW",     # Lowe's Companies, Inc.
+    "LEVI",    # Levi Strauss & Co.
+
+    "NFLX",  # Netflix, Inc.
+    "UBER",  # Uber Technologies, Inc.
 ]
 
 # define boycott parameters
