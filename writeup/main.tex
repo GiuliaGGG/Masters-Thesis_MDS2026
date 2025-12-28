@@ -151,7 +151,7 @@ The data is taken from quarterly SEC fillings from Q1 2009 to Q3 2025, providing
 A limitation of the DiD model is that, while it allows for the presence of unobserved confounders, it restricts their effect to be constant in time, so they can be eliminated by taking time differences (\cite{abadie2010synthetic}).The SCM extends the traditional linear panel data framework, allowing that the effects of unobserved variables on the outcome vary with time. This thesis uses the Synthetic Control Method (SCM) to estimate the impact of the BDS boycott calls on McDonald's revenue. Amount of revenue recognized from goods sold, services rendered, insurance premiums, or other activities that constitute an earning process. Includes, but is not limited to, investment and interest income before deduction of interest expense when recognized as a component of revenue, and sales and trading gain (loss)."
 
 \subsection{Treatment Unit and Control Units}
-The treated the firm, McDonald's, was chosen for several reasons. Firstly, the company has been a boycott target for around two consecutive years, offering enoguh treated quarters. Secondly, McDonald's is among the boycotted companies with the most complete data availability on the SEC platform. Thirdly, several of the companies that are on the BDS boycott list have a primarly institutional performance, like tech companies that sell their units in bulk, for example. This makes it hard to capture consumer behavior through revenue changes. McDonald's, being a consumer-facing fast-food company, provides a clearer link between consumer activism and revenue impact
+The treated the firm, McDonald's, was chosen for several reasons. Firstly, the company has been a boycott target for around two consecutive years, offering enoguh treated quarters. Secondly, McDonald's is among the boycotted companies with the most complete data availability on the SEC platform. Thirdly, several of the companies that are on the BDS boycott list have a primarly institutional performance, like tech companies that sell their units in bulk, for example. This makes it hard to capture consumer behavior through revenue changes. McDonald's, being a consumer-facing fast-food company, provides a clearer link between consumer activism and revenue impact. 
 
 From the BDS page, the mcdonalds company is listed under grassroots organic boycott targets. The organic boycott targets are campaigns that the BDS movement did not initiat is in support of them due to these brands openly supporting Israel’s genocide against Palestinians (\cite{DS2025CompaniesGenocide}). The companies McDonald’s (US), Burger King (US), Papa John’s (US), Pizza Hut (US), WIX (Israel) have been targeted as of November the 5th by the bds, after being targeted in some countries by grassroots organic boycott campaigns, not initiated by the BDS movement, because these companies, or their branches or franchises in Israel, have openly supported Israel and/or provided generous in-kind donations to the Israeli military. Quoting : " If these grassroots campaigns are not already organically active in your area, we suggest focusing your energies on our strategic campaigns above." 
 
@@ -238,6 +238,14 @@ The analysis includes both unit and time fixed effects, which control for time-i
 
 \section{Discussion}
 
+
+McDonalds might be an unique company, whose synthetic control is difficoult to approximate with an aggregate of other companies. McDonalds is extremely capillar, mostly in the US but in the whole world, too. See McDonald's in Cuba on the Guantánamo Bay military base, or the controversial McCafe inside a former Taiwan leader's home in Hangzhou, China (\textcite{straitstimes_mcdonalds_taiwan_home} ; \textcite{mee_mcdonalds_interesting_locations}). 
+
+The next biggest companies, which would have served also as a great control, like Domino's Pizza, Pizza Hut, Burger King, have also been subjected to boycotts. Several interesting firms, like Inspire Brands, which owns Dunkin’ among others, are privately held, and hence not on SEC data. 
+
+Another challenge is closely related to the narture of corporate governance, which is the fact that some brands would have been interesting control group candidates, like, merge with other brands and get in multi-brand holding company whose data is only available in bulk. 
+
+Given the data, a next thesis on this topic should focus on 
 
 Further research should perform this analysys inthe international markets, because even if there is a strong correlation with gaza and the drop in sales there, it still would be worthwhile to investigate wether the synthetic control method performs well in a case where significance is easier to achieve, of if it would have been unsuitable in that case, too. 
 
