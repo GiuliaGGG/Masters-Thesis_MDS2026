@@ -212,8 +212,6 @@ tickers = [
     "DNUT",   # Dunkin' Brands Group, Inc.
     "CASY",   # Casey's General Stores, Inc.
     "ARKO",
-
-
     "MAR",     # Marriott International, Inc.
     "HLT",     # Hilton Worldwide Holdings Inc.
     "BBWI",    # Bath & Body Works, Inc.
@@ -221,14 +219,23 @@ tickers = [
     "HD",      # The Home Depot, Inc.
     "LOW",     # Lowe's Companies, Inc.
     "LEVI",    # Levi Strauss & Co.
-
     "NFLX",  # Netflix, Inc.
     "UBER",  # Uber Technologies, Inc.
 ]
 
+# # batch_4 recent
+# tickers = [
+#     "MCD",     # McDonald's Corporation
+#     "PZZA",    # Papa John's International, Inc.
+#     "YUM",     # Yum! Brands, Inc.
+#     "QSR",     # Restaurant Brands International Inc.
+#      "DPZ",     # Domino's Pizza, Inc.
+#      "DIS",   # The Walt Disney Company
+#      "COKE",    # Coca-Cola Company
+#      "PEP",     # PepsiCo, Inc.
+#  ]
+
 # define boycott parameters
 BOYCOTTED_FIRM = 'MCD'
-BOYCOTT_START =  '2024-03-31' # first available instance where you can see the effect of the boycott calls in 2025-11-05
-
-
+BOYCOTT_START =  '2024-03-31' # first available instance where you can see the effect of the boycott calls in 2025-11-05. The 2024 Q4 is imputed and not present yet at this stage. This is corrected further on. 
 
