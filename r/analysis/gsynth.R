@@ -1,3 +1,5 @@
+source("./r/setup.r")
+
 panelview(revenue_std ~ boycotted, data = data,  index = c("ticker","time"), pre.post = TRUE) 
 
 system.time(                     # Measure total runtime of the gsynth estimation

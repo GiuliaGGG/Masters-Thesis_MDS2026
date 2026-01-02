@@ -1,3 +1,5 @@
+source("./r/setup.r")
+
 syn <- augsynth(
   revenue_std ~ boycotted,
   ticker,

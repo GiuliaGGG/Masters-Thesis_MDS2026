@@ -1,5 +1,7 @@
+source("./r/setup.r")
+
 sc_out <-
-  data_c %>%
+  data_company_id %>%
 
   synthetic_control(
     outcome = revenue_std,

@@ -1,9 +1,7 @@
+source("./r/setup.r")
 
-###################################################
-### chunk number 3: 
-###################################################
 dataprep.out <- dataprep(
-  foo = data_c,
+  foo = data_company_id,
   dependent = "revenue_std",
   predictors = c("revenue_std") ,
   predictors.op = "mean",
@@ -17,60 +15,37 @@ dataprep.out <- dataprep(
 )
 
 	
-###################################################
-### chunk number 4: 
-###################################################
- dataprep.out$X1 #treated unit’s predictor values (Basque Country).
+dataprep.out$X1 #treated unit’s predictor values 
 	
-###################################################
-### chunk number 5: 
-###################################################
- dataprep.out$Z1 #treated unit’s outcome values (Basque Country).
-	
-###################################################
-### chunk number 7: 
-###################################################
+
+dataprep.out$Z1 #treated unit’s outcome values 
+
  # run synth
  synth.out <- synth(
    data.prep.obj = dataprep.out,
    method = "BFGS"
  )
-###################################################
-### chunk number 8: 
-###################################################
- gaps <- dataprep.out$Y1plot - (dataprep.out$Y0plot %*% synth.out$solution.w)
- gaps[1:3, 1]
-	
-###################################################
-### chunk number 9: 
-###################################################
- synth.tables <- synth.tab(dataprep.res = dataprep.out,
-                           synth.res = synth.out
-                           )
-	
-###################################################
-### chunk number 10: 
-###################################################
- names(synth.tables)
+
+gaps <- dataprep.out$Y1plot - (dataprep.out$Y0plot %*% synth.out$solution.w)
+gaps[1:3, 1]
 	
 
+synth.tables <- synth.tab(dataprep.res = dataprep.out,
+                           synth.res = synth.out
+                           )
+
+names(synth.tables)
 	
-###################################################
-### chunk number 13: 
-###################################################
 path.plot(synth.res = synth.out,
            dataprep.res = dataprep.out,
            Ylab = "Revenue (standardized from period 0)",
            Xlab = "time",
-           Ylim = c(0.5,1.5),
+           Ylim = c(0.3,1.8),
            Legend = c("McDonald's","synthetic McDonald's"),
            Legend.position = "bottomright"
            )
 
-###################################################
-### chunk number 14: 
-###################################################
- gaps.plot(synth.res = synth.out,
+gaps.plot(synth.res = synth.out,
            dataprep.res = dataprep.out,
            Ylab = "Revenue (standardized from period 0)",
            Xlab = "time",

@@ -1,7 +1,4 @@
-library(ggplot2)
-library(dplyr)
-library(did)
-
+source("./r/setup.r")
 
 did <- lm(
   revenue_std ~ boycotted + factor(ticker) + factor(time),
@@ -51,7 +48,7 @@ ggplot(plot_data, aes(x = time, y = mean_revenue, color = factor(is_mcd))) +
 treated_unit <- "7"
 t0 <- 8097  # first treated period in your time index
 
-df_did <- data_c %>%
+df_did <- data_company_id %>%
   mutate(
     first_treat = ifelse(company_id == treated_unit, t0, 0)  # 0 = never treated
   )
