@@ -14,7 +14,9 @@ def scm_prepare():
 
     df = pd.read_csv(input_path)
 
-    # -----------------
+    df = add_scm_time_index(df)
+
+     # -----------------
     # Define treatment (boycott)
     # -----------------
     df = define_boycotted(
@@ -23,10 +25,10 @@ def scm_prepare():
         boycott_start=BOYCOTT_START
     )
 
-    df = add_scm_time_index(df)
     df = resolve_collisions_prefer_10q_then_latest_end(df)
     df = refine_estimation_window(df)
     df = drop_chronically_sparse_donors(df)
+
     df = pivot_wide(df)
 
     df = complete_scm_time_grid(
@@ -42,7 +44,7 @@ def scm_prepare():
         exclude_cols=["ticker"],  # treatment indicator (do NOT impute)
         method="both"
     )
-  
+
     vars_to_standardize = [
         "cost",
         "depr_amort",
@@ -57,7 +59,7 @@ def scm_prepare():
         "shares_diluted",
         "tax"
     ]
-
+    
     df = standardize_by_period0(
         df=df,
         unit_col="ticker",
@@ -75,12 +77,22 @@ def scm_prepare():
         revenue_col="revenue"
     )
 
+    df = set_boycotted_from_time(
+        df,
+        start_time=8096,
+        treated_ticker="MCD"
+    )
+    df = add_time_label_from_scm(df)
+
+    df.head(10)
+
+
 
     # -----------------
     # Save output
-    # -----------------
+    # -----------------  
     output_path = (
-        "./data/processed/data_standardized.csv"
+        "/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/data/processed/batch_3/data.csv"
     )
 
     df.to_csv(output_path, index=False)
@@ -92,3 +104,5 @@ def scm_prepare():
 
 if __name__ == "__scm_prepare__":
     scm_prepare()
+
+# %%

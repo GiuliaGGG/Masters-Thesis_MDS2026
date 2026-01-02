@@ -395,6 +395,9 @@ def add_scm_time_index(
     # SCM-compatible numeric time index
     df[time_col] = df["year"] * 4 + df["quarter"]
 
+    # Add a human readable time label 
+    df["time_label"] = df["year"].astype(str) + " Q" + df["quarter"].astype(str)
+
     return df
 
 
@@ -821,6 +824,94 @@ def enforce_common_revenue_time_support(
     df_out = df[df[time_col].isin(common_times)].copy()
 
     return df_out
+
+def set_boycotted_from_time(
+    df: pd.DataFrame,
+    start_time: int | float,
+    treated_ticker: str,
+    time_col: str = "time",
+    ticker_col: str = "ticker",
+    boycotted_col: str = "boycotted",
+    inplace: bool = False,
+) -> pd.DataFrame:
+    """
+    Set boycotted = 1 for a specific ticker from a given SCM time onward.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Input dataframe
+    start_time : int | float
+        SCM time index at which boycott starts (e.g. 8096)
+    treated_ticker : str
+        Ticker to be marked as boycotted (e.g. "MCD")
+    time_col : str
+        Name of SCM time column
+    ticker_col : str
+        Name of ticker column
+    boycotted_col : str
+        Name of treatment indicator column
+    inplace : bool
+        If True, modify df in place; otherwise return a copy
+    """
+
+    if not inplace:
+        df = df.copy()
+
+    # Normalize types (important for SCM robustness)
+    df[time_col] = df[time_col].round().astype(int)
+    start_time = int(start_time)
+
+    df[ticker_col] = df[ticker_col].astype(str).str.strip().str.upper()
+    treated_ticker = treated_ticker.strip().upper()
+
+    # Default: no one is treated
+    df[boycotted_col] = 0
+
+    # Apply treatment only to the selected ticker and time window
+    mask = (
+        (df[ticker_col] == treated_ticker) &
+        (df[time_col] >= start_time)
+    )
+
+    df.loc[mask, boycotted_col] = 1
+
+    return df
+
+def add_time_label_from_scm(
+    df: pd.DataFrame,
+    time_col: str = "time",
+    new_col: str = "time_label",
+    inplace: bool = False,
+) -> pd.DataFrame:
+    """
+    Add a human-readable time label (YYYY QN) from SCM time index,
+    where SCM time = year * 4 + quarter.
+
+    Example:
+        8096 -> 2023 Q4
+    """
+
+    if not inplace:
+        df = df.copy()
+
+    # Ensure integer SCM time
+    df[time_col] = df[time_col].round().astype(int)
+
+    # Recover year and quarter
+    years = df[time_col] // 4
+    quarters = df[time_col] % 4
+    quarters = quarters.replace(0, 4)
+
+    # Adjust year when quarter == 4 case
+    years = years.where(df[time_col] % 4 != 0, years - 1)
+
+    df[new_col] = years.astype(str) + " Q" + quarters.astype(str)
+
+    return df
+
+
+
 
 
 # %%
