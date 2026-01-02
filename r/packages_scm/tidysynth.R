@@ -1,9 +1,3 @@
-install.packages('tidysynth')
-require(tidysynth)
-data("smoking")
-smoking %>% dplyr::glimpse()
-library(tidysynth)
-
 sc_out <-
   data_c %>%
 
@@ -12,19 +6,19 @@ sc_out <-
     unit = ticker,
     time = time,
     i_unit = "MCD",
-    i_time = 8097,
+    i_time = 8096,
     generate_placebos = TRUE
   ) %>%
 
   # --- predictors: lagged outcomes only (canonical SCM) ---
   generate_predictor(
-    time_window = 8045:8096,
+    time_window = 8045:8095,
     revenue_pre = mean(revenue_std, na.rm = TRUE)
   ) %>%
 
   # --- fit weights ---
   generate_weights(
-    optimization_window = 8045:8096
+    optimization_window = 8045:8095
   ) %>%
 
   # --- build synthetic control ---

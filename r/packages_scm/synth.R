@@ -1,11 +1,3 @@
-###################################################
-### chunk number 1: 
-###################################################
- library("Synth")
-
-data <-read_csv('/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/data/processed/batch_2/data_batch_2_recent.csv')
-data_c <- data %>% 
-  mutate(company_id = as.integer(as.factor(ticker))) %>% as.data.frame()
 
 ###################################################
 ### chunk number 3: 
@@ -13,13 +5,13 @@ data_c <- data %>%
 dataprep.out <- dataprep(
   foo = data_c,
   dependent = "revenue_std",
-  predictors = "revenue_std",
+  predictors = c("revenue_std") ,
   predictors.op = "mean",
   time.predictors.prior = 8045:8096,
   unit.variable = "company_id",
   time.variable = "time",
-  treatment.identifier = 7,
-  controls.identifier = c(1:6, 8:12),
+  treatment.identifier = 11,
+  controls.identifier = c(1:10, 12:16),
   time.optimize.ssr = 8045:8096,
   time.plot = 8045:8102
 )
@@ -61,20 +53,12 @@ dataprep.out <- dataprep(
 ###################################################
  names(synth.tables)
 	
-###################################################
-### chunk number 11: 
-###################################################
- synth.tables$tab.pred[1:5, ]
-	
-###################################################
-### chunk number 12: 
-###################################################
- synth.tables$tab.w[8:14, ]
+
 	
 ###################################################
 ### chunk number 13: 
 ###################################################
- path.plot(synth.res = synth.out,
+path.plot(synth.res = synth.out,
            dataprep.res = dataprep.out,
            Ylab = "Revenue (standardized from period 0)",
            Xlab = "time",
@@ -82,7 +66,7 @@ dataprep.out <- dataprep(
            Legend = c("McDonald's","synthetic McDonald's"),
            Legend.position = "bottomright"
            )
-	
+
 ###################################################
 ### chunk number 14: 
 ###################################################

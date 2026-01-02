@@ -1,23 +1,16 @@
-library(readr)
-library(gsynth)
-library(dplyr)
-library(panelView)
-
-
-data_standardized <-read_csv('/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/data/processed/data_standardized.csv')
-panelview(revenue_std ~ boycotted, data = data_standardized,  index = c("ticker","time"), pre.post = TRUE) 
+panelview(revenue_std ~ boycotted, data = data,  index = c("ticker","time"), pre.post = TRUE) 
 
 system.time(                     # Measure total runtime of the gsynth estimation
   out <- gsynth(
     revenue_std ~ boycotted,     # Outcome is standardized revenue; treatment is boycott exposure
-    data = data_standardized,    # Panel dataset with standardized variables
+    data = data,            # Panel dataset with standardized variables
     index = c("ticker","time"),  # Panel identifiers: firm (ticker) and time
     force = "two-way",           # Include both unit and time fixed effects
     CV = TRUE,                   # Use cross-validation to select the number of latent factors
     r = c(0, 5),                 # Allow between 0 and 5 unobserved common factors
     se = TRUE,                   # Compute standard errors
     inference = "parametric",    # Use parametric bootstrap inference
-    nboots = 100,                 # Number of bootstrap replications
+    nboots = 20,                 # Number of bootstrap replications
     parallel = TRUE              # Enable parallel computation for speed
   )
 )
