@@ -100,34 +100,6 @@ As per the group of issues that make data retrieval tricky, researcher must me m
 
 Additonally, firms often report economically equivalent concepts under different US-GAAP tags over time. This means, for example, that the variable that expresses revenue might be under different tags for some quarters or years, and this varies within and between firms alike. For this reason, raw XBRL tags were first mapped to a common set of semantic labels (e.g., revenue, net income, operating expenses). When multiple tags were available for the same firm and label, a dominant tag was selected based on reporting frequency, ensuring internal consistency of each firm’s time series. In some cases, the dominant tag existed for a defined time period, and was replaced by another one for another period (see figure below). In these less common cases, the research took the two main tags to ensure a smooth time trend for the variable. 
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/nike_revenue_by_source_tag.png}
-    \caption{}
-    \label{fig: Example from a company }
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/c83be82a-d34f-48dd-b5b6-0169ea44a1d4.png}
-    \caption{Treatment Status PRE IMPUTATION}
-    \label{fig:mcd_revenue}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/c83be82a-d34f-48dd-b5b6-0169ea44a1d4.png}
-    \caption{Treatment Status POST IMPUTATION}
-    \label{fig:mcd_revenue}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/rawdata.png}
-    \caption{Rawdata}
-    \label{fig:mcd_revenue}
-\end{figure}
-
 Having laid out the main issues and limitations in the data preprocessing, a practical description of how the data was scraped and preprocessed follows. This analysis' scraping file extracts the raw company concepts with all the tags available for the firms of interest. The preprocessing part loads the raw financial observations, then filter the quarterly intervals based on start and end date,  and proceeds with mapping the entries to fiscal quarter based on when the end date of the reporting period falls under. At this stage, the data presents several duplicates, because SEC/XBRL financial data typically contains multiple rows for the same underlying economic quantity because of different XBRL frames (contexts), amended filings (10-Q/A, 10-K/A), overlapping reporting windows, and other duplicate observations differing only in technical metadata. The script sometimes takes mechanical choiches, like chosing deterministically when the difference between rows is trivial, due to repetead filings of the same observation, for the purpose of maintaining one row per economic observation. For example, the column frame encodes reporting context, not economic content, and when the difference between rows in in the frame, only one observation is maintained. The script resolves the multiple reporting sources by selecting a dominant source tag, and goes on to preparing the data for the scm analysis. Treatment exposure was defined at the firm level using a binary indicator that switches on from the quarter in which the boycott event occurred. Then, the script refines the estimation window and drops chronically sparse donors. The is some missing data at this point, as it can be seen in figure below. The R packages tidysinth and asynth used further in the analysis do not tolerate unbalanced panels and missing entries, hence imputation is applied to every numeric column within each unit during the preprocessing by using forward/backward fill. Pictures of the pre and post imputation show much much of the data is imputed. 
 
 The script standardizes firm-level revenue and related financial variables relative to each firm’s initial pre-sample level. For every firm, the first observed period is taken as a firm-specific baseline (period 0), and subsequent observations are expressed as ratios to this baseline value. This standardizazion is useful for capturing meaningful relative changes in revenue by removing large cross-firm differences in revenue scale, and supports the creation of a meaningful counterfactual. 
@@ -151,17 +123,10 @@ Since SCM does not use randomization, the treatment assignment is critical to en
 
 \subsection{Pre-treatment Period and Post-treatment Period}
 
-Since boycott calls are the treatment, and since the movement largely operates on their social media and website, this thesis understands treatment as being present on the boycott brands page of the BDS website.
-
 The Guide To BDS page (\citeyear{BDSGuide}), and variations thereof, have been informing users on what to boycott since the movement's inception. 
-The pages shows images of brands that the movement decides to target once they fit their boycott criteria. This thesis assumes that once the brand appears on the website, social media action follows and user engagement on the page too. this is a way that the research centralizes the treatment definition around a concrete and verifiable event.
-Past presence on the page is verified through the Wayback Machine, an internet archiving service that captures and stores snapshots of web pages over time.
+The pages shows images of brands that the movement decides to target once they fit their boycott criteria. Past presence on the page is verified through the Wayback Machine, an internet archiving service that captures and stores snapshots of web pages over time. The pre-treatment period is defined as the time before the BDS movement called for a boycott against McDonald's, which occurred in November 2023. A manual analysis of the wayback machine ensures that the boycott call was present since then, and not before, and also that the control group companies were not called for boycott at any point in time.
 
-From the BDS page, the mcdonalds company is listed under grassroots organic boycott targets. The organic boycott targets are campaigns that the BDS movement did not initiat is in support of them due to these brands openly supporting Israel’s genocide against Palestinians (\cite{DS2025CompaniesGenocide}). The companies McDonald’s (US), Burger King (US), Papa John’s (US), Pizza Hut (US), WIX (Israel) have been targeted as of November the 5th by the bds, after being targeted in some countries by grassroots organic boycott campaigns, not initiated by the BDS movement, because these companies, or their branches or franchises in Israel, have openly supported Israel and/or provided generous in-kind donations to the Israeli military. This means that while 
-
-This research acklowledges that BDS did not start the boycott, and that since the adding the boycott on the website came very close to the start of the boycott, it might well be that the fact that BDS added the target on their page had no impact on the boycott themselves. However, taking the BDS call as a treatment is a way of centralizing this otherwise scattered treatment of a boycott call, and based on the available literature it is fair to assume that boycott movements need some sort of centralization to be effective. The twitter post is from the 19th of october 2023, and the BDS adding the result is on the 5th of November. This time difference can't be captured by the quarterly data. 
-
-The pre-treatment period is defined as the time before the BDS movement called for a boycott against McDonald's, which occurred in November 2023. The wayback machine was manually checked to ensure that the boycott call was present since then, and not before, and also that the control group companies were not called for boycott at any point in time. The post-treatment period starts from the last quarter of 2023 and ends when the latest available data point, which is in Q3 2025.
+Mcdonalds is listed under BDS# grassroots organic boycott targets. The organic boycott targets are campaigns that the BDS movement did not initiate, but is in support of them due to these brands being perceived as openly supporting Israel’s genocide against Palestinians (\cite{DS2025CompaniesGenocide}). The twitter post where mcdonalds israel gives food to the IDF is from the 19th of october 2023, and the BDS adding the result is on the 5th of November. This research acklowledges that BDS did not start the boycott, that the boycotts might have happened regardless of the BDS calls. However, taking the BDS call as a treatment is a way of centralizing this otherwise scattered treatment of a boycott call, this is a way that the research centralizes the treatment definition around a concrete and verifiable event. Additionally, the available literature says that is fair to assume that boycott movements need some sort of centralization to be effective. 
 
 \section{Analysis}
 
@@ -170,27 +135,19 @@ incorporates unit-specific intercepts interacted with time-varying coefficient (
 
 The analysis includes both unit and time fixed effects, which control for time-invariant firm characteristics and common time shocks, while allowing gsynth to capture additional latent factors. The fact that different companies have different scales is assumed to be invarint over time, and partly controlled for prior to this step by taking the ratios to a baseline value in the preprocessing, but in this part of the analysys a further control is imposed as the model first removes all differences that are constant for each unit, and all shocks that are common to all units at a given time, like inflation or recessions. A cross validation procedure selects the optimal number of unobserved confounders, instead of fixing them arbitrarily. 
 
-
-
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/c83be82a-d34f-48dd-b5b6-0169ea44a1d4.png}
-    \caption{Treatment Status}
-    \label{fig:mcd_revenue}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/plot.png}
-    \caption{Treated vs Estimated Synthetic Control Revenue Over Time}
-    \label{fig:mcd_revenue}
-\end{figure}
-
+\subsection{SCM}
+\subsection{ASCM}
+\subsection{DiD}
 
 \section{Discussion}
 
 
+I told you a lost of things, what ground conclusion do I come to, if any. why does it matter? why does this method work or not? 
+
+Anyways, back to boycotts. What should the next person that writes about them do?
+where should they go? 
+
+What if the outcome variable wasn't revenue? 
 
 What this research can takeaway from the data for boycotting purposes is that the sec one is difficoult to read if you're not a data scientist, so your average activist, which might be interest in this, can't understand it well. If you wanna get understandable one, there are plenty of services that sell it, and not for cheap. The third one is that the way that companies report their data might not be made to show boycott impact.
 
@@ -208,13 +165,6 @@ Another challenge is closely related to the narture of corporate governance, whi
 Given the data, a next thesis on this topic should focus on 
 
 Further research should perform this analysys inthe international markets, because even if there is a strong correlation with gaza and the drop in sales there, it still would be worthwhile to investigate wether the synthetic control method performs well in a case where significance is easier to achieve, of if it would have been unsuitable in that case, too. 
-
-I told you a lost of things, what ground conclusion do I come to, if any. why does it matter? why does this method work or not? 
-
-Anyways, back to boycotts. What should the next person that writes about them do?
-where should they go? 
-
-What if the outcome variable wasn't revenue? 
 
 \printbibliography
 
@@ -237,28 +187,6 @@ What if the outcome variable wasn't revenue?
 \end{tabular}
 \caption{Description of fields in SEC financial reporting data}
 \label{tab:sec_fields}
-\end{table}
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{r r r}
-\hline
-\textbf{Firm} & \textbf{T0} & \textbf{T1} \\
-\hline
-1  & 68 & 0 \\
-2  & 68 & 0 \\
-3  & 68 & 0 \\
-4  & 68 & 0 \\
-McDonald's  & 57 & 11 \\
-6  & 68 & 0 \\
-7  & 68 & 0 \\
-8  & 68 & 0 \\
-9  & 68 & 0 \\
-10 & 68 & 0 \\
-11 & 68 & 0 \\
-\hline
-\end{tabular}
-\caption{Treated and Control Units}
 \end{table}
 
 
