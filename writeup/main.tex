@@ -137,64 +137,29 @@ The script standardizes firm-level revenue and related financial variables relat
 The study setup, pivotal for the estimator choiche, is as follows. The call to boycott mcDonalds sets a pre and port treatment period. There are a small number of treated units ( the quarterly equivalent of 2 years) and long pre-treatment histories (from 2011 to to 2023, so 12 years). There is a treated unit, McDonald, that receives a treatment that not every company receives. Mcdonalds has several characteristics in common with other firms in the restauration and fast food business, they are subjected to similar demands from consumers as they fill a similar market and can be assumed to have a similar seasonality, they are impacted from similar economic shocks and inflation levels. Hence, they are somehow comparable. However, a comparison between McDonalds revenue and all the other firms' revenue would not be informative, because there are several other aspects that differentiate a a fast food from another, like different success among costumers, that make the revenues between different firms not comparable, or more specifically, not parallel before treatment. The treatment, being subject to a boycott call, is complex, endogenous, and non-linear. The setup and data used in this thesis lend themselves to a Synthetic Control Method (SCM), because mcdonalds had a treatment that other companies did not have, and simply checking the difference between a non boycotted company to McDonald after the treatment is not possible because there is no company with available data that matches well McDonalds pre treatment path and is not bocotted. The SCM is an extension of the simpler Difference in Difference (DiD) analysis, which compares the change in outcomes over time in a treated group to the change in outcomes over time in a control group to identify causal effects (\textcite{angrist2009mostly}), and is a good solution when assumption that the pre trend path of a control unit are parallel to the path of the treated and when there are significant time-varying unobserved confounders. Abadie et al (\citeyear{abadie2010synthetic}) developed the Synthetic Control Method (SCM) as an alternative to DiD when a combination of units provides a better comparison for the treated unit than any single unit alone. SCM a data-driven procedure that constructs a synthetic version of the treated unit by weighting a combination of control units (other fast-food companies not targeted by BDS). This synthetic control serves as a counterfactual, representing what would have happened to McDonald's revenue in the absence of the boycott. The SCM allows for the effects of unobserved variables on the outcome to vary with time, while DiD restricts them to be constant in time (\cite{abadie2010synthetic}). This A SCM is wothwhile in this case also because there are many pre treatment units, 12 years worth of data. SCM does not require a large number of comparison units in the donor pool, which also fits this case as the post treatment is only of 2 years.
 
 \subsection{Treatment Unit and Control Units}
-The treated the firm, McDonald's, was chosen for several reasons. Firstly, the company has been a boycott target for around two consecutive years, offering enoguh treated quarters. Secondly, McDonald's is among the boycotted companies with the most complete data availability on the SEC platform. Thirdly, several of the companies that are on the BDS boycott list have a primarly institutional performance, like tech companies that sell their units in bulk, for example. This makes it hard to capture consumer behavior through revenue changes. McDonald's, being a consumer-facing fast-food company, provides a clearer link between consumer activism and revenue impact. 
 
-From the BDS page, the mcdonalds company is listed under grassroots organic boycott targets. The organic boycott targets are campaigns that the BDS movement did not initiat is in support of them due to these brands openly supporting Israel’s genocide against Palestinians (\cite{DS2025CompaniesGenocide}). The companies McDonald’s (US), Burger King (US), Papa John’s (US), Pizza Hut (US), WIX (Israel) have been targeted as of November the 5th by the bds, after being targeted in some countries by grassroots organic boycott campaigns, not initiated by the BDS movement, because these companies, or their branches or franchises in Israel, have openly supported Israel and/or provided generous in-kind donations to the Israeli military. Quoting : " If these grassroots campaigns are not already organically active in your area, we suggest focusing your energies on our strategic campaigns above." 
+The treated the firm, McDonald's, was chosen for several reasons. Firstly, the company has been a boycott target for around two consecutive years, offering several treated quarters. Secondly, McDonald's is among the boycotted companies with the most complete data availability on the SEC platform. Thirdly, several of the companies that are on the BDS boycott list have a primarly institutional performance, like tech companies that sell their units in bulk, for example. This makes it hard to capture consumer behavior through revenue changes. McDonald's, being a consumer-facing fast-food company, provides a clearer link between consumer activism and revenue impact. 
 
-This research acklowledges that BDS did not start the boycott, and that since the adding the boycott on the website came very close to the start of the boycott, it might well be that the fact that BDS added the target on their page had no impact on the boycott themselves. However, taking the BDS call as a treatment is a way of centralizing this otherwise scattered treatment of a boycott call, and based on the available literature it is fair to assume that boycott movements need some sort of centralization to be effective. The twitter post is from the 19th of october 2023, and the BDS adding the result is on the 5th of November. This time difference can't be captured by the quarterly data. 
-
-\begin{figure}[h]
-\centering
-
-\begin{minipage}{\textwidth}
-    \centering
-    \includegraphics[width=0.9\linewidth]{images/January_2023.png}
-    \\{\footnotesize (a) Guide to BDS Boycott - November 2023}
-\end{minipage}
-
-\vspace{0.6cm}
-
-\begin{minipage}{\textwidth}
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=0.9\linewidth]{images/September_2025.png}
-    \\{\footnotesize (b) Guide to BDS Boycott – September 2025}
-\end{minipage}
-
-\caption{Comparison of the Guide to BDS Boycott across time.}
-\label{fig:comparison}
+    \caption{Guide to BDS Boycott – September 2025}
+    \label{fig:mcd_revenue}
 \end{figure}
 
-Since SCM does not use randomization, the treatment assignment, and the choice of the control group, is critical to ensure the validity of the results. In the context of this thesis, the assignment process involves picking a poll of control units that could have been a boycott target, but were not. 
-The criteria to select treatment are based on the BDS page rationale for which companies become a boycott target, and are level of complicity, potential for cross-movement coalition-building, media appeal, and potential for success (\textcite{bdsStrategic2024}). The control units are all companies that are big enough to be on SEC, and that are US based. This is a first way to ensure that they are all comparable.
-The research identifies companies that fit all the criteria when possible, and opts for a looser fit when data availability is limited.
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{l c c c c}
-\hline
-Company & Complicity & Coalition Building & Media Appeal & Potential \\
-\hline
-Walmart\\
-Wendy's \\
-Target \\
-Johnson \& Johnson \\
-Mondelez International\\ 
-General Mills \\
-Costco Wholesale \\
-\hline
-\end{tabular}
-\caption{Control Units Selected for Synthetic Control Method}
-\label{tab:basic}
-\end{table}
+Since SCM does not use randomization, the treatment assignment is critical to ensure the validity of the results. The assignment process involves picking a poll of control units that could have been a boycott target, but were not. This thesis assumes that any company could be subject to boycotts eventually, because a statement supporting Israel or a partnership with the IDF are in the realm of possibility of virtually any company. It is also helpful to pick a pool of companies that could reasonably map out the treatment company to minimize unobserved confounders. The main two traits that McDonalds is essentialized with are that it is a fast food company, and that it has a markedly global outreach. A typical SCM design identifies units that fit all the criteria when possible, and opts for a looser fit when data availability is limited. In the donor pool that this thesis chooses, some companyes are fast food companies, some have a global outreach, but no company has both, for good reasons.  
 
 \subsection{Pre-treatment Period and Post-treatment Period}
-Since boycott calls are the treatment, and since the movement largely operates on their
-social media and website, this thesis understands treatment as being present 
-on the boycott brands page of the BDS website.
+
+Since boycott calls are the treatment, and since the movement largely operates on their social media and website, this thesis understands treatment as being present on the boycott brands page of the BDS website.
 
 The Guide To BDS page (\citeyear{BDSGuide}), and variations thereof, have been informing users on what to boycott since the movement's inception. 
 The pages shows images of brands that the movement decides to target once they fit their boycott criteria. This thesis assumes that once the brand appears on the website, social media action follows and user engagement on the page too. this is a way that the research centralizes the treatment definition around a concrete and verifiable event.
 Past presence on the page is verified through the Wayback Machine, an internet archiving service that captures and stores snapshots of web pages over time.
+
+From the BDS page, the mcdonalds company is listed under grassroots organic boycott targets. The organic boycott targets are campaigns that the BDS movement did not initiat is in support of them due to these brands openly supporting Israel’s genocide against Palestinians (\cite{DS2025CompaniesGenocide}). The companies McDonald’s (US), Burger King (US), Papa John’s (US), Pizza Hut (US), WIX (Israel) have been targeted as of November the 5th by the bds, after being targeted in some countries by grassroots organic boycott campaigns, not initiated by the BDS movement, because these companies, or their branches or franchises in Israel, have openly supported Israel and/or provided generous in-kind donations to the Israeli military. This means that while 
+
+This research acklowledges that BDS did not start the boycott, and that since the adding the boycott on the website came very close to the start of the boycott, it might well be that the fact that BDS added the target on their page had no impact on the boycott themselves. However, taking the BDS call as a treatment is a way of centralizing this otherwise scattered treatment of a boycott call, and based on the available literature it is fair to assume that boycott movements need some sort of centralization to be effective. The twitter post is from the 19th of october 2023, and the BDS adding the result is on the 5th of November. This time difference can't be captured by the quarterly data. 
 
 The pre-treatment period is defined as the time before the BDS movement called for a boycott against McDonald's, which occurred in November 2023. The wayback machine was manually checked to ensure that the boycott call was present since then, and not before, and also that the control group companies were not called for boycott at any point in time. The post-treatment period starts from the last quarter of 2023 and ends when the latest available data point, which is in Q3 2025.
 
