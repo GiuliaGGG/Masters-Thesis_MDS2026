@@ -61,7 +61,7 @@ The BDS movement was officially launched on 9 July 2005 when a coalition of more
 
 The literature shows interesting difference between the pre 2023 findings and the recent developments since the escalation, with the most recent literature showing a more positive outlook on the effectiveness of the movement.
 
-The campaign has generated significant attention but achieved minimal tangible impact. D. Newman et al., 2016 notes that academic boycotts have been “almost insignificant” in disrupting scientific collaboration. I. Sheskin et al., 2016 suggests the global campaign has “had little success”, with Palestinian support declining from 59\% to 49\% between 2015 measurements.However, the movement is not without strategic value. Omar Barghouti et al., 2021 argues that Israel views BDS as a “strategic threat”, indicating potential political pressure. P. Di Stefano et al., 2014 draws parallels to successful South African anti-apartheid campaigns, suggesting nonviolent resistance can be effective.
+The campaign has generated significant attention but achieved minimal tangible impact. D. Newman et al., 2016 notes that academic boycotts have been “almost insignificant” in disrupting scientific collaboration. I. Sheskin et al., 2016 suggests the global campaign has “had little success”, with Palestinian support declining from 59\% to 49\% between 2015 measurements. However, the movement is not without strategic value. Omar Barghouti et al., 2021 argues that Israel views BDS as a “strategic threat”, indicating potential political pressure. P. Di Stefano et al., 2014 draws parallels to successful South African anti-apartheid campaigns, suggesting nonviolent resistance can be effective.
 Recent escalation of the genocide might have triggered boycott participation, in which case, it is worthwhile to explore the most recent developments of the movement in terms of effectiveness. The Crowd Counting Consortium reveals that from October 2023 to June 2024, nearly 12,400 pro-Palestine protests occurred in the United States, an unprecedented level of grassroots mobilization in support of Palestinian causes. (Deeb e Winegar, 2024). In the diaspora, mobilization efforts focused on advocating for policy changes in host countries, organizing BDS campaigns, and engaging in cultural and educational initiatives to raise awareness about the Palestinian cause (BDS Movement, 2023)
 A more recent article Sopiyah et al., 2025 found that Instagram-based boycott campaigns succeeded in generating “economic impact on several brands included in the boycott list,” with high social media interaction encouraging public participation in boycotting Israel-affiliated products. The BDS movement has some ways of measuring its own effectiveness. 
 
@@ -167,7 +167,7 @@ Mcdonalds is listed under BDS grassroots organic boycott targets. The organic bo
 
 \section{Analysis}
 
-The analysis presents an SCM model, an exploration of ASCM for bias correction, and a DiD setup to challenge the choiche of the SCM model. 
+The analysis presents an SCM model, an exploration of ASCM for bias correction in this setting and a DiD as a robustness check,to challenge the assumption of the initial model choice.
 
 \subsection{SCM}
 The analysis is conducted using the tidysynth package, which implements SCM but is preferred over the Synth package used in Abadie because it is more efficient and interpretable.  
@@ -197,7 +197,7 @@ This plot shows the gap over time between observed McDonald’s revenue minus Sy
     \label{}
 \end{figure}
 
-The next plot shows the the donor weights used to construct the synthetic McDonald’s. It shows which firms contribute to the synthetic control and by how much.
+The next plot shows the the donor weights used to construct the synthetic McDonald’s. It shows which firms contribute to the synthetic control and by how much. Jack in the Box and Bloomin' Brands receive the highest weights, followed by Wendy's, indicating they are the most similar to McDonald's in terms of pre-treatment revenue patterns, and that the estimate hinges on these firm’s trajectory. The other brands weight close to 0. 
 
 \begin{figure}[H]
     \centering
@@ -206,12 +206,84 @@ The next plot shows the the donor weights used to construct the synthetic McDona
     \label{}
 \end{figure}
 
+The next plot shows McDonald’s treatment effect together with placebo effects from donor firms. Essentially, each donor is treated as if it were the treated unit. Since many placebos look similar, there is weak effect of any considerable effect.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/sc_plot_placebos.png}
+    \caption{Donor Weights for Synthetic McDonald's}
+    \label{}
+\end{figure}
+
 \subsection{ASCM}
+A way to solve a poor pre treatment fit is the ASCM (augmented SCM), designed for cases where SCM cannot achieve good pre-treatment fit. It “bias-corrects” imperfect matching by adding an outcome model, often ridge regression, that adjusts for remaining pre-treatment imbalance. ASCM might seem tempting because it effectively can reduce residual mismatch bias, which in SCM is very common as perfect pre treatment is hard to achieve. However, several aspects should warn a research off using this method, even if it may lead to statistically significant values. 
+ 
+The Synthetic Control estimates indicate no statistically significant treatment effects across any post-treatment periods, with confidence intervals consistently including zero. The L2 imbalace is relatively high, suggesting that the donor-weighted synthetic control struggles to replicate McDonald’s revenue dynamics prior to treatment, and the average estimated treatment effect on the treated (ATT) is close to zero, which is coherent with the findings in the previous sections.
+\begin{table}[H]
+\centering
+\caption{Synthetic Control (SCM) Estimates}
+\label{tab:scm_results}
+\begin{tabular}{lcccc}
+\hline
+\textbf{Time} & \textbf{Estimate} & \textbf{95\% CI (Lower)} & \textbf{95\% CI (Upper)} & \textbf{p-value} \\
+\hline
+8096 & -0.004 & -0.166 & 0.158 & 0.968 \\
+8097 & -0.093 & -0.255 & 0.069 & 0.473 \\
+8098 &  0.046 & -0.116 & 0.208 & 0.741 \\
+8099 &  0.112 & -0.050 & 0.274 & 0.383 \\
+8100 &  0.055 & -0.106 & 0.217 & 0.729 \\
+8101 & -0.101 & -0.263 & 0.061 & 0.400 \\
+8102 &  0.096 & -0.065 & 0.258 & 0.444 \\
+\hline
+\end{tabular}
 
-ASCM (augmented SCM) is designed for cases where SCM cannot achieve good pre-treatment fit. It “bias-corrects” imperfect matching by adding an outcome model, often ridge regression, that adjusts for remaining pre-treatment imbalance. Hence, this section explored wether ASCM could improve the pre-treatment fit, by reducing residual mismatch bias.
-ASCM does not solve a structural break problem. COVID likely changed the underlying mapping between McDonald’s and the donor pool. ASCM also cannot fix a bad donor pool problem, because if the donors are structurally different (some are from retail, subscription services, or hospitality), the model may end up fitting pre-periods but still extrapolate in a way that has no causal meaning. However, 
+\vspace{0.3cm}
+\begin{tabular}{ll}
+\textbf{Average ATT} & 0.0159 \\
+\textbf{Joint Null p-value} & 0.81 \\
+\textbf{L2 Imbalance} & 0.782 \\
+\textbf{Improvement vs. Uniform Weights} & 91.1\% \\
+\textbf{Inference Type} & Conformal inference \\
+\end{tabular}
+\end{table}
 
-\subsection{DiD}
+The Augmented Synthetic Control estimates yield larger post-treatment effects and improved pre-treatment balance relative to the canonical SCM, as reflected by a lower L2 imbalance and higher improvement over uniform weights. Several post-treatment periods exhibit statistically significant or marginally significant estimates, which may lead one to believe that the bias-corrected estimator identifies stronger divergence between observed and counterfactual outcomes once pre-treatment mismatch is adjusted for through a ridge regression outcome model.
+However, these results rely on stronger modeling assumptions than the SCM. Given that divergence between observed and synthetic outcomes emerges prior to treatment, the estimated bias correction may be absorbing genuine structural differences rather than residual estimation error. Consequently, the ASCM findings are best viewed as sensitivity analyses illustrating how results change under model-based adjustments, rather than as definitive causal evidence. 
+
+\begin{table}[H]
+\centering
+\caption{Augmented Synthetic Control (ASCM) Estimates}
+\label{tab:ascm_results}
+\begin{tabular}{lcccc}
+\hline
+\textbf{Time} & \textbf{Estimate} & \textbf{95\% CI (Lower)} & \textbf{95\% CI (Upper)} & \textbf{p-value} \\
+\hline
+8096 &  0.039 & -0.098 & 0.211 & 0.661 \\
+8097 &  0.021 & -0.164 & 0.205 & 0.822 \\
+8098 &  0.166 & -0.031 & 0.350 & 0.080 \\
+8099 &  0.197 &  0.025 & 0.382 & 0.024 \\
+8100 &  0.141 & -0.032 & 0.326 & 0.075 \\
+8101 &  0.028 & -0.157 & 0.200 & 0.797 \\
+8102 &  0.245 &  0.048 & 0.441 & 0.027 \\
+\hline
+\end{tabular}
+
+\vspace{0.3cm}
+\begin{tabular}{ll}
+\textbf{Average ATT} & 0.119 \\
+\textbf{Joint Null p-value} & 0.16 \\
+\textbf{L2 Imbalance} & 0.501 \\
+\textbf{Improvement vs. Uniform Weights} & 94.3\% \\
+\textbf{Avg. Estimated Bias} & -0.104 \\
+\textbf{Inference Type} & Conformal inference \\
+\end{tabular}
+\end{table}
+
+ASCM does not solve a structural break problem, so the issues with the underlying mapping between McDonald’s and the donor pool. ASCM cannot  fix a bad donor pool problem, because if the donors are structurally different (some are from retail, subscription services, or hospitality), the model may end up fitting pre-periods but still extrapolate in a way that has no causal meaning. This comparison goes to show that even if a method like the ASCM migth seem tempting when pre treatment fit is poor, and might even yield statistically significant results like in this case, but it cannot fix structural issues with the data.
+
+\subsubsection{DiD}
+
+This section performs a DiD comparing McDonalds witht the revenue levels of the two companies that match it best, Jack in the boy and Wendy's. Since a SCM is unsuccessful, the purpose of this section is to challenge the initial assumptions of the DiD model, 
 
 \section{Discussion}
 
