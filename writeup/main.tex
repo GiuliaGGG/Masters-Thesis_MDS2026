@@ -1,6 +1,8 @@
 \documentclass{article}
 \usepackage{graphicx} % Required for inserting images
 \usepackage{xcolor}
+\usepackage{float}
+
 \usepackage[style=apa, backend=biber]{biblatex}
 
 
@@ -85,11 +87,11 @@ Given that the platform is the primary disclosure system for US public companies
 
 Firm-level financial data were collected from the U.S. Securities and Exchange Commission (SEC) eXtensible Business Markup Language (XBRL) Company Concept APIs. XBRL is an XML-based format for reporting financial statements. The Company Concept APIs objects contain all disclosures related to the specified concept (e.g. revenue), organized by units of measure. Reported values correspond to XBRL facts associated with duration periods, defined by start and end dates, following the XBRL 2.1 specification (\cite{SEC_CompanyFacts_API}). Every reported value for that concept is organized in objects in the array, an example of which follows in figure 1. 
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{images/json_company_facts.jpeg}
-    \caption{}
-    \label{fig:}
+    \caption{An object in SEC company concepts - Revenue }
+    \label{fig:Figure 1}
 \end{figure}
 
 The way that the data is organized presents potential challenges for data users. These challenges can be grouped into aspects that simply make the data retrieval and processing tricky, and others that are structural of the data and may hinder the reliability of the analysis, if not properly accounted for.  
@@ -106,7 +108,7 @@ The script standardizes firm-level revenue and related financial variables relat
 
 \subsection{Choiche of Estimator}
 
-The study setup, pivotal for the estimator choiche, is as follows. The call to boycott mcDonalds sets a pre and port treatment period. There are a relatively small number of treated units (the quarterly equivalent of 2 years) and long pre-treatment histories (from 2011 to to 2023, so 12 years). There is a treated unit, McDonald, that receives a treatment that not every company receives, which is the call to boycott. Mcdonalds has several characteristics in common with other firms in the restauration and fast food business, ro that operate at a large global scale: being subjected to similar demands, fill a similar market, similar seasonality, economic shocks and inflation levels. Hence, they are somehow comparable. However, a comparison between McDonalds revenue and all the other firms' revenue would not be informative, because there are several other aspects that differentiate a fast food company from another, like different popularity, that make the revenues between different firms not comparable, or more specifically, not parallel before treatment. The treatment, a boycott call, is complex, endogenous, and non-linear. The setup and data used in this thesis lend themselves to a Synthetic Control Method (SCM), because mcdonalds has been the object of boycott calls and other companies have not, and simply checking the difference between a non boycotted company to McDonald after the treatment is not possible because there is no company with available data that matches well McDonalds pre treatment path and is not bocotted. The SCM is an extension of the simpler Difference in Difference (DiD) analysis, which compares the change in outcomes over time in a treated group to the change in outcomes over time in a control group to identify causal effects (\textcite{angrist2009mostly}), and is a good solution when assumption that the pre trend path of a control unit are parallel to the path of the treated and when there are significant time-varying unobserved confounders. Abadie et al (\citeyear{abadie2010synthetic}) developed the Synthetic Control Method (SCM) as an alternative to DiD when a combination of units provides a better comparison for the treated unit than any single unit alone. SCM a data-driven procedure that constructs a synthetic version of the treated unit by weighting a combination of control units (other fast-food companies not targeted by BDS). This synthetic control serves as a counterfactual, representing what would have happened to McDonald's revenue in the absence of the boycott. The SCM allows for the effects of unobserved variables on the outcome to vary with time, while DiD restricts them to be constant in time (\cite{abadie2010synthetic}). This A SCM is wothwhile in this case also because there are many pre treatment units, 12 years worth of data. SCM does not require a large number of comparison units in the donor pool, which also fits this case as the post treatment is only of 2 years.
+The study setup, pivotal for the estimator choiche, is as follows. The call to boycott mcDonalds sets a pre and port treatment period. There are a relatively small number of treated units (the quarterly equivalent of 2 years) and long pre-treatment histories (from 2011 to to 2023, so 12 years). There is a treated unit, McDonald, that receives a treatment that not every company receives, which is the call to boycott. Mcdonalds has several characteristics in common with other firms in the restauration and fast food business, ro that operate at a large global scale: being subjected to similar demands, fill a similar market, similar seasonality, economic shocks and inflation levels. Hence, they are somehow comparable. However, a comparison between McDonalds revenue and all the other firms' revenue would not be informative, because there are several other aspects that differentiate a fast food company from another, like different popularity, that make the revenues between different firms not comparable, or more specifically, not parallel before treatment. The treatment, a boycott call, is complex, endogenous, and non-linear. The setup and data used in this thesis lend themselves to a Synthetic Control Method (SCM), because mcdonalds has been the object of boycott calls and other companies have not, and simply checking the difference between a non boycotted company to McDonald after the treatment is not possible because there is no company with available data that matches well McDonalds pre treatment path and is not bocotted. The SCM is an extension of the simpler Difference in Difference (DiD) analysis, which compares the change in outcomes over time in a treated group to the change in outcomes over time in a control group to identify causal effects (\textcite{angrist2009mostly}), and is a good solution when assumption that the pre trend path of a control unit are parallel to the path of the treated and when there are significant time-varying unobserved confounders. Abadie et al (\citeyear{abadie2010synthetic}) developed the Synthetic Control Method (SCM) as an alternative to DiD when a combination of units provides a better comparison for the treated unit than any single unit alone. SCM a data-driven procedure that constructs a synthetic version of the treated unit by weighting a combination of control units (other fast-food companies not targeted by BDS). This synthetic control serves as a counterfactual, representing what would have happened to McDonald's revenue in the absence of the boycott. The SCM allows for the effects of unobserved variables on the outcome to vary with time, while DiD restricts them to be constant in time (\cite{abadie2010synthetic}). This A SCM is worthwhile exploring in this case also because there are many pre treatment units, 12 years worth of data. SCM does not require a large number of comparison units in the donor pool, which also fits this case as the post treatment is only of 2 years.
 
 \subsubsection{Treatment Unit and Control Units}
 
@@ -119,27 +121,96 @@ The treated the firm, McDonald's, was chosen for several reasons. Firstly, the c
     \label{fig:mcd_revenue}
 \end{figure}
 
-Since SCM does not use randomization, the treatment assignment is critical to ensure the validity of the results. The assignment process involves picking a poll of control units that could have been a boycott target, but were not. This thesis assumes that any company could be subject to boycotts eventually, because a statement supporting Israel or a partnership with the IDF are in the realm of possibility of virtually any company. It is also helpful to pick a pool of companies that could reasonably map out the treatment company to minimize unobserved confounders. The main two traits that McDonalds is essentialized with are that it is a fast food company, and that it has a markedly global outreach. A typical SCM design identifies units that fit all the criteria when possible, and opts for a looser fit when data availability is limited. In the donor pool that this thesis chooses, some companyes are fast food companies, some have a global outreach, but no company has both, for good reasons.  
+Since SCM does not use randomization, the treatment assignment is critical to ensure the validity of the results. The assignment process involves picking a poll of control units that could have been a boycott target, but were not. This thesis assumes that any company could be subject to boycotts eventually, because a statement supporting Israel or a partnership with the IDF are in the realm of possibility of virtually any company. It is also helpful to pick a pool of companies that could reasonably map out the treatment company to minimize unobserved confounders. The main two traits that McDonalds is essentialized with are that it is a fast food company, that it is costumers facing, and that it has a markedly global outreach. A typical SCM design identifies units that fit all the criteria when possible, and opts for a looser fit when data availability is limited. In the donor pool that this thesis chooses, some companyes are fast food companies, some have a global outreach, but no company has every trait that it needs to be a comfortable fit to Mcdonalds. This is far from ideal, but it is due to data availability constraints. In fact, many firms that would have been good control units either did not have publicly available data, or were boycotted in the first place, which I will elaborate more on in the discussion section. Find here a table with the donor pool, with a brief description of why the firm is considered a suitable donor.  
+
+\begin{table}[H]
+\centering
+\caption{Donor Pool Composition and Rationale}
+\label{tab:donor_pool}
+\setlength{\tabcolsep}{4pt} % default is 6pt
+\begin{tabular}{lll p{5cm}}
+\hline
+\textbf{Ticker} & \textbf{Company} & \textbf{Rationale for Inclusion} & \textbf{Limitations} \\
+\hline
+BBWI & Bath \& Body Works, Inc. & Consumer-facing retail brand & -- \\
+BLMN & Bloomin' Brands, Inc. & Casual dining restaurant group & Only present in the US \\
+CASY & Casey's General Stores, Inc. & Convenience and food-service retailer & Only present in the US \\
+COST & Costco Wholesale Corporation & Large-scale consumer retailer & -- \\
+DRI & Darden Restaurants, Inc. & Full-service restaurant operator & -- \\
+GIS & General Mills, Inc. & Packaged food producer & -- \\
+HD & The Home Depot, Inc. & Large consumer-facing retailer & Not a food firm; mainly present in the US \\
+JACK & Jack in the Box Inc. & Quick-service restaurant chain & Mainly present in the US \\
+LEVI & Levi Strauss \& Co. & Global consumer brand & Not a food firm \\
+MAR & Marriott International, Inc. & Global hospitality firm & Not a food firm \\
+MDLZ & Mondelez International, Inc. & Global branded snack food manufacturer & Not directly customer-facing \\
+NFLX & Netflix, Inc. & Subscription-based consumer service & Not a food firm \\
+TGT & Target Corporation & Mass-market consumer retailer & Not a food firm \\
+TXRH & Texas Roadhouse, Inc. & Casual dining restaurant chain & Mainly present in the US \\
+WEN & The Wendy’s Company & Quick-service restaurant peer & Mainly present in the US \\
+\hline
+\end{tabular}
+\end{table}
 
 \subsubsection{Pre-treatment Period and Post-treatment Period}
 
 The Guide To BDS page (\citeyear{BDSGuide}), and variations thereof, have been informing users on what to boycott since the movement's inception. 
 The pages shows images of brands that the movement decides to target once they fit their boycott criteria. Past presence on the page is verified through the Wayback Machine, an internet archiving service that captures and stores snapshots of web pages over time. The pre-treatment period is defined as the time before the BDS movement called for a boycott against McDonald's, which occurred in November 2023. A manual analysis of the wayback machine ensures that the boycott call was present since then, and not before, and also that the control group companies were not called for boycott at any point in time.
 
-Mcdonalds is listed under BDS grassroots organic boycott targets. The organic boycott targets are campaigns that the BDS movement did not initiate, but is in support of them due to these brands being perceived as openly supporting Israel’s genocide against Palestinians (\cite{DS2025CompaniesGenocide}). The twitter post where mcdonalds israel gives food to the IDF is from the 19th of october 2023, and the BDS adding the result is on the 5th of November. This research acklowledges that BDS did not start the boycott, that the boycotts might have happened regardless of the BDS calls. However, taking the BDS call as a treatment is a way of centralizing this otherwise scattered treatment of a boycott call, this is a way that the research centralizes the treatment definition around a concrete and verifiable event. Additionally, the available literature says that is fair to assume that boycott movements need some sort of centralization to be effective. 
+Mcdonalds is listed under BDS grassroots organic boycott targets. The organic boycott targets are campaigns that the BDS movement did not initiate, but is in support of them due to these brands being perceived as openly supporting Israel’s genocide against Palestinians (\cite{DS2025CompaniesGenocide}). The twitter post where mcdonalds israel gives food to the IDF is from the 19th of october 2023, and the BDS adding the result is on the 5th of November. This research acklowledges that BDS did not start the boycott, that the boycotts might have happened regardless of the BDS calls. However, taking the BDS call as a treatment is a way of centralizing this otherwise scattered treatment of a boycott call, this is a way that the research centralizes the treatment definition around a concrete and verifiable event. Additionally, the available literature says that is fair to assume that boycott movements need some sort of centralization to be effective. The next plot shows the treatment status of every firm. The x axist shows quarteras from 2011 to 2025, with the SCM readable entry 8ß96 corresponding to the last quarter of 2023. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/panelView_plot.png}
+    \caption{Treatment Status}
+    \label{}
+\end{figure}
 
 \section{Analysis}
 
-The analysis presents an SCM model, an exploration os ASCM for bias correction, and a DiD setup to challenge the choiche of the SCM model. 
+The analysis presents an SCM model, an exploration of ASCM for bias correction, and a DiD setup to challenge the choiche of the SCM model. 
 
 \subsection{SCM}
+The analysis is conducted using the tidysynth package, which implements SCM but is preferred over the Synth package used in Abadie because it is more efficient and interpretable.  
+The procedure constructs a synthetic counterfactual for MCD by selecting and weighting control firms such that their pre-treatment revenue trajectory closely matches that of the treated unit. The treatment is assumed to begin at 2023 Q3, and placebo units are generated to enable inference through permutation tests. The synthetic control is trained using only lagged values of the outcome variable (standardized revenue) over the pre-treatment period from 2011 Q1 to 2023 Q3. Optimal weights for the donor pool are chosen to minimize discrepancies in pre-treatment outcomes over this window, after which the synthetic control is constructed and used for post-treatment comparison. Unfortunately, the pre treatment fit between observed and synthetic path is very poor. 
 
-The analysis is conducted using the gsynth package, which implements the Generalized Synthetic Control Method (GSCM) developed by Xu (\citeyear{xu2017generalized}). The package imputes counterfactuals for each treated unit using control group information based on a linear interactive fixed effects model that
-incorporates unit-specific intercepts interacted with time-varying coefficient (\textcite{Xu2025gsynthManual}). The package generalizes the synthetic control method to the case of multiple treated units and variable treatment periods, which is not relevant for this analysys, as there is just one treatment period and one treated unit. The reason why this package was used over the classic one used in Abadie because it is more effcicient and interpretable. It allows the treatment to be correlated with unobserved unit and time heterogeneities (under reasonable modeling assumptions), while synth relies on matching pre-treatment outcomes and covariate. With a built-in cross-validation procedure, it avoids specification searches that would be required in synth where researchers choose predictors and weights manually, and thus is easier to implement. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/sc_out_plot.png}
+    \caption{Observed and Synthetic Revenue}
+    \label{}
+\end{figure}
 
-The analysis includes both unit and time fixed effects, which control for time-invariant firm characteristics and common time shocks, while allowing gsynth to capture additional latent factors. The fact that different companies have different scales is assumed to be invarint over time, and partly controlled for prior to this step by taking the ratios to a baseline value in the preprocessing, but in this part of the analysys a further control is imposed as the model first removes all differences that are constant for each unit, and all shocks that are common to all units at a given time, like inflation or recessions. A cross validation procedure selects the optimal number of unobserved confounders, instead of fixing them arbitrarily. 
+The pre treatment units path is consistently well below the observed path, which indicates that, relative to the baseline period, McDonald’s experienced stronger revenue growth than the weighted combination of donor firms before treatment, suggesting either brand-specific growth dynamics or that McDonald’s was already on a more favorable growth trajectory compared to the donor pool, even after normalization. Additionally, the two paths and have an inverse trend, with observed ones going up when the synthetic goes down, which might indicate that that the synthetic control captures different cyclical or dynamics rather than firm-specific shocks affecting McDonald’s. This behaviour, however, might pont to the already raised issue that the start and the end date of the reporting periods are not aligned across quarters and across firms. This research maps them to common quarterly labels, however this might not have been enough to ensure that the quarters are comparable. 
+
+There is a drop at the onset of covid, which means that the donor pool can capture aggregate shocks. However, this comes as no surprise, as close to any company experienced a drop during covid. Then, at around 2018, the trends swap, with the synthetic McDonalds being above the observed mMcDonalds. This might mean that McDonald’s underwent firm-specific changes around 2017–2018 that donors did not share, and this causes SCM to break even without treatment. This inversion in trends is a further issue in the identification strategy, because it means it means that there is a structural break in the relationship between McDonald’s and the donor pool, and that McDonald’s revenue trajectory diverged from the weighted average of donor firms in a way that the SCM could not reconcile using fixed pre-treatment weights. Plus, it implies the donor pool is not capturing McDonald’s exposure to the post-2018 times.
+
+The distance between the two paths increases as time goes by. Since revenue is indexed to period 1, the y-axis reflects relative growth, not revenue levels, which implies that this  normalization amplifies divergence mechanically over long horizons. Small differences in growth rates may compound into large visual gaps.  
+
+This thesis cannot argue that any divergence in the post treatment period are due to the boycotts. 
+
+This plot shows the gap over time between observed McDonald’s revenue minus Synthetic McDonald’s revenue at each time period, clearly showing this 2018 inversion.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/sc_plot_differences.png}
+    \caption{Difference between the Synthetic and Observed Revenue for McDonald's}
+    \label{}
+\end{figure}
+
+The next plot shows the the donor weights used to construct the synthetic McDonald’s. It shows which firms contribute to the synthetic control and by how much.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/sc_plot_weights.png}
+    \caption{Donor Weights for Synthetic McDonald's}
+    \label{}
+\end{figure}
 
 \subsection{ASCM}
+
+ASCM (augmented SCM) is designed for cases where SCM cannot achieve good pre-treatment fit. It “bias-corrects” imperfect matching by adding an outcome model, often ridge regression, that adjusts for remaining pre-treatment imbalance. Hence, this section explored wether ASCM could improve the pre-treatment fit, by reducing residual mismatch bias.
+ASCM does not solve a structural break problem. COVID likely changed the underlying mapping between McDonald’s and the donor pool. ASCM also cannot fix a bad donor pool problem, because if the donors are structurally different (some are from retail, subscription services, or hospitality), the model may end up fitting pre-periods but still extrapolate in a way that has no causal meaning. However, 
+
 \subsection{DiD}
 
 \section{Discussion}
