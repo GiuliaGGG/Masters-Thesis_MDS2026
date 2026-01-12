@@ -8,7 +8,7 @@ def preprocess_financials():
     # -----------------
     # Load raw data
     # -----------------
-    input_path = "../data/raw/financials_batch_3.csv"
+    input_path = "../data/raw/financials.csv"
 
     df = pd.read_csv(input_path)
 
@@ -16,6 +16,7 @@ def preprocess_financials():
     # Add year and quarter
     # -----------------
     df = add_year_quarter(df)
+
     # -----------------
     # Quarterly filter + interval_days
     # -----------------

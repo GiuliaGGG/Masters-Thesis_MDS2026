@@ -9,7 +9,7 @@ def scm_prepare():
     # Load raw data
     # -----------------
     input_path = (
-        "../data/processed/batch_3/financials_preprocessed_batch_3_recent.csv"
+        "../data/processed/batch_3/financials_preprocessed.csv"
     )
 
     df = pd.read_csv(input_path)
@@ -83,7 +83,7 @@ def scm_prepare():
     # Save output
     # -----------------  
     output_path = (
-        "/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/data/processed/batch_3/data_log_simple.csv"
+        "/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/data/processed/data.csv"
     )
 
     df.to_csv(output_path, index=False)
