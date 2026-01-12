@@ -171,13 +171,6 @@ __pycache__/
 *.feather
 *.h5
 
-# Ignore image outputs
-*.png
-*.jpg
-*.jpeg
-*.svg
-*.pdf
-
 # Logs
 *.log
 

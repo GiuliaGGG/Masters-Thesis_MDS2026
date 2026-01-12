@@ -1,4 +1,9 @@
-My masters thesis project assesses the effectiveness of the Boycott, Divest, Sanction (BDS) movement's calls on company performance. Through the usage of Synthetic Control Method (SCM) I am generating a reliable counterfactual of what company's X performance would have looked like were the BDS calls for a boycott never happened.
+Political consumer boycotts have become an increasingly prominent tool of digital activism, yet credible empirical evidence on their economic effects remains limited. This thesis estimates the causal impact of political boycott calls on firm performance, focusing on the Boycott, Divestment, and Sanctions (BDS) movement’s boycott of McDonald’s following the outbreak of the genocide in Gaza in 2023. The study asks whether the movement’s recognition of McDonald’s as a boycott target translated into a measurable decline in the firm’s global revenue.
+To address this question, I construct an firm-level panel dataset from U.S. Securities and Exchange Commission (SEC) XBRL filings, covering quarterly revenue data from 2011 to 2025.  The thesis applies the Synthetic Control Method (SCM) to estimate a counterfactual revenue trajectory for McDonald’s in the absence of boycott calls, complemented by a two-way fixed effects Difference-in-Differences (DiD) analysis as a robustness exercise.
+
+
+The `images/` directory contains the final figures used in the thesis.
+All figures are fully reproducible using the scripts in the `r/` folder.
 
 
 ## 📘 SEC XBRL Field Definitions

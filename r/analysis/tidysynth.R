@@ -118,7 +118,7 @@ sc_plot_weights_alt<- sc_out_alt %>% plot_weights()
 sc_plot_mspe_alt <- sc_out_alt %>% plot_mspe_ratio()
 
 ggsave(
-  filename = "./images/sc_out_plot_alt.png",
+  filename = "./images/discussion_section_plots/sc_out_plot_alt.png",
   plot = sc_out_plot_alt,
   width = 13,
   height = 9,
@@ -127,7 +127,7 @@ ggsave(
 )
 
 ggsave(
-  filename = "./images/sc_plot_weights_alt.png",
+  filename = "./images/discussion_section_plots/sc_plot_weights_alt.png",
   plot = sc_plot_weights_alt,
   width = 13,
   height = 9,
@@ -136,7 +136,7 @@ ggsave(
 )
 
 ggsave(
-  filename = "./images/sc_plot_mspe_alt.png",
+  filename = "./images/discussion_section_plots/sc_plot_mspe_alt.png",
   plot = sc_plot_mspe_alt,
   width = 13,
   height = 9,
