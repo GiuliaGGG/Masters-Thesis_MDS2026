@@ -84,6 +84,7 @@ def scm_prepare():
     # Save output
     # -----------------  
     output_path = (
+        "/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/data/processed/batch_3/data_log_simple.csv"
     )
 
     df.to_csv(output_path, index=False)
