@@ -139,7 +139,6 @@ def filter_quarterly_intervals(
     end_col: str = "end",
 ) -> pd.DataFrame:
     """
-    Replicates the R pipeline:
       - converts start/end to dates
       - computes interval_days = end - start
       - keeps observations with 60 < interval_days < 122
