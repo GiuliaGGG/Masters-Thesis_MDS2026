@@ -45,7 +45,7 @@ def scm_prepare():
         method="both"
     )
 
-    vars_to_standardize = [
+    columns = [
         "cost",
         "depr_amort",
         "eps_basic",
@@ -60,15 +60,11 @@ def scm_prepare():
         "tax"
     ]
     
-    df = standardize_by_period0(
-        df=df,
-        unit_col="ticker",
-        time_col="time",
-        cols=vars_to_standardize,
-        method="ratio"   
+    df = log_transform_vars(
+    df,
+    cols=columns
     )
 
-    #df.loc[df["boycotted"] == 1, ["ticker", "time", "revenue", "revenue_std", "boycotted"]]
 
     df = enforce_common_revenue_time_support(
         df=df,
@@ -92,11 +88,9 @@ def scm_prepare():
     # Save output
     # -----------------  
     output_path = (
-        "/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/data/processed/batch_3/data.csv"
     )
 
     df.to_csv(output_path, index=False)
-
 
 
     return df
