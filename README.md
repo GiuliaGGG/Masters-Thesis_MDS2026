@@ -14,7 +14,7 @@ reconstructed using the provided Python scripts. The 1_scrapper.py scrapes the f
 Scraping the raw data takes approximately 20 minutes.
 
 
-## 📘 SEC XBRL Field Definitions
+## SEC XBRL Field Definitions
 
 Each observation corresponds to a single reported XBRL fact retrieved from the SEC Company Facts / Company Concept API. The following fields are used:
 
