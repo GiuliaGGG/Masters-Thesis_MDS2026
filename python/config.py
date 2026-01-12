@@ -1,6 +1,7 @@
-# %%
+
 # ---------- CONFIG ----------
-UA = {"User-Agent": "Giulia Petrilli giuliapetrilli2000@gmail.com"}
+# insert your details to scrape this data from the SEC EDGAR database
+#UA = {"User-Agent": "Name Surname <email@example.com>"}
 BASE = "https://data.sec.gov/api" 
 
 
@@ -168,24 +169,6 @@ TAG_GROUPS = {
         "debt": debt_tags,
     }
 
-# ---- For fetching all relevant firms ----
-
-#batch_1
-#tickers = [
-#    'MCD',     # McDonald's Corporation
-#
-#    "BROS",    # Dutch Bros Inc.
-#    "CMG",     # Chipotle Mexican Grill, Inc.
-#    "COST",    # Costco Wholesale Corporation
-#    "GIS",     # General Mills, Inc.
- #   "JNJ",     # Johnson & Johnson
-#    "MDLZ",    # Mondelez International, Inc.
-#    "NKE",     # Nike, Inc.
-#    "TGT",     # Target Corporation
-#    "TRIP",    # Tripadvisor, Inc.
-#    "WEN",     # The Wendy’s Company
-#    "WMT",     # Walmart Inc.
-#]
 
 tickers = [
     'MCD',     # McDonald's Corporation
@@ -223,17 +206,6 @@ tickers = [
     "UBER",  # Uber Technologies, Inc.
 ]
 
-# # batch_4 recent
-# tickers = [
-#     "MCD",     # McDonald's Corporation
-#     "PZZA",    # Papa John's International, Inc.
-#     "YUM",     # Yum! Brands, Inc.
-#     "QSR",     # Restaurant Brands International Inc.
-#      "DPZ",     # Domino's Pizza, Inc.
-#      "DIS",   # The Walt Disney Company
-#      "COKE",    # Coca-Cola Company
-#      "PEP",     # PepsiCo, Inc.
-#  ]
 
 # define boycott parameters
 BOYCOTTED_FIRM = 'MCD'
