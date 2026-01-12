@@ -80,10 +80,6 @@ def scm_prepare():
     )
     df = add_time_label_from_scm(df)
 
-    df.head(10)
-
-
-
     # -----------------
     # Save output
     # -----------------  
@@ -91,7 +87,6 @@ def scm_prepare():
     )
 
     df.to_csv(output_path, index=False)
-
 
     return df
 
