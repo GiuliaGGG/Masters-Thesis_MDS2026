@@ -9,7 +9,7 @@ def scm_prepare():
     # Load raw data
     # -----------------
     input_path = (
-        "./data/processed/financials_preprocessed.csv"
+        "../data/processed/batch_3/financials_preprocessed_batch_3_recent.csv"
     )
 
     df = pd.read_csv(input_path)
@@ -64,7 +64,6 @@ def scm_prepare():
     df,
     cols=columns
     )
-
 
     df = enforce_common_revenue_time_support(
         df=df,
