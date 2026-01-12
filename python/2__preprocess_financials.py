@@ -8,9 +8,7 @@ def preprocess_financials():
     # -----------------
     # Load raw data
     # -----------------
-    input_path = (
-        "./data/raw/financials.csv"
-    )
+    input_path = "../data/raw/financials_batch_3.csv"
 
     df = pd.read_csv(input_path)
 
@@ -57,3 +55,5 @@ def preprocess_financials():
 if __name__ == "__preprocess__":
     preprocess_financials()
 
+
+# %%
