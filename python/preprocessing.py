@@ -782,6 +782,27 @@ def standardize_by_period0(
 
     return df
 
+def log_transform_vars(
+    df: pd.DataFrame,
+    cols: list,
+    suffix: str = "_log"
+) -> pd.DataFrame:
+    """
+    Apply log transformation to selected variables.
+    Assumes all values are strictly positive.
+
+    For each variable X:
+        X_log = log(X)
+    """
+
+    df = df.copy()
+
+    for c in cols:
+        df[f"{c}{suffix}"] = np.log(df[c])
+
+    return df
+
+
 
 def drop_missing_revenue_rows(
     df: pd.DataFrame,
