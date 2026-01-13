@@ -1,5 +1,3 @@
-## Repo Structure
-
 ## Repository Structure
 
 ```text
