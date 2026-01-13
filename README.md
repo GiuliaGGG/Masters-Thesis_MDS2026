@@ -1,18 +1,37 @@
 ## Repo Structure
 
+## Repository Structure
+
+```text
 masters_thesis/
 │
-├── python/                 # Python analysis pipeline
-│   ├── config.py           # Central configuration (paths, email)
-│   ├── run_pipeline.py     # Main entry point
-│   └── scripts/            # Pipeline steps and helper functions
+├── README.md
+├── images/
+├── r/
 │
-├── data/                   # Generated during execution
+├── data/                   # Created during execution
 │   ├── raw/
 │   └── processed/
 │
-├── outputs/                # Analysis-ready outputs
-└── README.md
+├── outputs/                # Final datasets used in analysis
+│
+└── python/
+    ├── __init__.py
+    ├── config.py           # Paths and configuration (edit email here)
+    ├── imports.py          # Common imports
+    ├── run_pipeline.py     # Main entry point
+    │
+    └── scripts/
+        ├── __init__.py
+        ├── scrapper.py     # Step 1: data collection
+        ├── preprocess.py  # Step 2: preprocessing
+        ├── prepare.py     # Step 3: SCM preparation
+        │
+        └── functions/
+            ├── __init__.py
+            ├── scraping.py
+            ├── preprocessing.py
+            └── tagging.py
 
 ## My Thesis
 
