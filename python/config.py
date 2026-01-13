@@ -3,7 +3,7 @@ from python.imports import *
 # ---------- CONFIG ----------
 
 # insert your details to scrape this data from the SEC EDGAR database
-UA = {"User-Agent": "Giulia Petrilli <giuliapetrilli2000@gmail.com>"}
+# UA = {"User-Agent": "Name Surname <email@example.com>"}
 BASE = "https://data.sec.gov/api" 
 
 # ===============================
