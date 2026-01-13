@@ -31,6 +31,21 @@ reconstructed using the provided Python scripts. The 1_scrapper.py scrapes the f
 
 Scraping the raw data takes approximately 20 minutes.
 
+## How to Run the Pipeline
+
+From the project root directory, run:
+
+´python -m python.run_pipeline´
+
+This command will:
+
+- Download firm-level financial data from the SEC EDGAR API
+- Preprocess and clean the data
+- Generate analysis-ready datasets in the outputs/ directory
+
+All file paths are constructed dynamically from the project root.
+No manual path editing is required.
+
 ## Configuration
 
 Before running the pipeline, please edit `python/config.py` and replace
@@ -38,7 +53,6 @@ the placeholder email address with your own institutional email address.
 
 This email is used to identify the user when accessing public APIs
 (e.g. SEC EDGAR) for academic research purposes.
-
 
 ## SEC XBRL Field Definitions
 
