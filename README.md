@@ -32,7 +32,7 @@ masters_thesis/
             ├── scraping.py
             ├── preprocessing.py
             └── tagging.py
-
+```
 ## My Thesis
 
 Political consumer boycotts have become an increasingly prominent tool of digital activism, yet credible empirical evidence on their economic effects remains limited. This thesis estimates the causal impact of political boycott calls on firm performance, focusing on the Boycott, Divestment, and Sanctions (BDS) movement’s boycott of McDonald’s following the outbreak of the genocide in Gaza in 2023. The study asks whether the movement’s recognition of McDonald’s as a boycott target translated into a measurable decline in the firm’s global revenue.
