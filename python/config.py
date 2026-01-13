@@ -1,9 +1,23 @@
+from python.imports import *
 
 # ---------- CONFIG ----------
+
 # insert your details to scrape this data from the SEC EDGAR database
-#UA = {"User-Agent": "Name Surname <email@example.com>"}
+UA = {"User-Agent": "Giulia Petrilli <giuliapetrilli2000@gmail.com>"}
 BASE = "https://data.sec.gov/api" 
 
+# ===============================
+# PATHS
+# ===============================
+
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+DATA_RAW = os.path.join(PROJECT_ROOT, "data", "raw")
+DATA_PROCESSED = os.path.join(PROJECT_ROOT, "data", "processed")
+OUTPUTS = os.path.join(PROJECT_ROOT, "outputs")
+
+for path in [DATA_RAW, DATA_PROCESSED, OUTPUTS]:
+    os.makedirs(path, exist_ok=True)
 
 # ===============================
 # US-GAAP TAG GROUPS 

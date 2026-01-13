@@ -1,5 +1,5 @@
 # 1. Keep pre-treatment data only
-pre_data <- data_log_simple_company_id [data_log_simple_company_id $time < '8096', ]
+pre_data <- data_company_id [data_company_id $time < '8096', ]
 
 # 2. Wide format: rows = time, columns = firms
 Y_wide <- reshape(

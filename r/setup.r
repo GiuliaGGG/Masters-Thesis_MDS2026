@@ -14,8 +14,8 @@ library(augsynth)
 library(fixest)
 
 # read data 
-data_log_simple <-read_csv('data/processed/batch_3/data_log_simple.csv')
-data_log_simple_company_id <- data_log_simple %>% 
+data <-read_csv('./outputs/data.csv')
+data_company_id <- data %>% 
   mutate(company_id = as.integer(as.factor(ticker))) %>% as.data.frame()
 
 time_lookup <- data_company_id %>%

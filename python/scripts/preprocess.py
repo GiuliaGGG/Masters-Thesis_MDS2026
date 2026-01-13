@@ -1,14 +1,15 @@
 from python.imports import *
 from python.config import *
-from python.scraping import *
-from python.tagging import *
-from python.preprocessing import *
+from python.scripts.functions.preprocessing import *
+from python.scripts.functions.scraping import *
+from python.scripts.functions.tagging import *
 
-def preprocess_financials():
+def preprocess():
     # -----------------
     # Load raw data
     # -----------------
-    input_path = "../data/raw/financials.csv"
+    input_path = os.path.join(DATA_RAW, "financials.csv")
+    output_path = os.path.join(DATA_PROCESSED, "financials_clean.csv")
 
     df = pd.read_csv(input_path)
 
@@ -43,18 +44,14 @@ def preprocess_financials():
     df = keep_max_interval_observation(df)
 
     # -----------------
-    # Save output
+    # Save processed data
     # -----------------
-    output_path = (
-        "./data/processed/financials_preprocessed.csv"
-    )
 
     df.to_csv(output_path, index=False)
     return df
 
 
-if __name__ == "__preprocess__":
-    preprocess_financials()
+if __name__ == "__main__":
+    preprocess()
 
 
-# %%

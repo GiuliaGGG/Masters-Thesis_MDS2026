@@ -1,7 +1,8 @@
 from python.imports import *
 from python.config import *
-from python.scraping import *
-from python.tagging import *
+from python.scripts.functions.preprocessing import *
+from python.scripts.functions.scraping import *
+from python.scripts.functions.tagging import *
 
 def scrape():
     # -----------------------------------
@@ -26,14 +27,13 @@ def scrape():
     # -----------------
     # Save & inspect
     # -----------------
-    output_path = (
-        "./data/raw/financials.csv"
-    )
+    output_path = os.path.join(DATA_RAW, "financials.csv")
 
     df.to_csv(output_path, index=False)
 
     print(df.head())
 
-if __name__ == "__scrape__":
+if __name__ == "__main__":
     scrape()
+
 

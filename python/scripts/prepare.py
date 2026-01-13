@@ -1,16 +1,15 @@
 from python.imports import *
 from python.config import *
-from python.scraping import *
-from python.tagging import *
-from python.preprocessing import *
+from python.scripts.functions.preprocessing import *
+from python.scripts.functions.scraping import *
+from python.scripts.functions.tagging import *
 
-def scm_prepare():
+def prepare():
     # -----------------
     # Load raw data
     # -----------------
-    input_path = (
-        "../data/processed/batch_3/financials_preprocessed.csv"
-    )
+    input_path = os.path.join(DATA_PROCESSED, "financials_clean.csv")
+    output_path = os.path.join(OUTPUTS, "data.csv")
 
     df = pd.read_csv(input_path)
 
@@ -82,16 +81,11 @@ def scm_prepare():
     # -----------------
     # Save output
     # -----------------  
-    output_path = (
-        "/Users/giuliamariapetrilli/Documents/GitHub/masters_thesis/data/processed/data.csv"
-    )
 
     df.to_csv(output_path, index=False)
 
     return df
 
 
-if __name__ == "__scm_prepare__":
-    scm_prepare()
-
-# %%
+if __name__ == "__main__":
+    prepare()

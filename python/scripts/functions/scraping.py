@@ -11,12 +11,19 @@ def load_ticker_map() -> Dict[str, str]:
     return {v["ticker"].upper(): f'{int(v["cik_str"]):010d}' for v in j.values()}
 
 # ---------- FETCHING / PARSING ----------
-def _get_json(url: str):
-    r = requests.get(url, headers=UA, timeout=30)
-    if r.status_code == 404:
-        return None
-    r.raise_for_status()
-    return r.json()
+def _get_json(url: str, timeout=30, max_retries=5):
+    for attempt in range(max_retries):
+        try:
+            r = requests.get(url, headers=UA, timeout=timeout)
+            if r.status_code == 404:
+                return None
+            r.raise_for_status()
+            return r.json()
+
+        except requests.exceptions.ReadTimeout:
+            time.sleep(2 ** attempt)
+
+    return None
 
 # Returns all reported values for a single XBRL tag
 def company_concept(cik10: str, taxonomy: str, tag: str):

@@ -2,7 +2,7 @@ source("./r/setup.r")
 
 # original 
 sc_out <-
-  data_log_simple_company_id %>%
+  data_company_id %>%
 
   synthetic_control(
     outcome = revenue_log,

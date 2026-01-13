@@ -13,6 +13,14 @@ reconstructed using the provided Python scripts. The 1_scrapper.py scrapes the f
 
 Scraping the raw data takes approximately 20 minutes.
 
+## Configuration
+
+Before running the pipeline, please edit `python/config.py` and replace
+the placeholder email address with your own institutional email address.
+
+This email is used to identify the user when accessing public APIs
+(e.g. SEC EDGAR) for academic research purposes.
+
 
 ## SEC XBRL Field Definitions
 
